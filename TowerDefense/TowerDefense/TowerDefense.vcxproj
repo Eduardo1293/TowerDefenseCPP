@@ -27,11 +27,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppStart.cpp" />
+    <ClCompile Include="BasicTower.cpp" />
+    <ClCompile Include="CannonTower.cpp" />
+    <ClCompile Include="FlameTower.cpp" />
+    <ClCompile Include="FrostTower.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppStart.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="BasicTower.h" />
+    <ClInclude Include="CannonTower.h" />
+    <ClInclude Include="FlameTower.h" />
+    <ClInclude Include="FrostTower.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -119,9 +127,10 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies />
+      <AdditionalDependencies>sfml-system.lib;sfml-graphics.lib;sfml-audio.lib;sfml-network.lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>Main</EntryPointSymbol>
       <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>C:\Users\Andre\source\repos\TowerDefenseCPP\SFML-2.5.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -139,9 +148,10 @@
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies />
+      <AdditionalDependencies>sfml-system.lib;sfml-graphics.lib;sfml-audio.lib;sfml-network.lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>Main</EntryPointSymbol>
       <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>C:\Users\Andre\source\repos\TowerDefenseCPP\SFML-2.5.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
