@@ -1,7 +1,7 @@
 # TowerDefenseCPP
 yooo td-project
 
-wir sollten einigen sachen vorher festlegen, weil alle damit arbeiten müssen, zum beispiel das spielfeld und die positionen darauf. für die grafische darstellung und wegfindung wahrscheinlich relevant. mein vorschlag: die positionen auf dem spielfeld klären wir mit x & y koordinaten.
+wir sollten einigen sachen vorher festlegen, weil alle damit arbeiten mÃ¼ssen, zum beispiel das spielfeld und die positionen darauf. fÃ¼r die grafische darstellung und wegfindung wahrscheinlich relevant. mein vorschlag: die positionen auf dem spielfeld klÃ¤ren wir mit x & y koordinaten.
 
 Spielfeld
 x-> 20
@@ -19,12 +19,8 @@ unterste und oberste linie bleiben frei bis auf spawn feld
 
 
 
-gegner brauchen ein 1x1 feld um sich zu bewegen, können später entscheiden ob türme 1x1 oder vielleicht sogar größer sind.
+gegner brauchen ein 1x1 feld um sich zu bewegen, kÃ¶nnen spÃ¤ter entscheiden ob tÃ¼rme 1x1 oder vielleicht sogar grÃ¶ÃŸer sind.
 
-würde weiterhin vorschlagen, dass sich gegner nur gerade in die 4 himmelsrichtungen bewegen können. spriche von 1.1 zu 2.1 oder 1.2 etc. aber nicht direkt von 1.1 auf 2.2.
+wÃ¼rde weiterhin vorschlagen, dass sich gegner nur gerade in die 4 himmelsrichtungen bewegen kÃ¶nnen. spriche von 1.1 zu 2.1 oder 1.2 etc. aber nicht direkt von 1.1 auf 2.2.
 
-Okay Wir machen hier mal einen Test
-
-Bla Bla
-
-Ja machen wir so!
+HUD : 5 TÃ¼rme
