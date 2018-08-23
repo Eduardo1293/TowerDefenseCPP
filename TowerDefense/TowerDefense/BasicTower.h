@@ -10,12 +10,13 @@ class BasicTower {
 
 private:
 	string t_Name;
+	string t_Description;
 	int t_Cost;
 	int t_XCoord;
 	int t_YCoord;
 	
 public:
-	BasicTower();
+	BasicTower(int XCoord, int YCoord);
 
 	//Getter
 	inline int getCost() const { return t_Cost; }

@@ -31,6 +31,8 @@
     <ClCompile Include="CannonTower.cpp" />
     <ClCompile Include="FlameTower.cpp" />
     <ClCompile Include="FrostTower.cpp" />
+    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="LightningTower.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppStart.h">
@@ -40,6 +42,8 @@
     <ClInclude Include="CannonTower.h" />
     <ClInclude Include="FlameTower.h" />
     <ClInclude Include="FrostTower.h" />
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="LightningTower.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
