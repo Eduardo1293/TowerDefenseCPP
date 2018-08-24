@@ -31,8 +31,8 @@
     <ClCompile Include="CannonTower.cpp" />
     <ClCompile Include="FlameTower.cpp" />
     <ClCompile Include="FrostTower.cpp" />
-    <ClCompile Include="Level.cpp" />
     <ClCompile Include="LightningTower.cpp" />
+    <ClCompile Include="TowerDefense.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppStart.h">
@@ -42,8 +42,12 @@
     <ClInclude Include="CannonTower.h" />
     <ClInclude Include="FlameTower.h" />
     <ClInclude Include="FrostTower.h" />
-    <ClInclude Include="Level.h" />
     <ClInclude Include="LightningTower.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AppStart.resx">
+      <DependentUpon>AppStart.h</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -117,11 +121,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Andre\source\repos\TowerDefenseCPP\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies />
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>Main</EntryPointSymbol>
+      <AdditionalLibraryDirectories>C:\Users\Andre\source\repos\TowerDefenseCPP\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -142,9 +148,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Andre\source\repos\TowerDefenseCPP\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies />
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Andre\source\repos\TowerDefenseCPP\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

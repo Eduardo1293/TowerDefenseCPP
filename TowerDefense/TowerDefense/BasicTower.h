@@ -23,6 +23,8 @@ public:
 	inline int getXCoord() const { return t_XCoord; }
 	inline int getYCoord() const { return t_YCoord; }
 	
+	BasicTower();
+
 	void checkForEnemies();
 	void dealDamage();
 

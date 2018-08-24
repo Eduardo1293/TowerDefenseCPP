@@ -33,7 +33,7 @@
     <ClCompile Include="LightningTower.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="Level.cpp">
+    <ClCompile Include="TowerDefense.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,9 +54,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="LightningTower.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Level.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
