@@ -52,7 +52,7 @@ void Main(array<String^>^ args) {
 		sf::Sprite testTurmSprite;
 		sf::Sprite testEnemySprite;
 		testEnemySprite.setTexture(testTurmTexture);
-		testEnemySprite.scale(0.695f, 0.762f);
+		//testEnemySprite.scale(0.695f, 0.762f);
 
 		//test markierungen
 
@@ -68,22 +68,22 @@ void Main(array<String^>^ args) {
 		blockedSpaceSprite.setTexture(blockedSpaceTexture);
 		blockedSpaceSprite.setColor(sf::Color(255, 255, 255, 128));
 
-		emptySpaceSprite.setPosition(33, 224);
+		emptySpaceSprite.setPosition(32, 224);
 		window.draw(emptySpaceSprite);
 
-		emptySpaceSprite.setPosition(97, 224);
+		emptySpaceSprite.setPosition(96, 224);
 		window.draw(emptySpaceSprite);
 
-		emptySpaceSprite.setPosition(161, 224);
+		emptySpaceSprite.setPosition(160, 224);
 		window.draw(emptySpaceSprite);
 
-		blockedSpaceSprite.setPosition(33, 160);
+		blockedSpaceSprite.setPosition(32, 160);
 		window.draw(blockedSpaceSprite);
 
-		blockedSpaceSprite.setPosition(97, 160);
+		blockedSpaceSprite.setPosition(96, 160);
 		window.draw(blockedSpaceSprite);
 
-		blockedSpaceSprite.setPosition(161, 160);
+		blockedSpaceSprite.setPosition(160, 160);
 		window.draw(blockedSpaceSprite);
 
 		//testgegner bewegungskram
@@ -109,25 +109,25 @@ void Main(array<String^>^ args) {
 		window.draw(testEnemySprite);
 
 		//testtürme statisch
-		testTurmSprite.scale(0.695f, 0.762f);
+		//testTurmSprite.scale(0.695f, 0.762f);
 		testTurmSprite.setTexture(testTurmTexture);
-		testTurmSprite.setPosition(43, 233);
+		testTurmSprite.setPosition(32, 224);
 		window.draw(testTurmSprite);
-		testTurmSprite.setPosition(107, 233);
+		testTurmSprite.setPosition(96, 224);
 		window.draw(testTurmSprite);
-		testTurmSprite.setPosition(171, 233);
+		testTurmSprite.setPosition(160, 224);
 		window.draw(testTurmSprite);
-		testTurmSprite.setPosition(235, 233);
+		testTurmSprite.setPosition(224, 224);
 		window.draw(testTurmSprite);
-		testTurmSprite.setPosition(299, 233);
+		testTurmSprite.setPosition(288, 224);
 		window.draw(testTurmSprite);
-		testTurmSprite.setPosition(363, 233);
+		testTurmSprite.setPosition(352, 224);
 		window.draw(testTurmSprite);
-		testTurmSprite.setPosition(235, 361);
+		testTurmSprite.setPosition(224, 352);
 		window.draw(testTurmSprite);
-		testTurmSprite.setPosition(235, 489);
+		testTurmSprite.setPosition(224, 480);
 		window.draw(testTurmSprite);
-		testTurmSprite.setPosition(235, 617);
+		testTurmSprite.setPosition(224, 608);
 		window.draw(testTurmSprite);
 		//window.draw(testTurmSprite);
 		// end the current frame
