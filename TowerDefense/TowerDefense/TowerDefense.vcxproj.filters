@@ -13,48 +13,68 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Headerdateien\Tower">
+      <UniqueIdentifier>{a484c922-6c14-474b-b6a3-25a6ef9955c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Tower">
+      <UniqueIdentifier>{3dddf99f-14fd-4944-b74d-7e1de1901156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Core">
+      <UniqueIdentifier>{69d522f4-1733-409e-b545-0db51e21e51c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Core">
+      <UniqueIdentifier>{58ea80ab-8b71-41fe-bee2-1019184eaab4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AppStart.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="BasicTower.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="CannonTower.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="FrostTower.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="FlameTower.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="LightningTower.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="TowerDefense.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="BasicTower.cpp">
+      <Filter>Quelldateien\Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonTower.cpp">
+      <Filter>Quelldateien\Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="FlameTower.cpp">
+      <Filter>Quelldateien\Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="FrostTower.cpp">
+      <Filter>Quelldateien\Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="LightningTower.cpp">
+      <Filter>Quelldateien\Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Quelldateien\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AppStart.h">
-      <Filter>Headerdateien</Filter>
+    <ClInclude Include="CannonTower.h">
+      <Filter>Headerdateien\Tower</Filter>
     </ClInclude>
     <ClInclude Include="BasicTower.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="CannonTower.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="FrostTower.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\Tower</Filter>
     </ClInclude>
     <ClInclude Include="FlameTower.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="FrostTower.h">
+      <Filter>Headerdateien\Tower</Filter>
     </ClInclude>
     <ClInclude Include="LightningTower.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\Tower</Filter>
     </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Headerdateien\Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AppStart.resx">
+      <Filter>Ressourcendateien</Filter>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
