@@ -79,7 +79,15 @@ void Game::Run()
 		blockedSpaceSprite.setColor(sf::Color(255, 255, 255, 128));
 		blockedSpaceSprite.setOrigin(32, 32);
 
+		//halbdurchsichtiger tower zum bauen
+		sf::Sprite buildTowerSprite;
+		buildTowerSprite.setTexture(testTurmTexture);
+		buildTowerSprite.setColor(sf::Color(255, 255, 255, 140));
+		buildTowerSprite.setOrigin(32, 32);
+
 		list<GameArea*> GameAreaList = PlayingField();
+
+		sf::Vector2i localPosition = sf::Mouse::getPosition(App);
 
 		for (list<GameArea*>::const_iterator pos = GameAreaList.begin(); pos != GameAreaList.end(); ++pos) {
 			if ((*pos)->getEmpty()) {
@@ -89,6 +97,13 @@ void Game::Run()
 			else {
 				blockedSpaceSprite.setPosition((*pos)->getAreaXCoord(), (*pos)->getAreaYCoord());
 				App.draw(blockedSpaceSprite);
+			}
+
+		//mouse-movement auslesen
+			if (localPosition.x <= ((*pos)->getAreaXCoord() + 32) && (localPosition.x >= ((*pos)->getAreaXCoord() - 31)) 
+				&& (localPosition.y <= ((*pos)->getAreaYCoord() + 32)) && (localPosition.y >= ((*pos)->getAreaYCoord() - 31))) {
+				buildTowerSprite.setPosition((*pos)->getAreaXCoord(), (*pos)->getAreaYCoord());
+				App.draw(buildTowerSprite);
 			}
 		}
 
