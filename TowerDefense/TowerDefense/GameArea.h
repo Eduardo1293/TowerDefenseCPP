@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAMEAREA_H
+#define GAMEAREA_H
 #include <string>
 
 using namespace std;
@@ -33,3 +34,4 @@ public:
 	}
 };
 
+#endif

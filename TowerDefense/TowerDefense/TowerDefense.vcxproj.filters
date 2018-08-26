@@ -77,5 +77,8 @@
     <ClInclude Include="GameArea.h">
       <Filter>Headerdateien\Core</Filter>
     </ClInclude>
+    <ClInclude Include="PlayingField.h">
+      <Filter>Headerdateien\Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
