@@ -15,8 +15,8 @@ Game::~Game()
 void Game::Run()
 {
 	App.setVerticalSyncEnabled(true);
-	int x = 43;
-	int y = 64;
+	int x = 64;
+	int y = 96;
 
 	// run the program as long as the window is open
 	while (App.isOpen())
@@ -45,11 +45,11 @@ void Game::Run()
 
 		//Testturm und Testgegner, testgegner ist hardgecodet, dass er einen bestimmten weg abfährt
 		sf::Texture testTurmTexture;
-		testTurmTexture.loadFromFile("ArtAssets/tank_dark.png");
+		testTurmTexture.loadFromFile("ArtAssets/Tower/tank_dark.png");
 		sf::Sprite testTurmSprite;
 		sf::Sprite testEnemySprite;
 		testEnemySprite.setTexture(testTurmTexture);
-		testEnemySprite.scale(0.695f, 0.762f);
+		//testEnemySprite.scale(0.695f, 0.762f);
 
 		//test markierungen
 
@@ -84,29 +84,23 @@ void Game::Run()
 		App.draw(blockedSpaceSprite);
 
 		//testgegner bewegungskram
-		if (y > 173 && y < 215 && x < 424) {
+		if (y > 191 && x < 448) {
 			testEnemySprite.setRotation(270);
-		}
-		if (y <= 173) {
-			y++;
-		}
-		else if (y > 173 && x < 424) {
-			y = 214;
 			x++;
 		}
-		else if (x = 424) {
+		if (y <= 191) {
+			y++;
+		}
+		if (x >= 448) {
 			testEnemySprite.setRotation(0);
-			y = 174;
-			x++;
-		}
-		if (x > 400) {
 			y++;
 		}
+		testEnemySprite.setOrigin(32, 32);
 		testEnemySprite.setPosition(x, y);
 		App.draw(testEnemySprite);
 
 		//testtürme statisch
-		testTurmSprite.scale(0.695f, 0.762f);
+		//testTurmSprite.scale(0.695f, 0.762f);
 		testTurmSprite.setTexture(testTurmTexture);
 		testTurmSprite.setPosition(43, 233);
 		App.draw(testTurmSprite);
