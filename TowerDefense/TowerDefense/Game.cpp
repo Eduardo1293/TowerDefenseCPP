@@ -22,7 +22,7 @@ void gameAreas() {
 void Game::Run()
 {
 	App.setFramerateLimit(24);
-	int x = 64;
+	int x = 63;
 	int y = 96;
 	
 	//erste zeile von links nach rechts
@@ -251,20 +251,24 @@ void Game::Run()
 		}
 
 		//testgegner bewegungskram
-		if (y > 191 && x < 448) {
-			testEnemySprite.setRotation(315);
+		testEnemySprite.setOrigin(32, 32);
+		if (y > 191 && x < 447) {
+			testEnemySprite.setRotation(270);
+			testEnemySprite.setPosition(x, y);
+			App.draw(testEnemySprite);
 			x = x + 2;
 		}
 		if (y <= 191) {
-			y = y + 2;
+			testEnemySprite.setPosition(x, y);
+			App.draw(testEnemySprite);
+			y = y + 2;			
 		}
-		if (x >= 448) {
+		if (x >= 447 && y <= 600) {
 			testEnemySprite.setRotation(0);
-			y = y + 2;
-		}
-		testEnemySprite.setOrigin(32, 32);
-		testEnemySprite.setPosition(x, y);
-		App.draw(testEnemySprite);
+			testEnemySprite.setPosition(x, y);
+			App.draw(testEnemySprite);
+			y = y + 2;			
+		}		
 
 		//testtürme statisch
 		//testTurmSprite.scale(0.695f, 0.762f);
