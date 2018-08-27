@@ -1,6 +1,3 @@
-#ifndef PLAYINGFIELD_H
-#define PLAYINGFIELD_H
-
 #include "GameArea.h"
 #include <list>
 list<GameArea*> PlayingField() {
@@ -170,5 +167,3 @@ list<GameArea*> PlayingField() {
 
 	return GameAreaList;
 };
-
-#endif
