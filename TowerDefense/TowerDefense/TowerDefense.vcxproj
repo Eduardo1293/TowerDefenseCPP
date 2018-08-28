@@ -35,10 +35,12 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LightningTower.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="EnemyWaves.cpp" />
     <ClCompile Include="TowerDefense.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DummyEnemy.h" />
+    <ClInclude Include="EnemyWaves.h" />
     <ClInclude Include="GameArea.h" />
     <ClInclude Include="BasicTower.h" />
     <ClInclude Include="CannonTower.h" />

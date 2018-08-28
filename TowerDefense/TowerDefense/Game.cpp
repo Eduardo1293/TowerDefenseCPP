@@ -3,7 +3,7 @@
 #include <vector>
 #include "PlayingField.cpp"
 #include "BasicTower.h"
-#include "DummyEnemy.h"
+#include "EnemyWaves.h"
 
 
 
@@ -25,27 +25,16 @@ void Game::Run()
 	App.setFramerateLimit(24);
 	int x;
 	int y;
-	DummyEnemy *numberOne = new DummyEnemy(63, 96);
 	
-	/*DummyEnemy *numberThree = new DummyEnemy(63, 96);
-	DummyEnemy *numberFour = new DummyEnemy(63, 96);
-	DummyEnemy *numberFive = new DummyEnemy(63, 96);
-	DummyEnemy *numberSix = new DummyEnemy(63, 96);
-	DummyEnemy *numberSeven = new DummyEnemy(63, 96);*/
-
-	bool enemyTwoAdded = false;
 	int gameTime = 0;
 
-	list<DummyEnemy*> EnemyList;
+	vector<DummyEnemy*> *enemyVector = new vector<DummyEnemy*>(); 
+	vector<DummyEnemy*> *enemyActiveVector = new vector<DummyEnemy*>();
+	*enemyVector = enemyWaves(1);
 
-	EnemyList.push_back(numberOne);
+	int gameTimeEnemyCounter = 1;
+	int waveEnemyAddedCounter = 0;
 	
-	/*EnemyList.push_back(numberThree);
-	EnemyList.push_back(numberFour);
-	EnemyList.push_back(numberFive);
-	EnemyList.push_back(numberSix);
-	EnemyList.push_back(numberSeven); */
-
 	//Testturm und Testgegner, testgegner ist hardgecodet, dass er einen bestimmten weg abfährt
 	sf::Texture testTurmTexture;
 	testTurmTexture.loadFromFile("ArtAssets/Tower/tank_dark.png");
@@ -132,16 +121,15 @@ void Game::Run()
 		// clear the window with black color
 		App.clear(sf::Color::Black);
 
-		
-		//testcode zweiter gegner
+		//schickt die gegner aus wave1 auf die reise
+		//hier ist noch was madig
 		sf::Time elapsed1 = clock.getElapsedTime();
 		gameTime = elapsed1.asSeconds();
-		if ((gameTime > 1) && (enemyTwoAdded == false)) {
-			DummyEnemy *numberTwo = new DummyEnemy(63, 96);
-			EnemyList.push_back(numberTwo);
-			enemyTwoAdded = true;
-		}
-		
+		if (gameTime > gameTimeEnemyCounter && gameTime < (enemyVector->size())+2) {
+			enemyActiveVector->push_back(enemyVector->at(waveEnemyAddedCounter));
+			gameTimeEnemyCounter = (gameTimeEnemyCounter + 1);
+			waveEnemyAddedCounter = (waveEnemyAddedCounter + 1);
+		}		
 
 		// draw everything here...
 		// window.draw(...);
@@ -184,29 +172,29 @@ void Game::Run()
 		}
 			
 		//testgegner bewegungskram
-		for (list<DummyEnemy*>::const_iterator pos = EnemyList.begin(); pos != EnemyList.end(); ++pos) {
-			x = ((*pos)->getXCoord());
-			y = ((*pos)->getYCoord());
-			((*pos)->eSetPosition());
+		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
+			x = enemyActiveVector->at(i)->getXCoord();
+			y = enemyActiveVector->at(i)->getYCoord();
+			enemyActiveVector->at(i)->eSetPosition();
 			if (y > 191 && x < 447) {
-				((*pos)->eSetRotation(270));
-				lifeEnemySprite.setPosition(x, (y - 40));
-				App.draw(((*pos)->getSprite()));
+				enemyActiveVector->at(i)->eSetRotation(270);
+				lifeEnemySprite.setPosition(x, (y - 25));
+				App.draw(enemyActiveVector->at(i)->getSprite());
 				App.draw(lifeEnemySprite);
-				((*pos)->eSetXCoord((x + 2)));
+				(enemyActiveVector->at(i)->eSetXCoord((x + 2)));
 			}
 			if (y <= 191) {
-				lifeEnemySprite.setPosition(x, (y - 40));
-				App.draw(((*pos)->getSprite()));
+				lifeEnemySprite.setPosition(x, (y - 25));
+				App.draw((enemyActiveVector->at(i)->getSprite()));
 				App.draw(lifeEnemySprite);
-				((*pos)->eSetYCoord((y + 2)));
+				(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
 			}
-			if (x >= 447 && y <= 600) {
-				((*pos)->eSetRotation(0));
-				lifeEnemySprite.setPosition(x, (y - 40));
-				App.draw(((*pos)->getSprite()));
+			if (x >= 447 && y <= 738) {
+				(enemyActiveVector->at(i)->eSetRotation(0));
+				lifeEnemySprite.setPosition(x, (y - 25));
+				App.draw((enemyActiveVector->at(i)->getSprite()));
 				App.draw(lifeEnemySprite);
-				((*pos)->eSetYCoord((y + 2)));
+				(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
 			}
 		}
 		

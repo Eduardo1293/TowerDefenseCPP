@@ -54,14 +54,17 @@
     <ClCompile Include="Game.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="GameArea.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
     <ClCompile Include="DummyEnemy.cpp">
       <Filter>Quelldateien\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyWaves.cpp">
+      <Filter>Quelldateien\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Quelldateien\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="DummyEnemy.h">
       <Filter>Headerdateien\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyWaves.h">
+      <Filter>Headerdateien\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
