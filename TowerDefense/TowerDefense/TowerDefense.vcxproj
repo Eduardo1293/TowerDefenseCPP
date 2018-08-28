@@ -26,6 +26,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DummyEnemy.cpp" />
     <ClCompile Include="GameArea.cpp" />
     <ClCompile Include="BasicTower.cpp" />
     <ClCompile Include="CannonTower.cpp" />
@@ -37,6 +38,7 @@
     <ClCompile Include="TowerDefense.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DummyEnemy.h" />
     <ClInclude Include="GameArea.h" />
     <ClInclude Include="BasicTower.h" />
     <ClInclude Include="CannonTower.h" />

@@ -25,6 +25,12 @@
     <Filter Include="Quelldateien\Core">
       <UniqueIdentifier>{58ea80ab-8b71-41fe-bee2-1019184eaab4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\Enemies">
+      <UniqueIdentifier>{588be856-854e-46e3-8652-7c059abfd70e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Enemies">
+      <UniqueIdentifier>{6f6d169c-36aa-4298-9f1e-6cf343b52525}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TowerDefense.cpp">
@@ -54,6 +60,9 @@
     <ClCompile Include="GameArea.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
+    <ClCompile Include="DummyEnemy.cpp">
+      <Filter>Quelldateien\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CannonTower.h">
@@ -79,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="PlayingField.cpp">
       <Filter>Quelldateien\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyEnemy.h">
+      <Filter>Headerdateien\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

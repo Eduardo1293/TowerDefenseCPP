@@ -2,6 +2,8 @@
 #include <list>
 #include <vector>
 #include "PlayingField.cpp"
+#include "BasicTower.h"
+#include "DummyEnemy.h"
 
 
 
@@ -19,9 +21,30 @@ Game::~Game()
 
 void Game::Run()
 {
+	sf::Clock clock;
 	App.setFramerateLimit(24);
-	int x = 63;
-	int y = 96;
+	int x;
+	int y;
+	DummyEnemy *numberOne = new DummyEnemy(63, 96);
+	
+	/*DummyEnemy *numberThree = new DummyEnemy(63, 96);
+	DummyEnemy *numberFour = new DummyEnemy(63, 96);
+	DummyEnemy *numberFive = new DummyEnemy(63, 96);
+	DummyEnemy *numberSix = new DummyEnemy(63, 96);
+	DummyEnemy *numberSeven = new DummyEnemy(63, 96);*/
+
+	bool enemyTwoAdded = false;
+	int gameTime = 0;
+
+	list<DummyEnemy*> EnemyList;
+
+	EnemyList.push_back(numberOne);
+	
+	/*EnemyList.push_back(numberThree);
+	EnemyList.push_back(numberFour);
+	EnemyList.push_back(numberFive);
+	EnemyList.push_back(numberSix);
+	EnemyList.push_back(numberSeven); */
 
 	//Testturm und Testgegner, testgegner ist hardgecodet, dass er einen bestimmten weg abfährt
 	sf::Texture testTurmTexture;
@@ -35,6 +58,31 @@ void Game::Run()
 	buildTowerSprite.setTexture(testTurmTexture);
 	buildTowerSprite.setColor(sf::Color(255, 255, 255, 140));
 	buildTowerSprite.setOrigin(32, 32);
+
+	//lifebar
+	sf::Texture hundredLifeTexture;
+	hundredLifeTexture.loadFromFile("ArtAssets/Lifebar/100percent.png");
+	sf::Texture ninetyLifeTexture;
+	ninetyLifeTexture.loadFromFile("ArtAssets/Lifebar/90percent.png");
+	sf::Texture eightyLifeTexture;
+	eightyLifeTexture.loadFromFile("ArtAssets/Lifebar/80percent.png");
+	sf::Texture seventyLifeTexture;
+	seventyLifeTexture.loadFromFile("ArtAssets/Lifebar/70percent.png");
+	sf::Texture sixtyLifeTexture;
+	sixtyLifeTexture.loadFromFile("ArtAssets/Lifebar/60percent.png");
+	sf::Texture fiftyLifeTexture;
+	fiftyLifeTexture.loadFromFile("ArtAssets/Lifebar/50percent.png");
+	sf::Texture fortyLifeTexture;
+	fortyLifeTexture.loadFromFile("ArtAssets/Lifebar/40percent.png");
+	sf::Texture thirtyLifeTexture;
+	thirtyLifeTexture.loadFromFile("ArtAssets/Lifebar/30percent.png");
+	sf::Texture twentyLifeTexture;
+	twentyLifeTexture.loadFromFile("ArtAssets/Lifebar/20percent.png");
+	sf::Texture tenLifeTexture;
+	tenLifeTexture.loadFromFile("ArtAssets/Lifebar/10percent.png");
+	sf::Sprite lifeEnemySprite;
+	lifeEnemySprite.setTexture(fiftyLifeTexture);
+	lifeEnemySprite.setOrigin(20, 2);
 
 	sf::Texture backgroundTexture;
 	backgroundTexture.loadFromFile("ArtAssets/background.png");
@@ -84,6 +132,17 @@ void Game::Run()
 		// clear the window with black color
 		App.clear(sf::Color::Black);
 
+		
+		//testcode zweiter gegner
+		sf::Time elapsed1 = clock.getElapsedTime();
+		gameTime = elapsed1.asSeconds();
+		if ((gameTime > 1) && (enemyTwoAdded == false)) {
+			DummyEnemy *numberTwo = new DummyEnemy(63, 96);
+			EnemyList.push_back(numberTwo);
+			enemyTwoAdded = true;
+		}
+		
+
 		// draw everything here...
 		// window.draw(...);
 		//Background
@@ -123,28 +182,38 @@ void Game::Run()
 			testTurmSprite.setPosition((*pos)->getAreaXCoord(), (*pos)->getAreaYCoord());
 			App.draw(testTurmSprite);
 		}
-			//testgegner bewegungskram
 			
+		//testgegner bewegungskram
+		for (list<DummyEnemy*>::const_iterator pos = EnemyList.begin(); pos != EnemyList.end(); ++pos) {
+			x = ((*pos)->getXCoord());
+			y = ((*pos)->getYCoord());
+			((*pos)->eSetPosition());
 			if (y > 191 && x < 447) {
-				testEnemySprite.setRotation(270);
-				testEnemySprite.setPosition(x, y);
-				App.draw(testEnemySprite);
-				x = x + 2;
+				((*pos)->eSetRotation(270));
+				lifeEnemySprite.setPosition(x, (y - 40));
+				App.draw(((*pos)->getSprite()));
+				App.draw(lifeEnemySprite);
+				((*pos)->eSetXCoord((x + 2)));
 			}
 			if (y <= 191) {
-				testEnemySprite.setPosition(x, y);
-				App.draw(testEnemySprite);
-				y = y + 2;
+				lifeEnemySprite.setPosition(x, (y - 40));
+				App.draw(((*pos)->getSprite()));
+				App.draw(lifeEnemySprite);
+				((*pos)->eSetYCoord((y + 2)));
 			}
 			if (x >= 447 && y <= 600) {
-				testEnemySprite.setRotation(0);
-				testEnemySprite.setPosition(x, y);
-				App.draw(testEnemySprite);
-				y = y + 2;
+				((*pos)->eSetRotation(0));
+				lifeEnemySprite.setPosition(x, (y - 40));
+				App.draw(((*pos)->getSprite()));
+				App.draw(lifeEnemySprite);
+				((*pos)->eSetYCoord((y + 2)));
 			}
+		}
+		
 
 			// end the current frame
 			App.display();
+
 	}
 }
 
