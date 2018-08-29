@@ -5,6 +5,7 @@
 #include "BasicTower.h"
 #include "EnemyWaves.h"
 
+#include <iostream>
 
 
 Game::Game()
@@ -25,16 +26,16 @@ void Game::Run()
 	App.setFramerateLimit(24);
 	int x;
 	int y;
-	
+
 	int gameTime = 0;
 
-	vector<DummyEnemy*> *enemyVector = new vector<DummyEnemy*>(); 
+	vector<DummyEnemy*> *enemyVector = new vector<DummyEnemy*>();
 	vector<DummyEnemy*> *enemyActiveVector = new vector<DummyEnemy*>();
 	*enemyVector = enemyWaves(1);
 
 	int gameTimeEnemyCounter = 1;
 	int waveEnemyAddedCounter = 0;
-	
+
 	//Testturm und Testgegner, testgegner ist hardgecodet, dass er einen bestimmten weg abfährt
 	sf::Texture testTurmTexture;
 	testTurmTexture.loadFromFile("ArtAssets/Tower/tank_dark.png");
@@ -73,6 +74,99 @@ void Game::Run()
 	lifeEnemySprite.setTexture(fiftyLifeTexture);
 	lifeEnemySprite.setOrigin(20, 2);
 
+	sf::Color color;
+	sf::Font font;
+	if (!font.loadFromFile("ArtAssets/impact.ttf"))
+	{
+		std::cout << "Es konnte keine Fontdatei geunden werden!" << std::endl;
+	}
+
+	sf::Texture kanonenTurmButton;
+	sf::Sprite kanonenTurmImage;
+
+	kanonenTurmButton.loadFromFile("ArtAssets/Tower/tank_dark.png");
+	kanonenTurmImage.setPosition(78, 779);
+
+	kanonenTurmImage.setTexture(kanonenTurmButton);
+
+	float kanonenTurmButtonWidth = kanonenTurmImage.getLocalBounds().width;
+	float kanonenTurmButtonHeight = kanonenTurmImage.getLocalBounds().height;
+
+
+	//Feuerturmbutton
+	sf::Texture feuerTurmButton;
+	sf::Sprite feuerTurmImage;
+
+	feuerTurmButton.loadFromFile("ArtAssets/Tower/tank_dark.png");
+	feuerTurmImage.setPosition(151, 779);
+
+	feuerTurmImage.setTexture(feuerTurmButton);
+
+	float feuerTurmButtonWidth = feuerTurmImage.getLocalBounds().width;
+	float feuerTurmButtonHeight = feuerTurmImage.getLocalBounds().height;
+
+
+	//Frostturmbutton
+	sf::Texture frostTurmButton;
+	sf::Sprite frostTurmImage;
+
+	frostTurmButton.loadFromFile("ArtAssets/Tower/tank_dark.png");
+	frostTurmImage.setPosition(224, 779);
+
+	frostTurmImage.setTexture(frostTurmButton);
+
+	float frostTurmButtonWidth = frostTurmImage.getLocalBounds().width;
+	float frostTurmButtonHeight = frostTurmImage.getLocalBounds().height;
+
+	//Turm 3
+	sf::Texture Turm3Button;
+	sf::Sprite Turm3Image;
+
+	Turm3Button.loadFromFile("ArtAssets/Tower/tank_dark.png");
+	Turm3Image.setPosition(297, 779);
+
+	Turm3Image.setTexture(Turm3Button);
+
+	float Turm3ButtonWidth = Turm3Image.getLocalBounds().width;
+	float Turm3ButtonHeight = Turm3Image.getLocalBounds().height;
+
+
+	//Turm 4
+	sf::Texture Turm4Button;
+	sf::Sprite Turm4Image;
+
+	Turm4Button.loadFromFile("ArtAssets/Tower/tank_dark.png");
+	Turm4Image.setPosition(368, 779);
+
+	Turm4Image.setTexture(Turm4Button);
+
+	float Turm4ButtonWidth = Turm4Image.getLocalBounds().width;
+	float Turm4ButtonHeight = Turm4Image.getLocalBounds().height;
+
+
+	sf::Text rundenText;
+	rundenText.setFont(font);
+	rundenText.setString("1");
+	rundenText.setFillColor(color.Black);
+	rundenText.setCharacterSize(13);
+	rundenText.setPosition(65, 15);
+
+
+	sf::Text goldText;
+	goldText.setFont(font);
+	goldText.setString("20000");
+	goldText.setFillColor(color.Black);
+	goldText.setCharacterSize(13);
+	goldText.setPosition(65, 35);
+
+
+	sf::Text lebenText;
+	lebenText.setFont(font);
+	lebenText.setString("3");
+	lebenText.setFillColor(color.Black);
+	lebenText.setCharacterSize(13);
+	lebenText.setPosition(360, 16);
+
 	sf::Texture statusTexture;
 	statusTexture.loadFromFile("ArtAssets/Status.png");
 
@@ -93,7 +187,8 @@ void Game::Run()
 	backgroundSprite.setTexture(backgroundTexture);
 	backgroundSprite.setPosition(0, 64);
 
-	
+
+
 
 	testTurmSprite.setTexture(testTurmTexture);
 	testTurmSprite.setOrigin(32, 32);
@@ -141,11 +236,11 @@ void Game::Run()
 		//hier ist noch was madig
 		sf::Time elapsed1 = clock.getElapsedTime();
 		gameTime = elapsed1.asSeconds();
-		if (gameTime > gameTimeEnemyCounter && gameTime < (enemyVector->size())+2) {
+		if (gameTime > gameTimeEnemyCounter && gameTime < (enemyVector->size()) + 2) {
 			enemyActiveVector->push_back(enemyVector->at(waveEnemyAddedCounter));
 			gameTimeEnemyCounter = (gameTimeEnemyCounter + 1);
 			waveEnemyAddedCounter = (waveEnemyAddedCounter + 1);
-		}		
+		}
 
 		// draw everything here...
 		// window.draw(...);
@@ -153,10 +248,21 @@ void Game::Run()
 		App.draw(hudSprite);
 		App.draw(statusSprite);
 		App.draw(backgroundSprite);
+		App.draw(rundenText);
+		App.draw(goldText);
+		App.draw(lebenText);
+		App.draw(kanonenTurmImage);
+		App.draw(feuerTurmImage);
+		App.draw(frostTurmImage);
+		App.draw(Turm3Image);
+		App.draw(Turm4Image);
 
 		sf::Vector2i localPosition = sf::Mouse::getPosition(App);
+		sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
+		sf::Event Event;
 
 		for (list<GameArea*>::const_iterator pos = GameAreaList.begin(); pos != GameAreaList.end(); ++pos) {
+
 			if ((*pos)->getEmpty()) {
 				emptySpaceSprite.setPosition((*pos)->getAreaXCoord(), (*pos)->getAreaYCoord());
 				App.draw(emptySpaceSprite);
@@ -181,14 +287,75 @@ void Game::Run()
 					(*pos)->setAreaEmpty(false);
 				}
 			}
+
+
+
+
+			if (kanonenTurmImage.getGlobalBounds().contains(mousePosF))
+			{
+				kanonenTurmImage.setTexture(kanonenTurmButton);
+				kanonenTurmImage.setColor(sf::Color(255, 255, 255, 140));
+			}
+			else
+			{
+				kanonenTurmImage.setTexture(kanonenTurmButton);
+				kanonenTurmImage.setColor(color.White);
+			}
+			if (feuerTurmImage.getGlobalBounds().contains(mousePosF))
+			{
+				feuerTurmImage.setTexture(feuerTurmButton);
+				feuerTurmImage.setColor(sf::Color(255, 255, 255, 140));
+			}
+			else
+			{
+				feuerTurmImage.setTexture(feuerTurmButton);
+				feuerTurmImage.setColor(color.White);
+			}
+			if (frostTurmImage.getGlobalBounds().contains(mousePosF))
+			{
+				frostTurmImage.setTexture(frostTurmButton);
+				frostTurmImage.setColor(sf::Color(255, 255, 255, 140));
+			}
+			else
+			{
+				frostTurmImage.setTexture(frostTurmButton);
+				frostTurmImage.setColor(color.White);
+			}
+
+
+			if (Turm3Image.getGlobalBounds().contains(mousePosF))
+			{
+				Turm3Image.setTexture(Turm3Button);
+				Turm3Image.setColor(sf::Color(255, 255, 255, 140));
+			}
+			else
+			{
+				Turm3Image.setTexture(Turm3Button);
+				Turm3Image.setColor(color.White);
+			}
+
+
+			if (Turm4Image.getGlobalBounds().contains(mousePosF))
+			{
+				Turm4Image.setTexture(Turm4Button);
+				Turm4Image.setColor(sf::Color(255, 255, 255, 140));
+			}
+			else
+			{
+				Turm4Image.setTexture(Turm4Button);
+				Turm4Image.setColor(color.White);
+			}
+
 		}
-		 
+
+
+
 		//Tower malen
 		for (unsigned int i = 0; i < TowerVector->size(); i++) {
 			TowerVector->at(i)->checkForEnemies(enemyActiveVector);
 			App.draw(TowerVector->at(i)->getSprite());
 		}
-			
+
 		//testgegner bewegungskram
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
 			x = enemyActiveVector->at(i)->getXCoord();
@@ -215,10 +382,10 @@ void Game::Run()
 				(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
 			}
 		}
-		
 
-			// end the current frame
-			App.display();
+
+		// end the current frame
+		App.display();
 
 	}
 }
