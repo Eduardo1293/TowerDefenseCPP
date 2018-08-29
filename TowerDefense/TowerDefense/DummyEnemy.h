@@ -11,6 +11,8 @@ class DummyEnemy {
 private:
 	sf::Texture dummyEnemyTexture;
 	sf::Sprite dummyEnemySprite;
+	sf::Texture lifeBarTexture;
+	sf::Sprite lifeBarSprite;
 	int e_MaxLife;
 	int e_CurrentLife;
 	int e_XCoord;
@@ -32,7 +34,7 @@ public:
 	inline int getYCoord() const { return e_YCoord; }
 	inline sf::Sprite getSprite() const { return dummyEnemySprite; }
 
-	void takeDamage();
+	void takeDamage(int damage);
 
 	DummyEnemy();
 };

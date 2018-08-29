@@ -32,7 +32,7 @@ public:
 	
 	BasicTower();
 
-	void checkForEnemies(vector<DummyEnemy*> *enemyActiveVector);
+	vector<DummyEnemy*> checkForEnemies(vector<DummyEnemy*> *enemyActiveVector);
 	void dealDamage();
 
 };

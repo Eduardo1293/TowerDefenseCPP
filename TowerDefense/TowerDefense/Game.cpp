@@ -352,7 +352,7 @@ void Game::Run()
 
 		//Tower malen
 		for (unsigned int i = 0; i < TowerVector->size(); i++) {
-			TowerVector->at(i)->checkForEnemies(enemyActiveVector);
+			*enemyActiveVector = TowerVector->at(i)->checkForEnemies(enemyActiveVector);
 			App.draw(TowerVector->at(i)->getSprite());
 		}
 
@@ -360,21 +360,40 @@ void Game::Run()
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
 			x = enemyActiveVector->at(i)->getXCoord();
 			y = enemyActiveVector->at(i)->getYCoord();
+			int lifePercent = (enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife() * 100);
+			if (lifePercent > 90) {
+				lifeEnemySprite.setTexture(hundredLifeTexture);
+			}
+			else if (90 > lifePercent && lifePercent > 70) {
+				lifeEnemySprite.setTexture(eightyLifeTexture);
+			}
+			else if (70 > lifePercent && lifePercent > 50) {
+				lifeEnemySprite.setTexture(sixtyLifeTexture);
+			}
+			else if (50 > lifePercent && lifePercent > 30) {
+				lifeEnemySprite.setTexture(fortyLifeTexture);
+			}
+			else if (30 > lifePercent && lifePercent > 10) {
+				lifeEnemySprite.setTexture(twentyLifeTexture);
+			}
+			else if (lifePercent < 10) {
+				lifeEnemySprite.setTexture(tenLifeTexture);
+			}
 			enemyActiveVector->at(i)->eSetPosition();
-			if (y > 191 && x < 447) {
+			if (y > 191 && x < 447 && (enemyActiveVector->at(i)->getCurrentLife()) > 0) {
 				enemyActiveVector->at(i)->eSetRotation(270);
 				lifeEnemySprite.setPosition(x, (y - 25));
 				App.draw(enemyActiveVector->at(i)->getSprite());
 				App.draw(lifeEnemySprite);
 				(enemyActiveVector->at(i)->eSetXCoord((x + 2)));
 			}
-			if (y <= 191) {
+			if (y <= 191 && (enemyActiveVector->at(i)->getCurrentLife() > 0)) {
 				lifeEnemySprite.setPosition(x, (y - 25));
 				App.draw((enemyActiveVector->at(i)->getSprite()));
 				App.draw(lifeEnemySprite);
 				(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
 			}
-			if (x >= 447 && y <= 738) {
+			if (x >= 447 && y <= 738 && (enemyActiveVector->at(i)->getCurrentLife() > 0)) {
 				(enemyActiveVector->at(i)->eSetRotation(0));
 				lifeEnemySprite.setPosition(x, (y - 25));
 				App.draw((enemyActiveVector->at(i)->getSprite()));
