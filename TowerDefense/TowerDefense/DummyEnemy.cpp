@@ -3,8 +3,8 @@
 
 
 DummyEnemy::DummyEnemy(int XCoord, int YCoord) {
-	e_MaxLife = 100;
-	e_CurrentLife = 100;
+	e_MaxLife = 500;
+	e_CurrentLife = 500;
 	e_XCoord = XCoord;
 	e_YCoord = YCoord;
 	dummyEnemyTexture.loadFromFile("ArtAssets/Enemies/enemyBlack1.png");
