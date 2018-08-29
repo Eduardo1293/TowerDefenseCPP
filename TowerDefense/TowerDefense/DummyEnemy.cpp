@@ -28,8 +28,8 @@ void DummyEnemy::eSetYCoord(int YCoord) {
 	e_YCoord = YCoord;
 }
 
-void DummyEnemy::takeDamage()
-{
+void DummyEnemy::takeDamage(int damage) {
+	e_CurrentLife = (e_CurrentLife - damage);
 }
 
 DummyEnemy::DummyEnemy()
