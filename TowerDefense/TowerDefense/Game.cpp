@@ -73,11 +73,27 @@ void Game::Run()
 	lifeEnemySprite.setTexture(fiftyLifeTexture);
 	lifeEnemySprite.setOrigin(20, 2);
 
+	sf::Texture statusTexture;
+	statusTexture.loadFromFile("ArtAssets/Status.png");
+
+	sf::Texture hudTexture;
+	hudTexture.loadFromFile("ArtAssets/HUD.png");
+
+	sf::Sprite hudSprite;
+	hudSprite.setTexture(hudTexture);
+	hudSprite.setPosition(0, 768);
+
+	sf::Sprite statusSprite;
+	statusSprite.setTexture(statusTexture);
+	statusSprite.setPosition(0, 0);
+
 	sf::Texture backgroundTexture;
 	backgroundTexture.loadFromFile("ArtAssets/background.png");
 	sf::Sprite backgroundSprite;
 	backgroundSprite.setTexture(backgroundTexture);
 	backgroundSprite.setPosition(0, 64);
+
+	
 
 	testTurmSprite.setTexture(testTurmTexture);
 	testTurmSprite.setOrigin(32, 32);
@@ -134,7 +150,8 @@ void Game::Run()
 		// draw everything here...
 		// window.draw(...);
 		//Background
-
+		App.draw(hudSprite);
+		App.draw(statusSprite);
 		App.draw(backgroundSprite);
 
 		sf::Vector2i localPosition = sf::Mouse::getPosition(App);
