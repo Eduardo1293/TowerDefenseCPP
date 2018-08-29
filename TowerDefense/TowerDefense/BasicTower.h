@@ -4,6 +4,8 @@
 
 #include <string>
 #include <SFML/Graphics.hpp>
+#include <vector>
+#include "DummyEnemy.h"
 
 using namespace std;
 
@@ -26,11 +28,11 @@ public:
 	inline int getXCoord() const { return t_XCoord; }
 	inline int getYCoord() const { return t_YCoord; }
 	inline string getDescription() const { return t_Description; }
-	inline sf::Sprite getSprite() const { return testTurmSprite; }
+	inline sf::Sprite getSprite() const { return testTurmSprite; };
 	
 	BasicTower();
 
-	void checkForEnemies();
+	void checkForEnemies(vector<DummyEnemy*> *enemyActiveVector);
 	void dealDamage();
 
 };

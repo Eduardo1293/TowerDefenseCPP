@@ -104,7 +104,7 @@ void Game::Run()
 	}*/
 
 	list<GameArea*> GameAreaList = PlayingField();
-	list<GameArea*> TowerList;
+	vector<BasicTower*> *TowerVector = new vector<BasicTower*>();
 
 	// run the program as long as the window is open
 	while (App.isOpen())
@@ -159,16 +159,17 @@ void Game::Run()
 			{
 				if (localPosition.x <= ((*pos)->getAreaXCoord() + 32) && (localPosition.x >= ((*pos)->getAreaXCoord() - 31))
 					&& (localPosition.y <= ((*pos)->getAreaYCoord() + 32)) && (localPosition.y >= ((*pos)->getAreaYCoord() - 31))) {
-					TowerList.push_back(*pos);
+					BasicTower *Tower = new BasicTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
+					TowerVector->push_back(Tower);
 					(*pos)->setAreaEmpty(false);
 				}
 			}
 		}
 		 
 		//Tower malen
-		for (list<GameArea*>::const_iterator pos = TowerList.begin(); pos != TowerList.end(); ++pos) {
-			testTurmSprite.setPosition((*pos)->getAreaXCoord(), (*pos)->getAreaYCoord());
-			App.draw(testTurmSprite);
+		for (unsigned int i = 0; i < TowerVector->size(); i++) {
+			TowerVector->at(i)->checkForEnemies(enemyActiveVector);
+			App.draw(TowerVector->at(i)->getSprite());
 		}
 			
 		//testgegner bewegungskram
