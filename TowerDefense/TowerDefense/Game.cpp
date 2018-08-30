@@ -373,7 +373,7 @@ void Game::Run()
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
 			x = enemyActiveVector->at(i)->getXCoord();
 			y = enemyActiveVector->at(i)->getYCoord();
-			int lifePercent = ((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife()) * 100);
+			int lifePercent = (((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife())) * 100);
 			if (lifePercent > 90) {
 				lifeEnemySprite.setTexture(hundredLifeTexture);
 			}
