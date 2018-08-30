@@ -187,8 +187,13 @@ void Game::Run()
 	backgroundSprite.setTexture(backgroundTexture);
 	backgroundSprite.setPosition(0, 64);
 
-
-
+	//explosion
+	sf::Texture explosionTexture;
+	explosionTexture.loadFromFile("ArtAssets/SFX/explosion2.png");
+	sf::Sprite explosionSprite;
+	explosionSprite.setTexture(explosionTexture);
+	explosionSprite.setOrigin(64, 64);
+	explosionSprite.setScale(0.5, 0.5);
 
 	testTurmSprite.setTexture(testTurmTexture);
 	testTurmSprite.setOrigin(32, 32);
@@ -197,6 +202,8 @@ void Game::Run()
 	sf::Texture blockedSpaceTexture;
 	emptySpaceTexture.loadFromFile("ArtAssets/emptyspace.png");
 	blockedSpaceTexture.loadFromFile("ArtAssets/blockedspace.png");
+
+
 
 	sf::Sprite emptySpaceSprite;
 	sf::Sprite blockedSpaceSprite;
@@ -348,37 +355,44 @@ void Game::Run()
 
 		}
 
-
-
 		//Tower malen
 		for (unsigned int i = 0; i < TowerVector->size(); i++) {
-			*enemyActiveVector = TowerVector->at(i)->checkForEnemies(enemyActiveVector);
-			App.draw(TowerVector->at(i)->getSprite());
+			int target = TowerVector->at(i)->checkForEnemies(enemyActiveVector);
+			if (target >= 0 && target <= 9) {
+				enemyActiveVector->at(target)->takeDamage(1);
+				explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
+				App.draw(explosionSprite);
+				App.draw(TowerVector->at(i)->getSprite());
+			}
+			else {
+				App.draw(TowerVector->at(i)->getSprite());
+			}
 		}
 
 		//testgegner bewegungskram
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
 			x = enemyActiveVector->at(i)->getXCoord();
 			y = enemyActiveVector->at(i)->getYCoord();
-			int lifePercent = (enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife() * 100);
+			int lifePercent = ((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife()) * 100);
 			if (lifePercent > 90) {
 				lifeEnemySprite.setTexture(hundredLifeTexture);
 			}
-			else if (90 > lifePercent && lifePercent > 70) {
+			else if (lifePercent < 90 && lifePercent > 70) {
 				lifeEnemySprite.setTexture(eightyLifeTexture);
 			}
-			else if (70 > lifePercent && lifePercent > 50) {
+			else if (lifePercent < 70 && lifePercent > 50) {
 				lifeEnemySprite.setTexture(sixtyLifeTexture);
 			}
-			else if (50 > lifePercent && lifePercent > 30) {
+			else if (lifePercent < 50 && lifePercent > 30) {
 				lifeEnemySprite.setTexture(fortyLifeTexture);
 			}
-			else if (30 > lifePercent && lifePercent > 10) {
+			else if (lifePercent < 30 && lifePercent > 10) {
 				lifeEnemySprite.setTexture(twentyLifeTexture);
 			}
 			else if (lifePercent < 10) {
 				lifeEnemySprite.setTexture(tenLifeTexture);
 			}
+			
 			enemyActiveVector->at(i)->eSetPosition();
 			if (y > 191 && x < 447 && (enemyActiveVector->at(i)->getCurrentLife()) > 0) {
 				enemyActiveVector->at(i)->eSetRotation(270);

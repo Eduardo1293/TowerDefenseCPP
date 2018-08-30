@@ -18,7 +18,7 @@ BasicTower::BasicTower()
 {
 }
 
-vector<DummyEnemy*> BasicTower::checkForEnemies(vector<DummyEnemy*> *enemyActiveVector) {
+int BasicTower::checkForEnemies(vector<DummyEnemy*> *enemyActiveVector) {
 	for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
 		int enemyXCoord = enemyActiveVector->at(i)->getXCoord();
 		int enemyYCoord = enemyActiveVector->at(i)->getYCoord();
@@ -26,52 +26,60 @@ vector<DummyEnemy*> BasicTower::checkForEnemies(vector<DummyEnemy*> *enemyActive
 		if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
 			&& (enemyYCoord > (t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
 			testTurmSprite.setRotation(315);
-			enemyActiveVector->at(i)->takeDamage(1);
+			return i;
+			break;
 		//rechts 
 		} else if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
 			&& (enemyYCoord > (t_YCoord - 32)) && (enemyYCoord < (t_YCoord + 33))) {
 			testTurmSprite.setRotation(270);
 			//deal damage
-			enemyActiveVector->at(i)->takeDamage(1);
+			return i;
+			break;
 		//unten
 		} else if ((enemyXCoord >(t_XCoord + -32)) && (enemyXCoord < (t_XCoord + 33))
 			&& (enemyYCoord >(t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
 			testTurmSprite.setRotation(0);
 			//deal damage
-			enemyActiveVector->at(i)->takeDamage(1);
+			return i;
+			break;
 		//links unten 
 		} else if ((enemyXCoord >(t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
 			&& (enemyYCoord >(t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
 			testTurmSprite.setRotation(45);
 			//deal damage
-			enemyActiveVector->at(i)->takeDamage(1);
+			return i;
+			break;
 		//rechts oben
 		} else if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
 			&& (enemyYCoord >(t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
 			testTurmSprite.setRotation(225);
 			//deal damage
-			enemyActiveVector->at(i)->takeDamage(1);
+			return i;
+			break;
 		//links
 		} else if ((enemyXCoord > (t_XCoord - 96)) && (enemyXCoord < (t_XCoord -32))
 			&& (enemyYCoord >(t_YCoord - 32)) && (enemyYCoord < (t_YCoord + 33))) {
 			testTurmSprite.setRotation(90);
 			//deal damage
-			enemyActiveVector->at(i)->takeDamage(1);
+			return i;
+			break;;
 		//oben
 		} else if ((enemyXCoord >(t_XCoord - 32)) && (enemyXCoord < (t_XCoord + 33))
 			&& (enemyYCoord >(t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
 			testTurmSprite.setRotation(180);
-			enemyActiveVector->at(i)->takeDamage(1);
+			return i;
+			break;
 			//deal damage
 		//links oben
 		} else if ((enemyXCoord >(t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
 			&& (enemyYCoord >(t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
 			testTurmSprite.setRotation(135);
-			enemyActiveVector->at(i)->takeDamage(1);
+			return i;
+			break;
 			//deal damage	
 		}	
 	}
-	return *enemyActiveVector;
+	return 999;
 }
 
 void BasicTower::dealDamage() {
