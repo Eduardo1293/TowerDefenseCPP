@@ -28,6 +28,31 @@ void DummyEnemy::eSetYCoord(int YCoord) {
 	e_YCoord = YCoord;
 }
 
+double DummyEnemy::getMaxLife()
+{
+	return e_MaxLife;
+}
+
+double DummyEnemy::getCurrentLife()
+{
+	return e_CurrentLife;
+}
+
+int DummyEnemy::getXCoord()
+{
+	return e_XCoord;
+}
+
+int DummyEnemy::getYCoord()
+{
+	return e_YCoord;
+}
+
+sf::Sprite DummyEnemy::getSprite()
+{
+	return dummyEnemySprite;
+}
+
 void DummyEnemy::takeDamage(int damage) {
 	e_CurrentLife = (e_CurrentLife - damage);
 }

@@ -13,8 +13,8 @@ private:
 	sf::Sprite dummyEnemySprite;
 	sf::Texture lifeBarTexture;
 	sf::Sprite lifeBarSprite;
-	int e_MaxLife;
-	int e_CurrentLife;
+	double e_MaxLife;
+	double e_CurrentLife;
 	int e_XCoord;
 	int e_YCoord;
 
@@ -28,11 +28,11 @@ public:
 	void eSetYCoord(int YCoord);
 
 	//Getter
-	inline int getMaxLife() const { return e_MaxLife; }
-	inline int getCurrentLife() const { return e_CurrentLife; }
-	inline int getXCoord() const { return e_XCoord; }
-	inline int getYCoord() const { return e_YCoord; }
-	inline sf::Sprite getSprite() const { return dummyEnemySprite; }
+	double getMaxLife(); 
+	double getCurrentLife(); 
+	int getXCoord();
+	int getYCoord();
+	sf::Sprite getSprite();
 
 	void takeDamage(int damage);
 

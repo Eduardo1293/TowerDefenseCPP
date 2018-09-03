@@ -373,7 +373,9 @@ void Game::Run()
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
 			x = enemyActiveVector->at(i)->getXCoord();
 			y = enemyActiveVector->at(i)->getYCoord();
-			int lifePercent = ((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife()) * 100);
+			double currentLife = enemyActiveVector->at(i)->getCurrentLife();
+			double maxLife = enemyActiveVector->at(i)->getMaxLife();
+			double lifePercent = ((currentLife / maxLife) * 100);
 			if (lifePercent > 90) {
 				lifeEnemySprite.setTexture(hundredLifeTexture);
 			}
@@ -381,13 +383,13 @@ void Game::Run()
 				lifeEnemySprite.setTexture(eightyLifeTexture);
 			}
 			else if (lifePercent < 70 && lifePercent > 50) {
-				lifeEnemySprite.setTexture(sixtyLifeTexture);
+			lifeEnemySprite.setTexture(sixtyLifeTexture);
 			}
 			else if (lifePercent < 50 && lifePercent > 30) {
-				lifeEnemySprite.setTexture(fortyLifeTexture);
+			lifeEnemySprite.setTexture(fortyLifeTexture);
 			}
 			else if (lifePercent < 30 && lifePercent > 10) {
-				lifeEnemySprite.setTexture(twentyLifeTexture);
+			lifeEnemySprite.setTexture(twentyLifeTexture);
 			}
 			else if (lifePercent < 10) {
 				lifeEnemySprite.setTexture(tenLifeTexture);
