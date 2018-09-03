@@ -27,6 +27,10 @@ void Game::Run()
 	int x;
 	int y;
 
+	//bool für gegnerphase oder bauphase
+
+	bool buildingphase = true;
+
 	int gameTime = 0;
 
 	vector<DummyEnemy*> *enemyVector = new vector<DummyEnemy*>();
@@ -239,6 +243,36 @@ void Game::Run()
 		// clear the window with black color
 		App.clear(sf::Color::Black);
 
+		// draw everything here...
+		// window.draw(...);
+		//Background
+
+		//male alles was immer dargestellt wird immer:
+
+		App.draw(backgroundSprite); 
+
+		//Gegnerphase / Bauphase unterscheidung hier!
+		//manches muss immer dargestellt werden, anderes nur in der entsprechenden phase
+
+		if (buildingphase) {
+			//buildingkram
+
+			//nach 30sec ende, deaktiviere alle baufunktionen, 
+			
+			buildingphase = false;
+		}
+		else {
+			//enemyphasenkram
+			//berechne weg mit a*star hier
+			//towermenu durch gegnerwave-anzeige ersetzen fragezeichen?
+			//spawne enemies hier	
+
+			//*bumpaffpow ratatatapeng*
+
+			//alle gegner tot oder am ziel:
+			buildingphase = true;
+		}
+
 		//schickt die gegner aus wave1 auf die reise
 		//hier ist noch was madig
 		sf::Time elapsed1 = clock.getElapsedTime();
@@ -249,12 +283,9 @@ void Game::Run()
 			waveEnemyAddedCounter = (waveEnemyAddedCounter + 1);
 		}
 
-		// draw everything here...
-		// window.draw(...);
-		//Background
+		
 		App.draw(hudSprite);
-		App.draw(statusSprite);
-		App.draw(backgroundSprite);
+		App.draw(statusSprite);		
 		App.draw(rundenText);
 		App.draw(goldText);
 		App.draw(lebenText);
@@ -268,6 +299,7 @@ void Game::Run()
 		sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
 		sf::Event Event;
 
+		//freie und belegte felder markieren
 		for (list<GameArea*>::const_iterator pos = GameAreaList.begin(); pos != GameAreaList.end(); ++pos) {
 
 			if ((*pos)->getEmpty()) {
@@ -297,7 +329,7 @@ void Game::Run()
 
 
 
-
+			//buttons interface
 			if (kanonenTurmImage.getGlobalBounds().contains(mousePosF))
 			{
 				kanonenTurmImage.setTexture(kanonenTurmButton);
@@ -373,7 +405,7 @@ void Game::Run()
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
 			x = enemyActiveVector->at(i)->getXCoord();
 			y = enemyActiveVector->at(i)->getYCoord();
-			int lifePercent = (((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife())) * 100);
+			double lifePercent = (((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife())) * 100);
 			if (lifePercent > 90) {
 				lifeEnemySprite.setTexture(hundredLifeTexture);
 			}
