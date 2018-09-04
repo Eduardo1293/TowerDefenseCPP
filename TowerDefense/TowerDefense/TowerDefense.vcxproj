@@ -36,6 +36,7 @@
     <ClCompile Include="LightningTower.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="EnemyWaves.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="TowerDefense.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +49,7 @@
     <ClInclude Include="FrostTower.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="LightningTower.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="PlayingField.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

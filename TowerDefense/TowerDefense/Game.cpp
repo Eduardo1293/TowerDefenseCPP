@@ -92,7 +92,7 @@ void Game::Run()
 	kanonenTurmImage.setPosition(78, 779);
 
 	kanonenTurmImage.setTexture(kanonenTurmButton);
-
+	
 	float kanonenTurmButtonWidth = kanonenTurmImage.getLocalBounds().width;
 	float kanonenTurmButtonHeight = kanonenTurmImage.getLocalBounds().height;
 
@@ -235,9 +235,15 @@ void Game::Run()
 		sf::Event event;
 		while (App.pollEvent(event))
 		{
-			// "close requested" event: we close the window
-			if (event.type == sf::Event::Closed)
+			switch (event.type)
+			{
+			case sf::Event::Closed:
 				App.close();
+				running = false;
+
+			default:
+				break;
+			}
 		}
 
 		// clear the window with black color
