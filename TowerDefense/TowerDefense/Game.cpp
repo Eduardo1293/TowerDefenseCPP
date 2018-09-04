@@ -257,13 +257,17 @@ void Game::Run()
 		if (buildingphase) {
 			//buildingkram
 
+			//füge alle tower aus einer phase in eine gesonderte liste
+
 			//nach 30sec ende, deaktiviere alle baufunktionen, 
 			
 			buildingphase = false;
 		}
 		else {
 			//enemyphasenkram
-			//berechne weg mit a*star hier
+			//berechne weg mit a* hier
+			//falls a* keinen weg findet, zerstöre alle tower aus der gesonderten liste
+
 			//towermenu durch gegnerwave-anzeige ersetzen fragezeichen?
 			//spawne enemies hier	
 
