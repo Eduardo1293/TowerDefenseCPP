@@ -50,14 +50,6 @@ void Menu::Run()
 	}
 	sf::Color color;
 
-
-	sf::Text Credits;
-	Credits.setFont(font);
-	Credits.setString("Hier Credtis einfügen!");
-	Credits.setFillColor(color.White);
-	Credits.setCharacterSize(19);
-	Credits.setPosition(50, 200);
-
 	float StartButtonWidth = StartButtonSprite.getLocalBounds().width;
 	float StartButtonHeight = StartButtonSprite.getLocalBounds().height;
 
@@ -69,6 +61,30 @@ void Menu::Run()
 
 	float ExitButtonWidth = ExitButtonSprite.getLocalBounds().width;
 	float ExitButtonHeight = ExitButtonSprite.getLocalBounds().height;
+
+
+	sf::Text Credits;
+	SetCreditButtonText(Credits, font, color);
+
+	sf::Text StartButtonText;
+	SetStartButtonText(StartButtonText, font, color, StartButtonWidth, StartButtonHeight);
+
+	sf::Text BestenListeButtonText;
+	SetBestenListeButtonText(BestenListeButtonText, font, color, BestenlisteButtonWidth, BestenlisteButtonHeight);
+
+	sf::Text CreditsButtonText;
+	SetCreditButtonText(CreditsButtonText, font, color, CreditsButtonWidth, CreditsButtonHeight);
+
+	sf::Text ExitButtonText;
+	SetExitButtonText(ExitButtonText, font, color, ExitButtonWidth);
+
+
+
+	
+
+
+
+
 	bool showButtons = true;
 	bool showCredits = false;
 
@@ -135,7 +151,11 @@ void Menu::Run()
 		MenuWindow.clear(sf::Color::Black);
 
 		MenuWindow.draw(menuBackgroundSprite);
-		ShowButtons(showButtons, menuBackgroundSprite, StartButtonSprite, BestenlisteButtonSprite, CreditsButtonSprite, ExitButtonSprite);
+		ShowButtons(showButtons, menuBackgroundSprite,
+			StartButtonSprite, BestenlisteButtonSprite,
+			CreditsButtonSprite, ExitButtonSprite,
+			StartButtonText, BestenListeButtonText,
+			CreditsButtonText, ExitButtonText);
 		ShowCredits(showCredits, Credits);
 		
 		MenuWindow.display();
@@ -143,6 +163,51 @@ void Menu::Run()
 
 
 	}
+}
+
+void Menu::SetCreditButtonText(sf::Text &Credits, sf::Font &font, sf::Color &color)
+{
+	Credits.setFont(font);
+	Credits.setString("Hier Credtis einfügen!");
+	Credits.setFillColor(color.White);
+	Credits.setCharacterSize(19);
+	Credits.setPosition(50, 200);
+}
+
+void Menu::SetStartButtonText(sf::Text &StartButtonText, sf::Font &font, sf::Color &color, float StartButtonWidth, float StartButtonHeight)
+{
+	StartButtonText.setFont(font);
+	StartButtonText.setString("START");
+	StartButtonText.setFillColor(color.White);
+	StartButtonText.setCharacterSize(38);
+	StartButtonText.setPosition(StartButtonWidth / 2, StartButtonHeight / 2);
+}
+
+void Menu::SetBestenListeButtonText(sf::Text &BestenListeButtonText, sf::Font &font, sf::Color &color, float BestenlisteButtonWidth, float BestenlisteButtonHeight)
+{
+	BestenListeButtonText.setFont(font);
+	BestenListeButtonText.setString("BESTENLISTE");
+	BestenListeButtonText.setFillColor(color.White);
+	BestenListeButtonText.setCharacterSize(38);
+	BestenListeButtonText.setPosition((BestenlisteButtonWidth / 2) - 45, (BestenlisteButtonHeight / 2) + 95);
+}
+
+void Menu::SetCreditButtonText(sf::Text &CreditsButtonText, sf::Font &font, sf::Color &color, float CreditsButtonWidth, float CreditsButtonHeight)
+{
+	CreditsButtonText.setFont(font);
+	CreditsButtonText.setString("CREDITS");
+	CreditsButtonText.setFillColor(color.White);
+	CreditsButtonText.setCharacterSize(38);
+	CreditsButtonText.setPosition((CreditsButtonWidth / 2) - 10, (CreditsButtonHeight / 2) + 190);
+}
+
+void Menu::SetExitButtonText(sf::Text &ExitButtonText, sf::Font &font, sf::Color &color, float ExitButtonWidth)
+{
+	ExitButtonText.setFont(font);
+	ExitButtonText.setString("EXIT");
+	ExitButtonText.setFillColor(color.White);
+	ExitButtonText.setCharacterSize(38);
+	ExitButtonText.setPosition((ExitButtonWidth / 2) + 20, (ExitButtonWidth / 2) + 170);
 }
 
 void Menu::ShowCredits(bool show, sf::Text Credits)
@@ -153,19 +218,30 @@ void Menu::ShowCredits(bool show, sf::Text Credits)
 	}
 }
 
-void Menu::ShowButtons(bool show, sf::Sprite &menuBackgroundSprite, sf::Sprite &StartButtonSprite, sf::Sprite &BestenlisteButtonSprite, sf::Sprite &CreditsButtonSprite, sf::Sprite &ExitButtonSprite)
+void Menu::ShowButtons(bool show, sf::Sprite &menuBackgroundSprite,
+	sf::Sprite &StartButtonSprite, sf::Sprite &BestenlisteButtonSprite,
+	sf::Sprite &CreditsButtonSprite, sf::Sprite &ExitButtonSprite,
+	sf::Text &StartButtonText, sf::Text &BestenListeButtonText,
+	sf::Text &CreditsButtonText, sf::Text &ExitButtonText)
 {
 	if (show)
 	{		
 		MenuWindow.draw(StartButtonSprite);
+		MenuWindow.draw(StartButtonText);
 		MenuWindow.draw(BestenlisteButtonSprite);
+		MenuWindow.draw(BestenListeButtonText);
 		MenuWindow.draw(CreditsButtonSprite);
+		MenuWindow.draw(CreditsButtonText);
 		MenuWindow.draw(ExitButtonSprite);
+		MenuWindow.draw(ExitButtonText);
 	}
 
 }
 
-void Menu::setButtonColor(sf::Sprite &StartButtonSprite, sf::Vector2f &mousePosF, sf::Texture &MenuButton, sf::Color &color, sf::Sprite &BestenlisteButtonSprite, sf::Sprite &CreditsButtonSprite, sf::Sprite &ExitButtonSprite)
+void Menu::setButtonColor(sf::Sprite &StartButtonSprite, sf::Vector2f &mousePosF,
+	sf::Texture &MenuButton, sf::Color &color,
+	sf::Sprite &BestenlisteButtonSprite, sf::Sprite &CreditsButtonSprite,
+	sf::Sprite &ExitButtonSprite)
 {
 	if (StartButtonSprite.getGlobalBounds().contains(mousePosF))
 	{

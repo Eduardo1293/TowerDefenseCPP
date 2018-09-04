@@ -10,9 +10,21 @@ public:
 	~Menu();
 
 	void Run();
+	void SetCreditButtonText(sf::Text &Credits, sf::Font &font, sf::Color &color);
+	void SetStartButtonText(sf::Text &StartButtonText, sf::Font &font, sf::Color &color, float StartButtonWidth, float StartButtonHeight);
+	void SetBestenListeButtonText(sf::Text &BestenListeButtonText, sf::Font &font, sf::Color &color, float BestenlisteButtonWidth, float BestenlisteButtonHeight);
+	void SetCreditButtonText(sf::Text &CreditsButtonText, sf::Font &font, sf::Color &color, float CreditsButtonWidth, float CreditsButtonHeight);
+	void SetExitButtonText(sf::Text &ExitButtonText, sf::Font &font, sf::Color &color, float ExitButtonWidth);
 	void ShowCredits(bool show, sf::Text Credits);
-	void ShowButtons(bool showButtons,sf::Sprite &menuBackgroundSprite, sf::Sprite &StartButtonSprite, sf::Sprite &BestenlisteButtonSprite, sf::Sprite &CreditsButtonSprite, sf::Sprite &ExitButtonSprite);
-	void setButtonColor(sf::Sprite &StartButtonSprite, sf::Vector2f &mousePosF, sf::Texture &MenuButton, sf::Color &color, sf::Sprite &BestenlisteButtonSprite, sf::Sprite &CreditsButtonSprite, sf::Sprite &ExitButtonSprite);
+	void ShowButtons(bool showButtons,sf::Sprite &menuBackgroundSprite,
+		sf::Sprite &StartButtonSprite, sf::Sprite &BestenlisteButtonSprite,
+		sf::Sprite &CreditsButtonSprite, sf::Sprite &ExitButtonSprite,
+		sf::Text &StartButtonText, sf::Text &BestenListeButtonText,
+		sf::Text &CreditsButtonText, sf::Text &ExitButtonText);
+	void setButtonColor(sf::Sprite &StartButtonSprite, sf::Vector2f &mousePosF,
+		sf::Texture &MenuButton, sf::Color &color,
+		sf::Sprite &BestenlisteButtonSprite, sf::Sprite &CreditsButtonSprite,
+		sf::Sprite &ExitButtonSprite);
 	bool isRunning();
 
 private:
