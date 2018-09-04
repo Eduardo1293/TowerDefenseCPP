@@ -1,7 +1,9 @@
-#include "Game.h"
+#include "Menu.h"
 
 int main() {
-	Game game;
+
+	
+	Menu game;
 
 	while (game.isRunning())
 	{
