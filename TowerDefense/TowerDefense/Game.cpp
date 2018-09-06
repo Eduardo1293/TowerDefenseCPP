@@ -186,7 +186,7 @@ void Game::Run()
 	statusSprite.setPosition(0, 0);
 
 	sf::Texture backgroundTexture;
-	backgroundTexture.loadFromFile("ArtAssets/background.png");
+	backgroundTexture.loadFromFile("ArtAssets/Nebula Blue_Background.png");
 	sf::Sprite backgroundSprite;
 	backgroundSprite.setTexture(backgroundTexture);
 	backgroundSprite.setPosition(0, 64);
