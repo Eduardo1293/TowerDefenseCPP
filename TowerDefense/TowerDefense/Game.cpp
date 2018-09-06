@@ -16,6 +16,7 @@ Game::Game()
 
 }
 
+bool buildingphase = true;
 Game::~Game()
 {
 }
@@ -29,7 +30,7 @@ void Game::Run()
 
 	//bool für gegnerphase oder bauphase
 
-	bool buildingphase = true;
+	
 
 	int gameTime = 0;
 
@@ -147,10 +148,10 @@ void Game::Run()
 	float Turm4ButtonWidth = Turm4Image.getLocalBounds().width;
 	float Turm4ButtonHeight = Turm4Image.getLocalBounds().height;
 
-
+	int gold = 20000;
+	int runde = 0;
 	sf::Text rundenText;
-	rundenText.setFont(font);
-	rundenText.setString("1");
+	rundenText.setFont(font);	
 	rundenText.setFillColor(color.Black);
 	rundenText.setCharacterSize(13);
 	rundenText.setPosition(65, 15);
@@ -158,11 +159,17 @@ void Game::Run()
 
 	sf::Text goldText;
 	goldText.setFont(font);
-	goldText.setString("20000");
+	
 	goldText.setFillColor(color.Black);
 	goldText.setCharacterSize(13);
 	goldText.setPosition(65, 35);
 
+	int timerText = 0;
+	sf::Text TimerText;
+	TimerText.setFont(font);	
+	TimerText.setFillColor(color.Black);
+	TimerText.setCharacterSize(30);
+	TimerText.setPosition(255, 850);
 
 	sf::Text lebenText;
 	lebenText.setFont(font);
@@ -267,7 +274,13 @@ void Game::Run()
 
 			//nach 30sec ende, deaktiviere alle baufunktionen, 
 			
-			buildingphase = false;
+			timerText = timerText ++;
+			runde = runde++;
+			if (timerText == 30)
+			{
+				buildingphase = false;
+			}
+			
 		}
 		else {
 			//enemyphasenkram
@@ -280,7 +293,7 @@ void Game::Run()
 			//*bumpaffpow ratatatapeng*
 
 			//alle gegner tot oder am ziel:
-			buildingphase = true;
+			//buildingphase = true;
 		}
 
 		//schickt die gegner aus wave1 auf die reise
@@ -293,7 +306,9 @@ void Game::Run()
 			waveEnemyAddedCounter = (waveEnemyAddedCounter + 1);
 		}
 
-		
+		goldText.setString(to_string(gold));
+		rundenText.setString(to_string(runde));
+		TimerText.setString(to_string(timerText));
 		App.draw(hudSprite);
 		App.draw(statusSprite);		
 		App.draw(rundenText);
@@ -304,6 +319,8 @@ void Game::Run()
 		App.draw(frostTurmImage);
 		App.draw(Turm3Image);
 		App.draw(Turm4Image);
+		App.draw(TimerText);
+
 
 		sf::Vector2i localPosition = sf::Mouse::getPosition(App);
 		sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
@@ -334,6 +351,7 @@ void Game::Run()
 					BasicTower *Tower = new BasicTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
 					TowerVector->push_back(Tower);
 					(*pos)->setAreaEmpty(false);
+					gold = gold - Tower->getCost();
 				}
 			}
 
@@ -404,11 +422,11 @@ void Game::Run()
 				enemyActiveVector->at(target)->takeDamage(1);
 				explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
 				App.draw(explosionSprite);
-				App.draw(TowerVector->at(i)->getSprite());
+				App.draw(TowerVector->at(i)->getSprite());				
 			}
 			else {
-				App.draw(TowerVector->at(i)->getSprite());
-			}
+				App.draw(TowerVector->at(i)->getSprite());				
+			}			
 		}
 
 		//testgegner bewegungskram
