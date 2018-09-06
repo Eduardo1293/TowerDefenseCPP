@@ -150,6 +150,9 @@ void Game::Run()
 
 	int gold = 20000;
 	int runde = 0;
+	int timerText = 0;
+	int playerLife = 20;
+	int punkteZahl = 0;
 	sf::Text rundenText;
 	rundenText.setFont(font);	
 	rundenText.setFillColor(color.Black);
@@ -164,19 +167,33 @@ void Game::Run()
 	goldText.setCharacterSize(13);
 	goldText.setPosition(65, 35);
 
-	int timerText = 0;
+
 	sf::Text TimerText;
-	TimerText.setFont(font);	
-	TimerText.setFillColor(color.Black);
+	TimerText.setFont(font);		
 	TimerText.setCharacterSize(30);
-	TimerText.setPosition(255, 850);
+	TimerText.setPosition(250, 850);
+	TimerText.setFillColor(color.Black);
 
 	sf::Text lebenText;
 	lebenText.setFont(font);
-	lebenText.setString("3");
+	lebenText.setString(to_string(playerLife));
 	lebenText.setFillColor(color.Black);
 	lebenText.setCharacterSize(13);
 	lebenText.setPosition(360, 16);
+
+	sf::Text punktText;
+	punktText.setFont(font);
+	punktText.setString("PUNKTE:");
+	punktText.setFillColor(color.Black);
+	punktText.setCharacterSize(13);
+	punktText.setPosition(308, 32);
+
+	sf::Text punktZahlText;
+	punktZahlText.setFont(font);
+	punktZahlText.setString(to_string(punkteZahl));
+	punktZahlText.setFillColor(color.Black);
+	punktZahlText.setCharacterSize(13);
+	punktZahlText.setPosition(370, 32);
 
 	sf::Texture statusTexture;
 	statusTexture.loadFromFile("ArtAssets/Status.png");
@@ -235,6 +252,7 @@ void Game::Run()
 	list<GameArea*> GameAreaList = PlayingField();
 	vector<BasicTower*> *TowerVector = new vector<BasicTower*>();
 
+	sf::Clock timerClock;
 	// run the program as long as the window is open
 	while (App.isOpen())
 	{
@@ -266,23 +284,32 @@ void Game::Run()
 
 		//Gegnerphase / Bauphase unterscheidung hier!
 		//manches muss immer dargestellt werden, anderes nur in der entsprechenden phase
-
+		
 		if (buildingphase) {
+			
+			
 			//buildingkram
 
 			//füge alle tower aus einer phase in eine gesonderte liste
 
 			//nach 30sec ende, deaktiviere alle baufunktionen, 
 			
-			timerText = timerText ++;
-			runde = runde++;
+			timerText = timerClock.getElapsedTime().asSeconds();
+			if (timerText == 25)
+			{
+				TimerText.setColor(color.Red);				
+				
+			}
 			if (timerText == 30)
 			{
 				buildingphase = false;
+				TimerText.setColor(sf::Color(255, 255, 255, 140));
+				timerClock.restart();
 			}
 			
 		}
 		else {
+			
 			//enemyphasenkram
 			//berechne weg mit a* hier
 			//falls a* keinen weg findet, zerstöre alle tower aus der gesonderten liste
@@ -293,7 +320,8 @@ void Game::Run()
 			//*bumpaffpow ratatatapeng*
 
 			//alle gegner tot oder am ziel:
-			//buildingphase = true;
+			TimerText.setFillColor(color.Black);
+			buildingphase = true;
 		}
 
 		//schickt die gegner aus wave1 auf die reise
@@ -320,6 +348,8 @@ void Game::Run()
 		App.draw(Turm3Image);
 		App.draw(Turm4Image);
 		App.draw(TimerText);
+		App.draw(punktZahlText);
+		App.draw(punktText);
 
 
 		sf::Vector2i localPosition = sf::Mouse::getPosition(App);
@@ -451,6 +481,8 @@ void Game::Run()
 			}
 			else if (lifePercent < 10) {
 				lifeEnemySprite.setTexture(tenLifeTexture);
+				punkteZahl = punkteZahl++;
+				punktZahlText.setString(to_string(punkteZahl));
 			}
 			
 			enemyActiveVector->at(i)->eSetPosition();
@@ -473,7 +505,15 @@ void Game::Run()
 				App.draw((enemyActiveVector->at(i)->getSprite()));
 				App.draw(lifeEnemySprite);
 				(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
+
 			}
+			playerLife = playerLife--;
+			lebenText.setString(to_string(playerLife));
+		}
+
+		if (playerLife == 0)
+		{
+			App.clear();
 		}
 
 
