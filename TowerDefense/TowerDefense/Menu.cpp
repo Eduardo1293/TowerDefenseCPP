@@ -129,6 +129,7 @@ void Menu::Run()
 					game.Run();					
 
 				}
+				running = false;
 			}
 			if (BestenlisteButtonSprite.getGlobalBounds().contains(mousePosF))
 			{
