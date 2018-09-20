@@ -256,7 +256,7 @@ void Game::Run()
 
 	//phasen-clock
 	sf::Clock buildingphaseclock;
-	float buildingphaseCountdown;
+	float buildingphaseCountdown = 30.f;
 
 	// run the program as long as the window is open
 	while (App.isOpen())
@@ -301,15 +301,18 @@ void Game::Run()
 			//nach 30sec ende, deaktiviere alle baufunktionen, 
 			
 			sf::Time buildphaseElapsedTime = buildingphaseclock.getElapsedTime();
-			buildingphaseCountdown = (30.f - buildphaseElapsedTime.asSeconds());
+			if (buildphaseElapsedTime.asSeconds() >= 1.f) {
+				buildingphaseCountdown -= 1;
+				buildingphaseclock.restart();
+			}
 
 			timerText = buildingphaseCountdown;
-			if (timerText < 6)
+			if (buildingphaseCountdown == 5)
 			{
 				TimerText.setColor(color.Red);				
 				
 			}
-			if (timerText < 0,1)
+			if (buildingphaseCountdown == 0)
 			{
 				buildingphase = false;
 				TimerText.setColor(sf::Color(255, 255, 255, 140));
