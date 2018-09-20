@@ -288,13 +288,9 @@ void Game::Run()
 		// window.draw(...);
 		//Background
 
-		//male alles was immer dargestellt wird immer:
+		//male alles was immer dargestellt wird immer, unterer layer:
 
 		App.draw(backgroundSprite); 
-		for (unsigned int i = 0; i < TowerVector->size(); i++)
-		{
-			App.draw(TowerVector->at(i)->getSprite());
-		}
 
 		//Gegnerphase / Bauphase unterscheidung hier!
 		//manches muss immer dargestellt werden, anderes nur in der entsprechenden phase
@@ -484,7 +480,12 @@ void Game::Run()
 			//buildingphase = true;
 		}
 
-		
+		//male alles was immer dargestellt wird immer, oberer layer:
+
+		for (unsigned int i = 0; i < TowerVector->size(); i++)
+		{
+			App.draw(TowerVector->at(i)->getSprite());
+		}
 
 		
 	
