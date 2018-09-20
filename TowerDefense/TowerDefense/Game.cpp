@@ -253,6 +253,11 @@ void Game::Run()
 	vector<BasicTower*> *TowerVector = new vector<BasicTower*>();
 
 	sf::Clock timerClock;
+
+	//phasen-clock
+	sf::Clock buildingphaseclock;
+	float buildingphaseCountdown;
+
 	// run the program as long as the window is open
 	while (App.isOpen())
 	{
@@ -285,26 +290,29 @@ void Game::Run()
 		//Gegnerphase / Bauphase unterscheidung hier!
 		//manches muss immer dargestellt werden, anderes nur in der entsprechenden phase
 		
-		if (buildingphase) {
-			
-			
+		
+
+		if (buildingphase) {						
+
 			//buildingkram
 
 			//füge alle tower aus einer phase in eine gesonderte liste
 
 			//nach 30sec ende, deaktiviere alle baufunktionen, 
 			
-			timerText = timerClock.getElapsedTime().asSeconds();
-			if (timerText == 25)
+			sf::Time buildphaseElapsedTime = buildingphaseclock.getElapsedTime();
+			buildingphaseCountdown = (30.f - buildphaseElapsedTime.asSeconds());
+
+			timerText = buildingphaseCountdown;
+			if (timerText < 6)
 			{
 				TimerText.setColor(color.Red);				
 				
 			}
-			if (timerText == 30)
+			if (timerText < 0,1)
 			{
 				buildingphase = false;
 				TimerText.setColor(sf::Color(255, 255, 255, 140));
-				timerClock.restart();
 			}
 			
 		}
@@ -448,7 +456,7 @@ void Game::Run()
 		//Tower malen
 		for (unsigned int i = 0; i < TowerVector->size(); i++) {
 			int target = TowerVector->at(i)->checkForEnemies(enemyActiveVector);
-			if (target >= 0 && target <= 9) {
+			if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
 				enemyActiveVector->at(target)->takeDamage(1);
 				explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
 				App.draw(explosionSprite);
