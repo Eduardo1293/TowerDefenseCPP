@@ -491,7 +491,10 @@ void Game::Run()
 	
 
 		//testgegner bewegungskram
-		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
+		for (int i = 0; i < enemyActiveVector->size(); i++) {
+			if (enemyActiveVector->at(i)->getCurrentLife() == 0) {
+				enemyActiveVector->erase((enemyActiveVector->begin() + i));
+			}
 			x = enemyActiveVector->at(i)->getXCoord();
 			y = enemyActiveVector->at(i)->getYCoord();
 			double lifePercent = (((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife())) * 100);
@@ -517,20 +520,20 @@ void Game::Run()
 			}
 			
 			enemyActiveVector->at(i)->eSetPosition();
-			if (y > 191 && x < 447 && (enemyActiveVector->at(i)->getCurrentLife()) > 0) {
+			if (y > 191 && x < 447) {
 				enemyActiveVector->at(i)->eSetRotation(270);
 				lifeEnemySprite.setPosition(x, (y - 25));
 				App.draw(enemyActiveVector->at(i)->getSprite());
 				App.draw(lifeEnemySprite);
 				(enemyActiveVector->at(i)->eSetXCoord((x + 2)));
 			}
-			if (y <= 191 && (enemyActiveVector->at(i)->getCurrentLife() > 0)) {
+			if (y <= 191) {
 				lifeEnemySprite.setPosition(x, (y - 25));
 				App.draw((enemyActiveVector->at(i)->getSprite()));
 				App.draw(lifeEnemySprite);
 				(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
 			}
-			if (x >= 447 && y <= 738 && (enemyActiveVector->at(i)->getCurrentLife() > 0)) {
+			if (x >= 447 && y <= 738) {
 				(enemyActiveVector->at(i)->eSetRotation(0));
 				lifeEnemySprite.setPosition(x, (y - 25));
 				App.draw((enemyActiveVector->at(i)->getSprite()));
