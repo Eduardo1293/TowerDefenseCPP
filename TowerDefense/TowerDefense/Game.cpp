@@ -255,8 +255,13 @@ void Game::Run()
 	sf::Clock timerClock;
 
 	//phasen-clock
-	sf::Clock buildingphaseclock;
-	float buildingphaseCountdown = 30.f;
+	sf::Clock buildingphaseClock;
+	int buildingphaseCountdown = 30;
+	int buildphaseElapsedTimeBuffer = 0;
+
+	//attackclock, brauchen wir für tower attacken;
+	sf::Clock attackClock;
+	int attackClockElapsedTimeBuffer = 0;
 
 	// run the program as long as the window is open
 	while (App.isOpen())
@@ -286,6 +291,10 @@ void Game::Run()
 		//male alles was immer dargestellt wird immer:
 
 		App.draw(backgroundSprite); 
+		for (unsigned int i = 0; i < TowerVector->size(); i++)
+		{
+			App.draw(TowerVector->at(i)->getSprite());
+		}
 
 		//Gegnerphase / Bauphase unterscheidung hier!
 		//manches muss immer dargestellt werden, anderes nur in der entsprechenden phase
@@ -300,10 +309,11 @@ void Game::Run()
 
 			//nach 30sec ende, deaktiviere alle baufunktionen, 
 			
-			sf::Time buildphaseElapsedTime = buildingphaseclock.getElapsedTime();
-			if (buildphaseElapsedTime.asSeconds() >= 1.f) {
+			sf::Time buildphaseElapsedTime = buildingphaseClock.getElapsedTime();
+			if ((buildphaseElapsedTime.asMilliseconds() + buildphaseElapsedTimeBuffer) >= 1000) {
+				(buildphaseElapsedTimeBuffer = buildphaseElapsedTime.asMilliseconds() - 1000);
 				buildingphaseCountdown -= 1;
-				buildingphaseclock.restart();
+				buildingphaseClock.restart();
 			}
 
 			timerText = buildingphaseCountdown;
@@ -316,51 +326,27 @@ void Game::Run()
 			{
 				buildingphase = false;
 				TimerText.setColor(sf::Color(255, 255, 255, 140));
+				buildphaseElapsedTimeBuffer = 0;
+				clock.restart();
 			}
-			
-		}
-		else {
-			
-			//enemyphasenkram
-			//berechne weg mit a* hier
-			//falls a* keinen weg findet, zerstöre alle tower aus der gesonderten liste
 
-			//towermenu durch gegnerwave-anzeige ersetzen fragezeichen?
-			//spawne enemies hier	
-
-			//*bumpaffpow ratatatapeng*
-
-			//alle gegner tot oder am ziel:
-			TimerText.setFillColor(color.Black);
-			buildingphase = true;
-		}
-
-		//schickt die gegner aus wave1 auf die reise
-		//hier ist noch was madig
-		sf::Time elapsed1 = clock.getElapsedTime();
-		gameTime = elapsed1.asSeconds();
-		if (gameTime > gameTimeEnemyCounter && gameTime < (enemyVector->size()) + 2) {
-			enemyActiveVector->push_back(enemyVector->at(waveEnemyAddedCounter));
-			gameTimeEnemyCounter = (gameTimeEnemyCounter + 1);
-			waveEnemyAddedCounter = (waveEnemyAddedCounter + 1);
-		}
-
-		goldText.setString(to_string(gold));
-		rundenText.setString(to_string(runde));
-		TimerText.setString(to_string(timerText));
-		App.draw(hudSprite);
-		App.draw(statusSprite);		
-		App.draw(rundenText);
-		App.draw(goldText);
-		App.draw(lebenText);
-		App.draw(kanonenTurmImage);
-		App.draw(feuerTurmImage);
-		App.draw(frostTurmImage);
-		App.draw(Turm3Image);
-		App.draw(Turm4Image);
-		App.draw(TimerText);
-		App.draw(punktZahlText);
-		App.draw(punktText);
+			{
+			goldText.setString(to_string(gold));
+			rundenText.setString(to_string(runde));
+			TimerText.setString(to_string(timerText));
+			App.draw(hudSprite);
+			App.draw(statusSprite);		
+			App.draw(rundenText);
+			App.draw(goldText);
+			App.draw(lebenText);
+			App.draw(kanonenTurmImage);
+			App.draw(feuerTurmImage);
+			App.draw(frostTurmImage);
+			App.draw(Turm3Image);
+			App.draw(Turm4Image);
+			App.draw(TimerText);
+			App.draw(punktZahlText);
+			App.draw(punktText);
 
 
 		sf::Vector2i localPosition = sf::Mouse::getPosition(App);
@@ -395,80 +381,113 @@ void Game::Run()
 					gold = gold - Tower->getCost();
 				}
 			}
-
-
-
-			//buttons interface
-			if (kanonenTurmImage.getGlobalBounds().contains(mousePosF))
-			{
-				kanonenTurmImage.setTexture(kanonenTurmButton);
-				kanonenTurmImage.setColor(sf::Color(255, 255, 255, 140));
-			}
-			else
-			{
-				kanonenTurmImage.setTexture(kanonenTurmButton);
-				kanonenTurmImage.setColor(color.White);
-			}
-			if (feuerTurmImage.getGlobalBounds().contains(mousePosF))
-			{
-				feuerTurmImage.setTexture(feuerTurmButton);
-				feuerTurmImage.setColor(sf::Color(255, 255, 255, 140));
-			}
-			else
-			{
-				feuerTurmImage.setTexture(feuerTurmButton);
-				feuerTurmImage.setColor(color.White);
-			}
-			if (frostTurmImage.getGlobalBounds().contains(mousePosF))
-			{
-				frostTurmImage.setTexture(frostTurmButton);
-				frostTurmImage.setColor(sf::Color(255, 255, 255, 140));
-			}
-			else
-			{
-				frostTurmImage.setTexture(frostTurmButton);
-				frostTurmImage.setColor(color.White);
-			}
-
-
-			if (Turm3Image.getGlobalBounds().contains(mousePosF))
-			{
-				Turm3Image.setTexture(Turm3Button);
-				Turm3Image.setColor(sf::Color(255, 255, 255, 140));
-			}
-			else
-			{
-				Turm3Image.setTexture(Turm3Button);
-				Turm3Image.setColor(color.White);
-			}
-
-
-			if (Turm4Image.getGlobalBounds().contains(mousePosF))
-			{
-				Turm4Image.setTexture(Turm4Button);
-				Turm4Image.setColor(sf::Color(255, 255, 255, 140));
-			}
-			else
-			{
-				Turm4Image.setTexture(Turm4Button);
-				Turm4Image.setColor(color.White);
-			}
-
 		}
 
-		//Tower malen
-		for (unsigned int i = 0; i < TowerVector->size(); i++) {
-			int target = TowerVector->at(i)->checkForEnemies(enemyActiveVector);
-			if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
-				enemyActiveVector->at(target)->takeDamage(1);
-				explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
-				App.draw(explosionSprite);
-				App.draw(TowerVector->at(i)->getSprite());				
-			}
-			else {
-				App.draw(TowerVector->at(i)->getSprite());				
-			}			
+
+				//buttons interface
+				if (kanonenTurmImage.getGlobalBounds().contains(mousePosF))
+				{
+					kanonenTurmImage.setTexture(kanonenTurmButton);
+					kanonenTurmImage.setColor(sf::Color(255, 255, 255, 140));
+				}
+				else
+				{
+					kanonenTurmImage.setTexture(kanonenTurmButton);
+					kanonenTurmImage.setColor(color.White);
+				}
+				if (feuerTurmImage.getGlobalBounds().contains(mousePosF))
+				{
+					feuerTurmImage.setTexture(feuerTurmButton);
+					feuerTurmImage.setColor(sf::Color(255, 255, 255, 140));
+				}
+				else
+				{
+					feuerTurmImage.setTexture(feuerTurmButton);
+					feuerTurmImage.setColor(color.White);
+				}
+				if (frostTurmImage.getGlobalBounds().contains(mousePosF))
+				{
+					frostTurmImage.setTexture(frostTurmButton);
+					frostTurmImage.setColor(sf::Color(255, 255, 255, 140));
+				}
+				else
+				{
+					frostTurmImage.setTexture(frostTurmButton);
+					frostTurmImage.setColor(color.White);
+				}
+
+
+				if (Turm3Image.getGlobalBounds().contains(mousePosF))
+				{
+					Turm3Image.setTexture(Turm3Button);
+					Turm3Image.setColor(sf::Color(255, 255, 255, 140));
+				}
+				else
+				{
+					Turm3Image.setTexture(Turm3Button);
+					Turm3Image.setColor(color.White);
+				}
+
+
+				if (Turm4Image.getGlobalBounds().contains(mousePosF))
+				{
+					Turm4Image.setTexture(Turm4Button);
+					Turm4Image.setColor(sf::Color(255, 255, 255, 140));
+				}
+				else
+				{
+					Turm4Image.setTexture(Turm4Button);
+					Turm4Image.setColor(color.White);
+				}
+			}		
 		}
+		else {
+			
+			//enemyphasenkram
+			//berechne weg mit a* hier
+			//falls a* keinen weg findet, zerstöre alle tower aus der gesonderten liste
+
+			//towermenu durch gegnerwave-anzeige ersetzen fragezeichen?
+			//spawne enemies hier	
+
+			//*bumpaffpow ratatatapeng*
+
+			//alle gegner tot oder am ziel:
+			
+			//schickt die gegner aus wave1 auf die reise
+			//hier ist noch was madig
+			sf::Time elapsed1 = clock.getElapsedTime();
+			gameTime = elapsed1.asSeconds();
+			if (gameTime > gameTimeEnemyCounter && gameTime < (enemyVector->size()) + 2) {
+				enemyActiveVector->push_back(enemyVector->at(waveEnemyAddedCounter));
+				gameTimeEnemyCounter = (gameTimeEnemyCounter + 1);
+				waveEnemyAddedCounter = (waveEnemyAddedCounter + 1);
+			}
+
+			sf::Time attackCDTime = attackClock.getElapsedTime();
+			if ((attackCDTime.asMilliseconds() + attackClockElapsedTimeBuffer) >= 100) {
+				(attackClockElapsedTimeBuffer = attackCDTime.asMilliseconds() - 100);
+				attackClock.restart();
+				//Tower malen
+				for (unsigned int i = 0; i < TowerVector->size(); i++) {
+					int target = TowerVector->at(i)->checkForEnemies(enemyActiveVector);
+					if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
+						enemyActiveVector->at(target)->takeDamage(1);
+						explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
+						App.draw(explosionSprite);						
+					}
+				}
+			}
+			
+
+			TimerText.setFillColor(color.Black);
+			//buildingphase = true;
+		}
+
+		
+
+		
+	
 
 		//testgegner bewegungskram
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
