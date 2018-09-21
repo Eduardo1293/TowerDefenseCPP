@@ -263,6 +263,10 @@ void Game::Run()
 	sf::Clock attackClock;
 	int attackClockElapsedTimeBuffer = 0;
 
+	//enemymovementtick
+	sf::Clock enemyMovementClock;
+	int movementElapsedBuffer = 0;
+
 	// run the program as long as the window is open
 	while (App.isOpen())
 	{
@@ -292,11 +296,26 @@ void Game::Run()
 
 		App.draw(backgroundSprite); 
 
+		goldText.setString(to_string(gold));
+		rundenText.setString(to_string(runde));
+		TimerText.setString(to_string(timerText));
+		App.draw(hudSprite);
+		App.draw(statusSprite);
+		App.draw(rundenText);
+		App.draw(goldText);
+		App.draw(lebenText);
+		App.draw(kanonenTurmImage);
+		App.draw(feuerTurmImage);
+		App.draw(frostTurmImage);
+		App.draw(Turm3Image);
+		App.draw(Turm4Image);
+		App.draw(TimerText);
+		App.draw(punktZahlText);
+		App.draw(punktText);
+
 		//Gegnerphase / Bauphase unterscheidung hier!
 		//manches muss immer dargestellt werden, anderes nur in der entsprechenden phase
 		
-		
-
 		if (buildingphase) {						
 
 			//buildingkram
@@ -327,24 +346,7 @@ void Game::Run()
 			}
 
 			{
-			goldText.setString(to_string(gold));
-			rundenText.setString(to_string(runde));
-			TimerText.setString(to_string(timerText));
-			App.draw(hudSprite);
-			App.draw(statusSprite);		
-			App.draw(rundenText);
-			App.draw(goldText);
-			App.draw(lebenText);
-			App.draw(kanonenTurmImage);
-			App.draw(feuerTurmImage);
-			App.draw(frostTurmImage);
-			App.draw(Turm3Image);
-			App.draw(Turm4Image);
-			App.draw(TimerText);
-			App.draw(punktZahlText);
-			App.draw(punktText);
-
-
+			
 		sf::Vector2i localPosition = sf::Mouse::getPosition(App);
 		sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
 		sf::Event Event;
@@ -468,7 +470,7 @@ void Game::Run()
 				for (unsigned int i = 0; i < TowerVector->size(); i++) {
 					int target = TowerVector->at(i)->checkForEnemies(enemyActiveVector);
 					if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
-						enemyActiveVector->at(target)->takeDamage(1);
+						enemyActiveVector->at(target)->takeDamage(TowerVector->at(i)->getDamage());
 						explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
 						App.draw(explosionSprite);						
 					}
@@ -491,58 +493,66 @@ void Game::Run()
 	
 
 		//testgegner bewegungskram
-		for (int i = 0; i < enemyActiveVector->size(); i++) {
-			if (enemyActiveVector->at(i)->getCurrentLife() == 0) {
-				enemyActiveVector->erase((enemyActiveVector->begin() + i));
-			}
-			x = enemyActiveVector->at(i)->getXCoord();
-			y = enemyActiveVector->at(i)->getYCoord();
-			double lifePercent = (((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife())) * 100);
-			if (lifePercent > 90) {
-				lifeEnemySprite.setTexture(hundredLifeTexture);
-			}
-			else if (lifePercent < 90 && lifePercent > 70) {
-				lifeEnemySprite.setTexture(eightyLifeTexture);
-			}
-			else if (lifePercent < 70 && lifePercent > 50) {
-				lifeEnemySprite.setTexture(sixtyLifeTexture);
-			}
-			else if (lifePercent < 50 && lifePercent > 30) {
-				lifeEnemySprite.setTexture(fortyLifeTexture);
-			}
-			else if (lifePercent < 30 && lifePercent > 10) {
-				lifeEnemySprite.setTexture(twentyLifeTexture);
-			}
-			else if (lifePercent < 10) {
-				lifeEnemySprite.setTexture(tenLifeTexture);
-				punkteZahl = punkteZahl++;
-				punktZahlText.setString(to_string(punkteZahl));
-			}
-			
-			enemyActiveVector->at(i)->eSetPosition();
-			if (y > 191 && x < 447) {
-				enemyActiveVector->at(i)->eSetRotation(270);
-				lifeEnemySprite.setPosition(x, (y - 25));
-				App.draw(enemyActiveVector->at(i)->getSprite());
-				App.draw(lifeEnemySprite);
-				(enemyActiveVector->at(i)->eSetXCoord((x + 2)));
-			}
-			if (y <= 191) {
-				lifeEnemySprite.setPosition(x, (y - 25));
-				App.draw((enemyActiveVector->at(i)->getSprite()));
-				App.draw(lifeEnemySprite);
-				(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
-			}
-			if (x >= 447 && y <= 738) {
-				(enemyActiveVector->at(i)->eSetRotation(0));
-				lifeEnemySprite.setPosition(x, (y - 25));
-				App.draw((enemyActiveVector->at(i)->getSprite()));
-				App.draw(lifeEnemySprite);
-				(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
+		enemyMovementClock.getElapsedTime();
+		sf::Time enemyMovementElapsed = enemyMovementClock.getElapsedTime();
+		int movementElapsed = enemyMovementElapsed.asMilliseconds();		
+			for (int i = 0; i < enemyActiveVector->size(); i++) {
+				if (enemyActiveVector->at(i)->getCurrentLife() == 0) {
+					enemyActiveVector->erase((enemyActiveVector->begin() + i));
+					punkteZahl += 100;
+					gold += 100;
+				}
+				x = enemyActiveVector->at(i)->getXCoord();
+				y = enemyActiveVector->at(i)->getYCoord();
+				double lifePercent = (((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife())) * 100);
+				if (lifePercent > 90) {
+					lifeEnemySprite.setTexture(hundredLifeTexture);
+				}
+				else if (lifePercent < 90 && lifePercent > 70) {
+					lifeEnemySprite.setTexture(eightyLifeTexture);
+				}
+				else if (lifePercent < 70 && lifePercent > 50) {
+					lifeEnemySprite.setTexture(sixtyLifeTexture);
+				}
+				else if (lifePercent < 50 && lifePercent > 30) {
+					lifeEnemySprite.setTexture(fortyLifeTexture);
+				}
+				else if (lifePercent < 30 && lifePercent > 10) {
+					lifeEnemySprite.setTexture(twentyLifeTexture);
+				}
+				else if (lifePercent < 10) {
+					lifeEnemySprite.setTexture(tenLifeTexture);
+					punktZahlText.setString(to_string(punkteZahl));
+				}
 
-			}
-			playerLife = playerLife--;
-			lebenText.setString(to_string(playerLife));
+				if ((movementElapsed + movementElapsedBuffer) >= 25) {
+					enemyMovementClock.restart();
+					enemyActiveVector->at(i)->eSetPosition();
+					if (y > 191 && x < 447) {
+						enemyActiveVector->at(i)->eSetRotation(270);
+						lifeEnemySprite.setPosition(x, (y - 25));
+						(enemyActiveVector->at(i)->eSetXCoord((x + 2)));
+					}
+					if (y <= 191) {
+						lifeEnemySprite.setPosition(x, (y - 25));
+						App.draw((enemyActiveVector->at(i)->getSprite()));
+						App.draw(lifeEnemySprite);
+						(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
+					}
+					if (x >= 447 && y <= 738) {
+						(enemyActiveVector->at(i)->eSetRotation(0));
+						lifeEnemySprite.setPosition(x, (y - 25));
+						(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
+
+					}
+					if (y > 738) {
+						enemyActiveVector->erase(enemyActiveVector->begin() + i);
+						playerLife = playerLife--;
+						lebenText.setString(to_string(playerLife));
+					}
+				}
+				App.draw(enemyActiveVector->at(i)->getSprite());
+				App.draw(lifeEnemySprite);					
 		}
 
 		if (playerLife == 0)

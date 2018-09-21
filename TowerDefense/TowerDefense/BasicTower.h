@@ -19,6 +19,8 @@ private:
 	int t_Cost;
 	int t_XCoord;
 	int t_YCoord;
+	int attackCooldown;
+	int damage;
 	
 public:
 	BasicTower(int XCoord, int YCoord);
@@ -27,6 +29,8 @@ public:
 	inline int getCost() const { return t_Cost; }
 	inline int getXCoord() const { return t_XCoord; }
 	inline int getYCoord() const { return t_YCoord; }
+	inline int getAttackCooldown() const { return attackCooldown; }
+	inline int getDamage() const { return damage; }
 	inline string getDescription() const { return t_Description; }
 	inline sf::Sprite getSprite() const { return testTurmSprite; };
 	
