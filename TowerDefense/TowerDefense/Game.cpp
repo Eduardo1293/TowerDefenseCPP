@@ -585,6 +585,14 @@ void Game::Run()
 						App.draw(explosionSprite);
 					}
 				}
+				for (unsigned int i = 0; i < FlameTowerVector->size(); i++) {
+					int target = FlameTowerVector->at(i)->checkForEnemies(enemyActiveVector);
+					if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
+						enemyActiveVector->at(target)->takeDamage(FlameTowerVector->at(i)->getDamage());
+						explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
+						App.draw(explosionSprite);
+					}
+				}
 			}
 
 
