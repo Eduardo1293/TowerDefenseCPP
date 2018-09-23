@@ -4,6 +4,7 @@
 #include "PlayingField.cpp"
 #include "BasicTower.h"
 #include "EnemyWaves.h"
+#include "Menu.h"
 
 #include <iostream>
 
@@ -30,7 +31,7 @@ void Game::Run()
 
 	//bool für gegnerphase oder bauphase
 
-	
+
 
 	int gameTime = 0;
 
@@ -93,7 +94,7 @@ void Game::Run()
 	kanonenTurmImage.setPosition(78, 779);
 
 	kanonenTurmImage.setTexture(kanonenTurmButton);
-	
+
 	float kanonenTurmButtonWidth = kanonenTurmImage.getLocalBounds().width;
 	float kanonenTurmButtonHeight = kanonenTurmImage.getLocalBounds().height;
 
@@ -148,13 +149,13 @@ void Game::Run()
 	float Turm4ButtonWidth = Turm4Image.getLocalBounds().width;
 	float Turm4ButtonHeight = Turm4Image.getLocalBounds().height;
 
-	int gold = 20000;
+	int gold = 100;
 	int runde = 0;
 	int timerText = 0;
 	int playerLife = 20;
 	int punkteZahl = 0;
 	sf::Text rundenText;
-	rundenText.setFont(font);	
+	rundenText.setFont(font);
 	rundenText.setFillColor(color.Black);
 	rundenText.setCharacterSize(13);
 	rundenText.setPosition(65, 15);
@@ -162,14 +163,14 @@ void Game::Run()
 
 	sf::Text goldText;
 	goldText.setFont(font);
-	
+
 	goldText.setFillColor(color.Black);
 	goldText.setCharacterSize(13);
 	goldText.setPosition(65, 35);
 
 
 	sf::Text TimerText;
-	TimerText.setFont(font);		
+	TimerText.setFont(font);
 	TimerText.setCharacterSize(30);
 	TimerText.setPosition(250, 850);
 	TimerText.setFillColor(color.Black);
@@ -294,7 +295,7 @@ void Game::Run()
 
 		//male alles was immer dargestellt wird immer, unterer layer:
 
-		App.draw(backgroundSprite); 
+		App.draw(backgroundSprite);
 
 		goldText.setString(to_string(gold));
 		rundenText.setString(to_string(runde));
@@ -315,15 +316,15 @@ void Game::Run()
 
 		//Gegnerphase / Bauphase unterscheidung hier!
 		//manches muss immer dargestellt werden, anderes nur in der entsprechenden phase
-		
-		if (buildingphase) {						
+
+		if (buildingphase) {
 
 			//buildingkram
 
 			//füge alle tower aus einer phase in eine gesonderte liste
 
 			//nach 30sec ende, deaktiviere alle baufunktionen, 
-			
+
 			sf::Time buildphaseElapsedTime = buildingphaseClock.getElapsedTime();
 			if ((buildphaseElapsedTime.asMilliseconds() + buildphaseElapsedTimeBuffer) >= 1000) {
 				(buildphaseElapsedTimeBuffer = buildphaseElapsedTime.asMilliseconds() - 1000);
@@ -334,8 +335,8 @@ void Game::Run()
 			timerText = buildingphaseCountdown;
 			if (buildingphaseCountdown == 5)
 			{
-				TimerText.setColor(color.Red);				
-				
+				TimerText.setColor(color.Red);
+
 			}
 			if (buildingphaseCountdown == 0)
 			{
@@ -346,40 +347,46 @@ void Game::Run()
 			}
 
 			{
-			
-		sf::Vector2i localPosition = sf::Mouse::getPosition(App);
-		sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
-		sf::Event Event;
 
-		//freie und belegte felder markieren
-		for (list<GameArea*>::const_iterator pos = GameAreaList.begin(); pos != GameAreaList.end(); ++pos) {
+				sf::Vector2i localPosition = sf::Mouse::getPosition(App);
+				sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
+				sf::Event Event;
 
-			if ((*pos)->getEmpty()) {
-				emptySpaceSprite.setPosition((*pos)->getAreaXCoord(), (*pos)->getAreaYCoord());
-				App.draw(emptySpaceSprite);
-			}
-			else {
-				blockedSpaceSprite.setPosition((*pos)->getAreaXCoord(), (*pos)->getAreaYCoord());
-				App.draw(blockedSpaceSprite);
-			}
+				//freie und belegte felder markieren
+				for (list<GameArea*>::const_iterator pos = GameAreaList.begin(); pos != GameAreaList.end(); ++pos) {
 
-			//mouse-movement auslesen
-			if (localPosition.x <= ((*pos)->getAreaXCoord() + 32) && (localPosition.x >= ((*pos)->getAreaXCoord() - 31))
-				&& (localPosition.y <= ((*pos)->getAreaYCoord() + 32)) && (localPosition.y >= ((*pos)->getAreaYCoord() - 31))) {
-				buildTowerSprite.setPosition((*pos)->getAreaXCoord(), (*pos)->getAreaYCoord());
-				App.draw(buildTowerSprite);
-			}
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			{
-				if (localPosition.x <= ((*pos)->getAreaXCoord() + 32) && (localPosition.x >= ((*pos)->getAreaXCoord() - 31))
-					&& (localPosition.y <= ((*pos)->getAreaYCoord() + 32)) && (localPosition.y >= ((*pos)->getAreaYCoord() - 31))) {
-					BasicTower *Tower = new BasicTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
-					TowerVector->push_back(Tower);
-					(*pos)->setAreaEmpty(false);
-					gold = gold - Tower->getCost();
+					if ((*pos)->getEmpty()) {
+						emptySpaceSprite.setPosition((*pos)->getAreaXCoord(), (*pos)->getAreaYCoord());
+						App.draw(emptySpaceSprite);
+					}
+					else {
+						blockedSpaceSprite.setPosition((*pos)->getAreaXCoord(), (*pos)->getAreaYCoord());
+						App.draw(blockedSpaceSprite);
+					}
+
+					//mouse-movement auslesen
+					if (localPosition.x <= ((*pos)->getAreaXCoord() + 32) && (localPosition.x >= ((*pos)->getAreaXCoord() - 31))
+						&& (localPosition.y <= ((*pos)->getAreaYCoord() + 32)) && (localPosition.y >= ((*pos)->getAreaYCoord() - 31))) {
+						buildTowerSprite.setPosition((*pos)->getAreaXCoord(), (*pos)->getAreaYCoord());
+						App.draw(buildTowerSprite);
+					}
+					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+					{
+						if (localPosition.x <= ((*pos)->getAreaXCoord() + 32) && (localPosition.x >= ((*pos)->getAreaXCoord() - 31))
+							&& (localPosition.y <= ((*pos)->getAreaYCoord() + 32)) && (localPosition.y >= ((*pos)->getAreaYCoord() - 31))) {
+							BasicTower *Tower = new BasicTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
+							if (gold >= Tower->getCost())
+							{
+								if ((*pos)->getEmpty())
+								{
+									TowerVector->push_back(Tower);
+									(*pos)->setAreaEmpty(false);
+									gold = gold - Tower->getCost();
+								}
+							}
+						}
+					}
 				}
-			}
-		}
 
 
 				//buttons interface
@@ -437,10 +444,10 @@ void Game::Run()
 					Turm4Image.setTexture(Turm4Button);
 					Turm4Image.setColor(color.White);
 				}
-			}		
+			}
 		}
 		else {
-			
+
 			//enemyphasenkram
 			//berechne weg mit a* hier
 			//falls a* keinen weg findet, zerstöre alle tower aus der gesonderten liste
@@ -451,7 +458,7 @@ void Game::Run()
 			//*bumpaffpow ratatatapeng*
 
 			//alle gegner tot oder am ziel:
-			
+
 			//schickt die gegner aus wave1 auf die reise
 			//hier ist noch was madig
 			sf::Time elapsed1 = clock.getElapsedTime();
@@ -472,11 +479,11 @@ void Game::Run()
 					if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
 						enemyActiveVector->at(target)->takeDamage(TowerVector->at(i)->getDamage());
 						explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
-						App.draw(explosionSprite);						
+						App.draw(explosionSprite);
 					}
 				}
 			}
-			
+
 
 			TimerText.setFillColor(color.Black);
 			//buildingphase = true;
@@ -489,75 +496,121 @@ void Game::Run()
 			App.draw(TowerVector->at(i)->getSprite());
 		}
 
-		
-	
+
+
 
 		//testgegner bewegungskram
 		enemyMovementClock.getElapsedTime();
 		sf::Time enemyMovementElapsed = enemyMovementClock.getElapsedTime();
-		int movementElapsed = enemyMovementElapsed.asMilliseconds();		
-			for (int i = 0; i < enemyActiveVector->size(); i++) {
-				if (enemyActiveVector->at(i)->getCurrentLife() == 0) {
-					enemyActiveVector->erase((enemyActiveVector->begin() + i));
-					punkteZahl += 100;
-					gold += 100;
-				}
-				x = enemyActiveVector->at(i)->getXCoord();
-				y = enemyActiveVector->at(i)->getYCoord();
-				double lifePercent = (((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife())) * 100);
-				if (lifePercent > 90) {
-					lifeEnemySprite.setTexture(hundredLifeTexture);
-				}
-				else if (lifePercent < 90 && lifePercent > 70) {
-					lifeEnemySprite.setTexture(eightyLifeTexture);
-				}
-				else if (lifePercent < 70 && lifePercent > 50) {
-					lifeEnemySprite.setTexture(sixtyLifeTexture);
-				}
-				else if (lifePercent < 50 && lifePercent > 30) {
-					lifeEnemySprite.setTexture(fortyLifeTexture);
-				}
-				else if (lifePercent < 30 && lifePercent > 10) {
-					lifeEnemySprite.setTexture(twentyLifeTexture);
-				}
-				else if (lifePercent < 10) {
-					lifeEnemySprite.setTexture(tenLifeTexture);
-					punktZahlText.setString(to_string(punkteZahl));
-				}
+		int movementElapsed = enemyMovementElapsed.asMilliseconds();
+		for (int i = 0; i < enemyActiveVector->size(); i++) {
+			if (enemyActiveVector->at(i)->getCurrentLife() == 0) {
+				enemyActiveVector->erase((enemyActiveVector->begin() + i));
+				punkteZahl += 100;
+				gold += 100;
+			}
+			x = enemyActiveVector->at(i)->getXCoord();
+			y = enemyActiveVector->at(i)->getYCoord();
+			double lifePercent = (((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife())) * 100);
+			if (lifePercent > 90) {
+				lifeEnemySprite.setTexture(hundredLifeTexture);
+			}
+			else if (lifePercent < 90 && lifePercent > 70) {
+				lifeEnemySprite.setTexture(eightyLifeTexture);
+			}
+			else if (lifePercent < 70 && lifePercent > 50) {
+				lifeEnemySprite.setTexture(sixtyLifeTexture);
+			}
+			else if (lifePercent < 50 && lifePercent > 30) {
+				lifeEnemySprite.setTexture(fortyLifeTexture);
+			}
+			else if (lifePercent < 30 && lifePercent > 10) {
+				lifeEnemySprite.setTexture(twentyLifeTexture);
+			}
+			else if (lifePercent < 10) {
+				lifeEnemySprite.setTexture(tenLifeTexture);
+				punktZahlText.setString(to_string(punkteZahl));
+			}
 
-				if ((movementElapsed + movementElapsedBuffer) >= 25) {
-					enemyMovementClock.restart();
-					enemyActiveVector->at(i)->eSetPosition();
-					if (y > 191 && x < 447) {
-						enemyActiveVector->at(i)->eSetRotation(270);
-						lifeEnemySprite.setPosition(x, (y - 25));
-						(enemyActiveVector->at(i)->eSetXCoord((x + 2)));
-					}
-					if (y <= 191) {
-						lifeEnemySprite.setPosition(x, (y - 25));
-						App.draw((enemyActiveVector->at(i)->getSprite()));
-						App.draw(lifeEnemySprite);
-						(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
-					}
-					if (x >= 447 && y <= 738) {
-						(enemyActiveVector->at(i)->eSetRotation(0));
-						lifeEnemySprite.setPosition(x, (y - 25));
-						(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
-
-					}
-					if (y > 738) {
-						enemyActiveVector->erase(enemyActiveVector->begin() + i);
-						playerLife = playerLife--;
-						lebenText.setString(to_string(playerLife));
-					}
+			if ((movementElapsed + movementElapsedBuffer) >= 25) {
+				enemyMovementClock.restart();
+				enemyActiveVector->at(i)->eSetPosition();
+				if (y > 191 && x < 447) {
+					enemyActiveVector->at(i)->eSetRotation(270);
+					lifeEnemySprite.setPosition(x, (y - 25));
+					(enemyActiveVector->at(i)->eSetXCoord((x + 2)));
 				}
-				App.draw(enemyActiveVector->at(i)->getSprite());
-				App.draw(lifeEnemySprite);					
+				if (y <= 191) {
+					lifeEnemySprite.setPosition(x, (y - 25));
+					App.draw((enemyActiveVector->at(i)->getSprite()));
+					App.draw(lifeEnemySprite);
+					(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
+				}
+				if (x >= 447 && y <= 738) {
+					(enemyActiveVector->at(i)->eSetRotation(0));
+					lifeEnemySprite.setPosition(x, (y - 25));
+					(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
+
+				}
+				if (y > 738) {
+					enemyActiveVector->erase(enemyActiveVector->begin() + i);
+					playerLife = playerLife--;
+					lebenText.setString(to_string(playerLife));
+				}
+			}
+			App.draw(enemyActiveVector->at(i)->getSprite());
+			App.draw(lifeEnemySprite);
 		}
 
-		if (playerLife == 0)
+		if (playerLife <= 0)
 		{
+			running = false;
 			App.clear();
+			sf::Text GameOverText;
+			GameOverText.setFont(font);
+			GameOverText.setFillColor(color.Red);
+			GameOverText.setCharacterSize(50);
+			GameOverText.setPosition(145, 400);
+			GameOverText.setString("Game Over!");
+			backgroundTexture.loadFromFile("ArtAssets/Nebula Red.png");
+			backgroundSprite.setTexture(backgroundTexture);
+
+
+			sf::Texture BackToMenuButton;
+			BackToMenuButton.loadFromFile("ArtAssets/Menu/MenuButton.png");
+			sf::Sprite BackToMenuButtonSprite;
+			BackToMenuButtonSprite.setPosition(105, 500);
+			BackToMenuButtonSprite.setTexture(BackToMenuButton);
+			float BackToMenuButtonWidth = BackToMenuButtonSprite.getLocalBounds().width;
+			float BackToMenuButtonHeight = BackToMenuButtonSprite.getLocalBounds().height;
+
+			sf::Text BackToMenuButtonText;
+			BackToMenuButtonText.setFont(font);
+			BackToMenuButtonText.setString("Zurück zum Menü");
+			BackToMenuButtonText.setFillColor(color.White);
+			BackToMenuButtonText.setCharacterSize(38);
+			BackToMenuButtonText.setPosition(120, (BackToMenuButtonHeight / 2) + 475);
+
+			App.draw(backgroundSprite);
+			App.draw(GameOverText);
+			App.draw(BackToMenuButtonSprite);
+			App.draw(BackToMenuButtonText);
+
+
+
+
+			sf::Vector2i localPosition = sf::Mouse::getPosition(App);
+			sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				if (BackToMenuButtonSprite.getGlobalBounds().contains(mousePosF))
+				{
+
+					Menu menu;
+					App.close();
+					menu.Run();
+				}
+			}
 		}
 
 
