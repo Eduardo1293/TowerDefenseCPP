@@ -358,13 +358,13 @@ void Game::Run()
 			timerText = buildingphaseCountdown;
 			if (buildingphaseCountdown == 5)
 			{
-				TimerText.setColor(color.Red);
+				TimerText.setFillColor(color.Red);
 
 			}
 			if (buildingphaseCountdown == 0)
 			{
 				buildingphase = false;
-				TimerText.setColor(sf::Color(255, 255, 255, 140));
+				TimerText.setFillColor(sf::Color(255, 255, 255, 140));
 				buildphaseElapsedTimeBuffer = 0;
 				clock.restart();
 			}
