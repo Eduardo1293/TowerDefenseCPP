@@ -7,7 +7,7 @@ CannonTower::CannonTower(int XCoord, int YCoord)
 	t_Cost = 20;
 	t_XCoord = XCoord;
 	t_YCoord = YCoord;
-	attackCooldown = 5;
+	attackCooldown = 2;
 	damage = 25;
 	CannonTurmTexture.loadFromFile("ArtAssets/Tower/tank_green.png");
 	CannonTurmSprite.setTexture(CannonTurmTexture);

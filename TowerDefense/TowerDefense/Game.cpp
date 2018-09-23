@@ -6,6 +6,7 @@
 #include "CannonTower.h"
 #include "EnemyWaves.h"
 #include "Menu.h"
+#include "FlameTower.h"
 
 #include <iostream>
 
@@ -149,16 +150,16 @@ void Game::Run()
 
 
 	//Turm 4
-	sf::Texture Turm4Button;
-	sf::Sprite Turm4Image;
+	sf::Texture lightningTurmButton;
+	sf::Sprite lightningTowerImage;
 
-	Turm4Button.loadFromFile("ArtAssets/Tower/tank_sand.png");
-	Turm4Image.setPosition(368, 779);
+	lightningTurmButton.loadFromFile("ArtAssets/Tower/tank_sand.png");
+	lightningTowerImage.setPosition(368, 779);
 
-	Turm4Image.setTexture(Turm4Button);
+	lightningTowerImage.setTexture(lightningTurmButton);
 
-	float Turm4ButtonWidth = Turm4Image.getLocalBounds().width;
-	float Turm4ButtonHeight = Turm4Image.getLocalBounds().height;
+	float Turm4ButtonWidth = lightningTowerImage.getLocalBounds().width;
+	float Turm4ButtonHeight = lightningTowerImage.getLocalBounds().height;
 
 	int gold = 100;
 	int runde = 0;
@@ -269,6 +270,7 @@ void Game::Run()
 	list<GameArea*> GameAreaList = PlayingField();
 	vector<BasicTower*> *BasicTowerVector = new vector<BasicTower*>();
 	vector<CannonTower*> *CannonTowerVector = new vector<CannonTower*>();
+	vector<FlameTower*> *FlameTowerVector = new vector<FlameTower*>();
 
 	sf::Clock timerClock;
 
@@ -326,7 +328,7 @@ void Game::Run()
 		App.draw(cannonTurmImage);
 		App.draw(frostTurmImage);
 		App.draw(feuerTurmImage);
-		App.draw(Turm4Image);
+		App.draw(lightningTowerImage);
 		App.draw(TimerText);
 		App.draw(punktZahlText);
 		App.draw(descriptionText);
@@ -423,9 +425,18 @@ void Game::Run()
 									}
 								}
 								break;
-								//case flameTower:
-								//	BasicTower * Tower = new BasicTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
-								//	break;
+								case flameTower:
+									FlameTower * flameTower = new FlameTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
+									if ((*pos)->getEmpty())
+									{
+										if (gold >= flameTower->getCost())
+										{
+											FlameTowerVector->push_back(flameTower);
+											(*pos)->setAreaEmpty(false);
+											gold = gold - flameTower->getCost();
+										}
+									}
+									break;
 								//case frostTower:
 								//	BasicTower * Tower = new BasicTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
 								//	break;
@@ -484,6 +495,7 @@ void Game::Run()
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 					{
 						selectetTower = frostTower;
+						buildTowerSprite.setTexture(frostTurmButton);
 					}
 				}
 				else
@@ -500,6 +512,7 @@ void Game::Run()
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 					{
 						selectetTower = flameTower;
+						buildTowerSprite.setTexture(feuerTurmButton);
 					}
 				}
 				else
@@ -509,19 +522,20 @@ void Game::Run()
 				}
 
 
-				if (Turm4Image.getGlobalBounds().contains(mousePosF))
+				if (lightningTowerImage.getGlobalBounds().contains(mousePosF))
 				{
-					Turm4Image.setTexture(Turm4Button);
-					Turm4Image.setColor(sf::Color(255, 255, 255, 140));
+					lightningTowerImage.setTexture(lightningTurmButton);
+					lightningTowerImage.setColor(sf::Color(255, 255, 255, 140));
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 					{
 						selectetTower = lightningTower;
+						buildTowerSprite.setTexture(lightningTurmButton);
 					}
 				}
 				else
 				{
-					Turm4Image.setTexture(Turm4Button);
-					Turm4Image.setColor(color.White);
+					lightningTowerImage.setTexture(lightningTurmButton);
+					lightningTowerImage.setColor(color.White);
 				}				
 			}
 		}
@@ -580,15 +594,7 @@ void Game::Run()
 
 		//male alles was immer dargestellt wird immer, oberer layer:
 
-		for (unsigned int i = 0; i < BasicTowerVector->size(); i++)
-		{
-			App.draw(BasicTowerVector->at(i)->getSprite());
-		}
-
-		for (unsigned int i = 0; i < CannonTowerVector->size(); i++)
-		{
-			App.draw(CannonTowerVector->at(i)->getSprite());
-		}
+		DrawTower(BasicTowerVector, CannonTowerVector, FlameTowerVector);
 
 
 
@@ -598,119 +604,151 @@ void Game::Run()
 		sf::Time enemyMovementElapsed = enemyMovementClock.getElapsedTime();
 		int movementElapsed = enemyMovementElapsed.asMilliseconds();
 		for (int i = 0; i < enemyActiveVector->size(); i++) {
-			if (enemyActiveVector->at(i)->getCurrentLife() == 0) {
-				enemyActiveVector->erase((enemyActiveVector->begin() + i));
-				punkteZahl += 100;
-				gold += 100;
-			}
-			x = enemyActiveVector->at(i)->getXCoord();
-			y = enemyActiveVector->at(i)->getYCoord();
-			double lifePercent = (((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife())) * 100);
-			if (lifePercent > 90) {
-				lifeEnemySprite.setTexture(hundredLifeTexture);
-			}
-			else if (lifePercent < 90 && lifePercent > 70) {
-				lifeEnemySprite.setTexture(eightyLifeTexture);
-			}
-			else if (lifePercent < 70 && lifePercent > 50) {
-				lifeEnemySprite.setTexture(sixtyLifeTexture);
-			}
-			else if (lifePercent < 50 && lifePercent > 30) {
-				lifeEnemySprite.setTexture(fortyLifeTexture);
-			}
-			else if (lifePercent < 30 && lifePercent > 10) {
-				lifeEnemySprite.setTexture(twentyLifeTexture);
-			}
-			else if (lifePercent < 10) {
-				lifeEnemySprite.setTexture(tenLifeTexture);
-				punktZahlText.setString(to_string(punkteZahl));
-			}
-
-			if ((movementElapsed + movementElapsedBuffer) >= 25) {
-				enemyMovementClock.restart();
-				enemyActiveVector->at(i)->eSetPosition();
-				if (y > 191 && x < 447) {
-					enemyActiveVector->at(i)->eSetRotation(270);
-					lifeEnemySprite.setPosition(x, (y - 25));
-					(enemyActiveVector->at(i)->eSetXCoord((x + 2)));
-				}
-				if (y <= 191) {
-					lifeEnemySprite.setPosition(x, (y - 25));
-					App.draw((enemyActiveVector->at(i)->getSprite()));
-					App.draw(lifeEnemySprite);
-					(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
-				}
-				if (x >= 447 && y <= 738) {
-					(enemyActiveVector->at(i)->eSetRotation(0));
-					lifeEnemySprite.setPosition(x, (y - 25));
-					(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
-
-				}
-				if (y > 738) {
-					enemyActiveVector->erase(enemyActiveVector->begin() + i);
-					playerLife = playerLife--;
-					lebenText.setString(to_string(playerLife));
-				}
-			}
+			UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x, y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture, sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture, tenLifeTexture, punktZahlText);
+			UpdateEnemyMovement(movementElapsed, movementElapsedBuffer, enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText);
 			App.draw(enemyActiveVector->at(i)->getSprite());
 			App.draw(lifeEnemySprite);
 		}
 
 		if (playerLife <= 0)
 		{
-			running = false;
-			App.clear();
-			sf::Text GameOverText;
-			GameOverText.setFont(font);
-			GameOverText.setFillColor(color.Red);
-			GameOverText.setCharacterSize(50);
-			GameOverText.setPosition(145, 400);
-			GameOverText.setString("Game Over!");
-			backgroundTexture.loadFromFile("ArtAssets/Nebula Red.png");
-			backgroundSprite.setTexture(backgroundTexture);
-
-
-			sf::Texture BackToMenuButton;
-			BackToMenuButton.loadFromFile("ArtAssets/Menu/MenuButton.png");
-			sf::Sprite BackToMenuButtonSprite;
-			BackToMenuButtonSprite.setPosition(105, 500);
-			BackToMenuButtonSprite.setTexture(BackToMenuButton);
-			float BackToMenuButtonWidth = BackToMenuButtonSprite.getLocalBounds().width;
-			float BackToMenuButtonHeight = BackToMenuButtonSprite.getLocalBounds().height;
-
-			sf::Text BackToMenuButtonText;
-			BackToMenuButtonText.setFont(font);
-			BackToMenuButtonText.setString("Zurück zum Menü");
-			BackToMenuButtonText.setFillColor(color.White);
-			BackToMenuButtonText.setCharacterSize(38);
-			BackToMenuButtonText.setPosition(120, (BackToMenuButtonHeight / 2) + 475);
-
-			App.draw(backgroundSprite);
-			App.draw(GameOverText);
-			App.draw(BackToMenuButtonSprite);
-			App.draw(BackToMenuButtonText);
-
-
-
-
-			sf::Vector2i localPosition = sf::Mouse::getPosition(App);
-			sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			{
-				if (BackToMenuButtonSprite.getGlobalBounds().contains(mousePosF))
-				{
-
-					Menu menu;
-					App.close();
-					menu.Run();
-				}
-			}
+			ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite);
 		}
 
 
 		// end the current frame
 		App.display();
 
+	}
+}
+
+void Game::DrawTower(std::vector<BasicTower *> * BasicTowerVector, std::vector<CannonTower *> * CannonTowerVector, std::vector<FlameTower *> * FeuerTowerVector)
+{
+	for (unsigned int i = 0; i < BasicTowerVector->size(); i++)
+	{
+		App.draw(BasicTowerVector->at(i)->getSprite());
+	}
+
+	for (unsigned int i = 0; i < CannonTowerVector->size(); i++)
+	{
+		App.draw(CannonTowerVector->at(i)->getSprite());
+	}
+
+	for (unsigned int i = 0; i < FeuerTowerVector->size(); i++)
+	{
+		App.draw(FeuerTowerVector->at(i)->getSprite());
+	}
+}
+
+void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer, sf::Clock &enemyMovementClock, std::vector<DummyEnemy *> * enemyActiveVector, int i, int y, int x, sf::Sprite &lifeEnemySprite, int &playerLife, sf::Text &lebenText)
+{
+	if ((movementElapsed + movementElapsedBuffer) >= 25) {
+		enemyMovementClock.restart();
+		enemyActiveVector->at(i)->eSetPosition();
+		if (y > 191 && x < 447) {
+			enemyActiveVector->at(i)->eSetRotation(270);
+			lifeEnemySprite.setPosition(x, (y - 25));
+			(enemyActiveVector->at(i)->eSetXCoord((x + 2)));
+		}
+		if (y <= 191) {
+			lifeEnemySprite.setPosition(x, (y - 25));
+			App.draw((enemyActiveVector->at(i)->getSprite()));
+			App.draw(lifeEnemySprite);
+			(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
+		}
+		if (x >= 447 && y <= 738) {
+			(enemyActiveVector->at(i)->eSetRotation(0));
+			lifeEnemySprite.setPosition(x, (y - 25));
+			(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
+
+		}
+		if (y > 738) {
+			enemyActiveVector->erase(enemyActiveVector->begin() + i);
+			playerLife = playerLife--;
+			lebenText.setString(to_string(playerLife));
+		}
+	}
+}
+
+void Game::UpdateEnemyLifeBar(std::vector<DummyEnemy *> * enemyActiveVector, int i, int &punkteZahl, int &gold, int &x, int &y, sf::Sprite &lifeEnemySprite, sf::Texture &hundredLifeTexture, sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture, sf::Texture &fortyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Text &punktZahlText)
+{
+	if (enemyActiveVector->at(i)->getCurrentLife() == 0) {
+		enemyActiveVector->erase((enemyActiveVector->begin() + i));
+		punkteZahl += 100;
+		gold += 100;
+	}
+	x = enemyActiveVector->at(i)->getXCoord();
+	y = enemyActiveVector->at(i)->getYCoord();
+	double lifePercent = (((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife())) * 100);
+	if (lifePercent > 90) {
+		lifeEnemySprite.setTexture(hundredLifeTexture);
+	}
+	else if (lifePercent < 90 && lifePercent > 70) {
+		lifeEnemySprite.setTexture(eightyLifeTexture);
+	}
+	else if (lifePercent < 70 && lifePercent > 50) {
+		lifeEnemySprite.setTexture(sixtyLifeTexture);
+	}
+	else if (lifePercent < 50 && lifePercent > 30) {
+		lifeEnemySprite.setTexture(fortyLifeTexture);
+	}
+	else if (lifePercent < 30 && lifePercent > 10) {
+		lifeEnemySprite.setTexture(twentyLifeTexture);
+	}
+	else if (lifePercent < 10) {
+		lifeEnemySprite.setTexture(tenLifeTexture);
+		punktZahlText.setString(to_string(punkteZahl));
+	}
+}
+
+void Game::ShowGameOverScreen(sf::Font &font, sf::Color &color, sf::Texture &backgroundTexture, sf::Sprite &backgroundSprite)
+{
+	running = false;
+	App.clear();
+	sf::Text GameOverText;
+	GameOverText.setFont(font);
+	GameOverText.setFillColor(color.Red);
+	GameOverText.setCharacterSize(50);
+	GameOverText.setPosition(145, 400);
+	GameOverText.setString("Game Over!");
+	backgroundTexture.loadFromFile("ArtAssets/Nebula Red.png");
+	backgroundSprite.setTexture(backgroundTexture);
+
+
+	sf::Texture BackToMenuButton;
+	BackToMenuButton.loadFromFile("ArtAssets/Menu/MenuButton.png");
+	sf::Sprite BackToMenuButtonSprite;
+	BackToMenuButtonSprite.setPosition(105, 500);
+	BackToMenuButtonSprite.setTexture(BackToMenuButton);
+	float BackToMenuButtonWidth = BackToMenuButtonSprite.getLocalBounds().width;
+	float BackToMenuButtonHeight = BackToMenuButtonSprite.getLocalBounds().height;
+
+	sf::Text BackToMenuButtonText;
+	BackToMenuButtonText.setFont(font);
+	BackToMenuButtonText.setString("Zurück zum Menü");
+	BackToMenuButtonText.setFillColor(color.White);
+	BackToMenuButtonText.setCharacterSize(38);
+	BackToMenuButtonText.setPosition(120, (BackToMenuButtonHeight / 2) + 475);
+
+	App.draw(backgroundSprite);
+	App.draw(GameOverText);
+	App.draw(BackToMenuButtonSprite);
+	App.draw(BackToMenuButtonText);
+
+
+
+
+	sf::Vector2i localPosition = sf::Mouse::getPosition(App);
+	sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		if (BackToMenuButtonSprite.getGlobalBounds().contains(mousePosF))
+		{
+
+			Menu menu;
+			App.close();
+			menu.Run();
+		}
 	}
 }
 
