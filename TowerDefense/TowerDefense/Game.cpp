@@ -37,6 +37,7 @@ void Game::Run()
 
 	enum SelectetTower
 	{
+		noTower,
 		basicTower,
 		cannonTower,
 		flameTower,
@@ -104,11 +105,7 @@ void Game::Run()
 	basicTurmImage.setPosition(78, 779);
 
 	basicTurmImage.setTexture(basicTurmButton);
-
-	float basicTurmButtonWidth = basicTurmImage.getLocalBounds().width;
-	float basicTurmButtonHeight = basicTurmImage.getLocalBounds().height;
-
-
+	
 	//Feuerturmbutton
 	sf::Texture cannonTurmButton;
 	sf::Sprite cannonTurmImage;
@@ -117,10 +114,6 @@ void Game::Run()
 	cannonTurmImage.setPosition(151, 779);
 
 	cannonTurmImage.setTexture(cannonTurmButton);
-
-	float CannonTurmButtonWidth = cannonTurmImage.getLocalBounds().width;
-	float CannonTurmButtonHeight = cannonTurmImage.getLocalBounds().height;
-
 
 	//Frostturmbutton
 	sf::Texture frostTurmButton;
@@ -131,9 +124,6 @@ void Game::Run()
 
 	frostTurmImage.setTexture(frostTurmButton);
 
-	float frostTurmButtonWidth = frostTurmImage.getLocalBounds().width;
-	float frostTurmButtonHeight = frostTurmImage.getLocalBounds().height;
-
 	//Turm 3
 	sf::Texture feuerTurmButton;
 	sf::Sprite feuerTurmImage;
@@ -143,10 +133,6 @@ void Game::Run()
 
 	feuerTurmImage.setTexture(feuerTurmButton);
 
-	float feuerTurmButtonWidth = feuerTurmImage.getLocalBounds().width;
-	float feuerTurmButtonHeight = feuerTurmImage.getLocalBounds().height;
-
-
 	//Turm 4
 	sf::Texture lightningTurmButton;
 	sf::Sprite lightningTowerImage;
@@ -155,9 +141,6 @@ void Game::Run()
 	lightningTowerImage.setPosition(368, 779);
 
 	lightningTowerImage.setTexture(lightningTurmButton);
-
-	float Turm4ButtonWidth = lightningTowerImage.getLocalBounds().width;
-	float Turm4ButtonHeight = lightningTowerImage.getLocalBounds().height;
 
 	int gold = 100;
 	int runde = 0;
@@ -467,12 +450,15 @@ void Game::Run()
 						descriptionText.setString(Tower->getDescription());
 						selectetTower = basicTower;
 						buildTowerSprite.setTexture(basicTurmButton);
+						basicTurmImage.setColor(sf::Color(255, 255, 255, 140));
 					}
 				}
 				else
 				{
-					basicTurmImage.setTexture(basicTurmButton);
-					basicTurmImage.setColor(color.White);
+					if (selectetTower != basicTower)
+					{
+						basicTurmImage.setColor(color.White);
+					}					
 				}
 				if (cannonTurmImage.getGlobalBounds().contains(mousePosF))
 				{
@@ -484,12 +470,15 @@ void Game::Run()
 						descriptionText.setString(cannonTowerBuild->getDescription());
 						selectetTower = cannonTower;
 						buildTowerSprite.setTexture(cannonTurmButton);
+						cannonTurmImage.setColor(sf::Color(255, 255, 255, 140));
 					}
 				}
 				else
 				{
-					cannonTurmImage.setTexture(cannonTurmButton);
-					cannonTurmImage.setColor(color.White);
+					if (selectetTower != cannonTower)
+					{
+						cannonTurmImage.setColor(color.White);
+					}
 				}
 				if (frostTurmImage.getGlobalBounds().contains(mousePosF))
 				{
@@ -499,12 +488,15 @@ void Game::Run()
 					{
 						selectetTower = frostTower;
 						buildTowerSprite.setTexture(frostTurmButton);
+						frostTurmImage.setColor(sf::Color(255, 255, 255, 140));
 					}
 				}
 				else
 				{
-					frostTurmImage.setTexture(frostTurmButton);
-					frostTurmImage.setColor(color.White);
+					if (selectetTower != frostTower)
+					{
+						frostTurmImage.setColor(color.White);
+					}
 				}
 
 
@@ -516,12 +508,15 @@ void Game::Run()
 					{
 						selectetTower = flameTower;
 						buildTowerSprite.setTexture(feuerTurmButton);
+						feuerTurmImage.setColor(sf::Color(255, 255, 255, 140));
 					}
 				}
 				else
 				{
-					feuerTurmImage.setTexture(feuerTurmButton);
-					feuerTurmImage.setColor(color.White);
+					if (selectetTower != flameTower)
+					{
+						feuerTurmImage.setColor(color.White);
+					}
 				}
 
 
@@ -537,8 +532,10 @@ void Game::Run()
 				}
 				else
 				{
-					lightningTowerImage.setTexture(lightningTurmButton);
-					lightningTowerImage.setColor(color.White);
+					if (selectetTower != lightningTower)
+					{
+						lightningTowerImage.setColor(color.White);
+					}
 				}
 			}
 		}
