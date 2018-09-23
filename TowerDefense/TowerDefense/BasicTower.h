@@ -12,8 +12,8 @@ using namespace std;
 class BasicTower {
 
 private:
-	sf::Texture testTurmTexture;
-	sf::Sprite testTurmSprite;
+	sf::Texture BasicTurmTexture;
+	sf::Sprite BasicTurmSprite;
 	string t_Name;
 	string t_Description;
 	int t_Cost;
@@ -32,7 +32,7 @@ public:
 	inline int getAttackCooldown() const { return attackCooldown; }
 	inline int getDamage() const { return damage; }
 	inline string getDescription() const { return t_Description; }
-	inline sf::Sprite getSprite() const { return testTurmSprite; };
+	inline sf::Sprite getSprite() const { return BasicTurmSprite; };
 	
 	BasicTower();
 
