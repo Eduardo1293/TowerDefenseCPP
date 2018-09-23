@@ -105,7 +105,7 @@ void Game::Run()
 	basicTurmImage.setPosition(78, 779);
 
 	basicTurmImage.setTexture(basicTurmButton);
-	
+
 	//Feuerturmbutton
 	sf::Texture cannonTurmButton;
 	sf::Sprite cannonTurmImage;
@@ -228,7 +228,7 @@ void Game::Run()
 	playerText.setFont(font);
 	playerText.setFillColor(color.White);
 	playerText.setCharacterSize(30);
-	playerText.setPosition(120,600);
+	playerText.setPosition(120, 600);
 	sf::String playerInput;
 
 	sf::Texture emptySpaceTexture;
@@ -356,7 +356,6 @@ void Game::Run()
 
 				sf::Vector2i localPosition = sf::Mouse::getPosition(App);
 				sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
-				sf::Event Event;
 				BasicTower * Tower;
 				CannonTower * cannonTowerBuild;
 
@@ -458,7 +457,7 @@ void Game::Run()
 					if (selectetTower != basicTower)
 					{
 						basicTurmImage.setColor(color.White);
-					}					
+					}
 				}
 				if (cannonTurmImage.getGlobalBounds().contains(mousePosF))
 				{
@@ -611,16 +610,21 @@ void Game::Run()
 		enemyMovementClock.getElapsedTime();
 		sf::Time enemyMovementElapsed = enemyMovementClock.getElapsedTime();
 		int movementElapsed = enemyMovementElapsed.asMilliseconds();
-		for (int i = 0; i < enemyActiveVector->size(); i++) {
+		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
 			UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x, y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture, sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture, tenLifeTexture, punktZahlText);
 			UpdateEnemyMovement(movementElapsed, movementElapsedBuffer, enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText);
+			
+
+			//Hier Knallt es wenn alle Gegner im Ziel sind!!!
 			App.draw(enemyActiveVector->at(i)->getSprite());
 			App.draw(lifeEnemySprite);
+
+
 		}
-		
+
 		if (playerLife <= 0)
 		{
-			ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite,playerInput, playerText);
+			ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite, playerInput, playerText);
 		}
 
 		// end the current frame
@@ -684,27 +688,29 @@ void Game::UpdateEnemyLifeBar(std::vector<DummyEnemy *> * enemyActiveVector, int
 		punkteZahl += 100;
 		gold += 100;
 	}
-	x = enemyActiveVector->at(i)->getXCoord();
-	y = enemyActiveVector->at(i)->getYCoord();
-	double lifePercent = (((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife())) * 100);
-	if (lifePercent > 90) {
-		lifeEnemySprite.setTexture(hundredLifeTexture);
-	}
-	else if (lifePercent < 90 && lifePercent > 70) {
-		lifeEnemySprite.setTexture(eightyLifeTexture);
-	}
-	else if (lifePercent < 70 && lifePercent > 50) {
-		lifeEnemySprite.setTexture(sixtyLifeTexture);
-	}
-	else if (lifePercent < 50 && lifePercent > 30) {
-		lifeEnemySprite.setTexture(fortyLifeTexture);
-	}
-	else if (lifePercent < 30 && lifePercent > 10) {
-		lifeEnemySprite.setTexture(twentyLifeTexture);
-	}
-	else if (lifePercent < 10) {
-		lifeEnemySprite.setTexture(tenLifeTexture);
-		punktZahlText.setString(to_string(punkteZahl));
+	else {
+		x = enemyActiveVector->at(i)->getXCoord();
+		y = enemyActiveVector->at(i)->getYCoord();
+		double lifePercent = (((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife())) * 100);
+		if (lifePercent > 90) {
+			lifeEnemySprite.setTexture(hundredLifeTexture);
+		}
+		else if (lifePercent < 90 && lifePercent > 70) {
+			lifeEnemySprite.setTexture(eightyLifeTexture);
+		}
+		else if (lifePercent < 70 && lifePercent > 50) {
+			lifeEnemySprite.setTexture(sixtyLifeTexture);
+		}
+		else if (lifePercent < 50 && lifePercent > 30) {
+			lifeEnemySprite.setTexture(fortyLifeTexture);
+		}
+		else if (lifePercent < 30 && lifePercent > 10) {
+			lifeEnemySprite.setTexture(twentyLifeTexture);
+		}
+		else if (lifePercent < 10) {
+			lifeEnemySprite.setTexture(tenLifeTexture);
+			punktZahlText.setString(to_string(punkteZahl));
+		}
 	}
 }
 
@@ -749,7 +755,7 @@ void Game::ShowGameOverScreen(sf::Font &font, sf::Color &color, sf::Texture &bac
 		{
 			playerInput += event.text.unicode;
 			playerText.setString(playerInput);
-		}		
+		}
 	}
 	App.draw(playerText);
 
