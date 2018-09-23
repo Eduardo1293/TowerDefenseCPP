@@ -1,6 +1,6 @@
 #include "CannonTower.h"
 
-CannonTower::CannonTower(int XCoord, int YCoord)
+CannonTower::CannonTower(float XCoord, float YCoord)
 {
 	t_Name = "Cannontower";
 	t_Description = "Ein Turm der Feuer schieﬂt";
@@ -24,8 +24,8 @@ int CannonTower::checkForEnemies(vector<DummyEnemy*>* enemyActiveVector)
 {
 	if (attackCooldown == 0) {
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
-			int enemyXCoord = enemyActiveVector->at(i)->getXCoord();
-			int enemyYCoord = enemyActiveVector->at(i)->getYCoord();
+			float enemyXCoord = enemyActiveVector->at(i)->getXCoord();
+			float enemyYCoord = enemyActiveVector->at(i)->getYCoord();
 			//rechts unten
 			if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
 				&& (enemyYCoord > (t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {

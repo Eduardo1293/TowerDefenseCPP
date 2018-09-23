@@ -2,7 +2,7 @@
 
 
 
-DummyEnemy::DummyEnemy(int XCoord, int YCoord) {
+DummyEnemy::DummyEnemy(float XCoord, float YCoord) {
 	e_MaxLife = 100;
 	e_CurrentLife = 100;
 	e_XCoord = XCoord;
@@ -12,7 +12,7 @@ DummyEnemy::DummyEnemy(int XCoord, int YCoord) {
 	dummyEnemySprite.setOrigin(32, 32);
 }
 
-void DummyEnemy::eSetRotation(int rotation) {
+void DummyEnemy::eSetRotation(float rotation) {
 	dummyEnemySprite.setRotation(rotation);
 }
 
@@ -20,11 +20,11 @@ void DummyEnemy::eSetPosition() {
 	dummyEnemySprite.setPosition(e_XCoord, e_YCoord);
 }
 
-void DummyEnemy::eSetXCoord(int XCoord) {
+void DummyEnemy::eSetXCoord(float XCoord) {
 	e_XCoord = XCoord;
 }
 
-void DummyEnemy::eSetYCoord(int YCoord) {
+void DummyEnemy::eSetYCoord(float YCoord) {
 	e_YCoord = YCoord;
 }
 
@@ -38,12 +38,12 @@ double DummyEnemy::getCurrentLife()
 	return e_CurrentLife;
 }
 
-int DummyEnemy::getXCoord()
+float DummyEnemy::getXCoord()
 {
 	return e_XCoord;
 }
 
-int DummyEnemy::getYCoord()
+float DummyEnemy::getYCoord()
 {
 	return e_YCoord;
 }

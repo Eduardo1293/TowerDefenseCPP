@@ -28,8 +28,8 @@ void Game::Run()
 {
 	sf::Clock clock;
 	App.setFramerateLimit(24);
-	int x;
-	int y;
+	float x;
+	float y;
 
 	//bool für gegnerphase oder bauphase
 
@@ -42,10 +42,9 @@ void Game::Run()
 		flameTower,
 		frostTower,
 		lightningTower
-
-
 	};
-	int gameTime = 0;
+
+	float gameTime = 0;
 
 	vector<DummyEnemy*> *enemyVector = new vector<DummyEnemy*>();
 	vector<DummyEnemy*> *enemyActiveVector = new vector<DummyEnemy*>();
@@ -63,7 +62,6 @@ void Game::Run()
 
 	//halbdurchsichtiger tower zum bauen
 	sf::Sprite buildTowerSprite;
-	buildTowerSprite.setTexture(testTurmTexture);
 	buildTowerSprite.setColor(sf::Color(255, 255, 255, 140));
 	buildTowerSprite.setOrigin(32, 32);
 
@@ -243,6 +241,12 @@ void Game::Run()
 	explosionSprite.setScale(0.5, 0.5);
 
 
+	sf::Text playerText;
+	playerText.setFont(font);
+	playerText.setFillColor(color.White);
+	playerText.setCharacterSize(30);
+	playerText.setPosition(120,600);
+	sf::String playerInput;
 
 	sf::Texture emptySpaceTexture;
 	sf::Texture blockedSpaceTexture;
@@ -315,7 +319,6 @@ void Game::Run()
 		//male alles was immer dargestellt wird immer, unterer layer:
 
 		App.draw(backgroundSprite);
-
 		goldText.setString(to_string(gold));
 		rundenText.setString(to_string(runde));
 		TimerText.setString(to_string(timerText));
@@ -414,7 +417,7 @@ void Game::Run()
 
 							case cannonTower:
 								cannonTowerBuild = new CannonTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
-								
+
 								if ((*pos)->getEmpty())
 								{
 									if (gold >= cannonTowerBuild->getCost())
@@ -425,18 +428,18 @@ void Game::Run()
 									}
 								}
 								break;
-								case flameTower:
-									FlameTower * flameTower = new FlameTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
-									if ((*pos)->getEmpty())
+							case flameTower:
+								FlameTower * flameTower = new FlameTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
+								if ((*pos)->getEmpty())
+								{
+									if (gold >= flameTower->getCost())
 									{
-										if (gold >= flameTower->getCost())
-										{
-											FlameTowerVector->push_back(flameTower);
-											(*pos)->setAreaEmpty(false);
-											gold = gold - flameTower->getCost();
-										}
+										FlameTowerVector->push_back(flameTower);
+										(*pos)->setAreaEmpty(false);
+										gold = gold - flameTower->getCost();
 									}
-									break;
+								}
+								break;
 								//case frostTower:
 								//	BasicTower * Tower = new BasicTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
 								//	break;
@@ -455,7 +458,7 @@ void Game::Run()
 				if (basicTurmImage.getGlobalBounds().contains(mousePosF))
 				{
 					Tower = new BasicTower();
-					
+
 					basicTurmImage.setTexture(basicTurmButton);
 					basicTurmImage.setColor(sf::Color(255, 255, 255, 140));
 
@@ -536,7 +539,7 @@ void Game::Run()
 				{
 					lightningTowerImage.setTexture(lightningTurmButton);
 					lightningTowerImage.setColor(color.White);
-				}				
+				}
 			}
 		}
 		else {
@@ -617,12 +620,11 @@ void Game::Run()
 			App.draw(enemyActiveVector->at(i)->getSprite());
 			App.draw(lifeEnemySprite);
 		}
-
+		
 		if (playerLife <= 0)
 		{
-			ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite);
+			ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite,playerInput, playerText);
 		}
-
 
 		// end the current frame
 		App.display();
@@ -648,7 +650,7 @@ void Game::DrawTower(std::vector<BasicTower *> * BasicTowerVector, std::vector<C
 	}
 }
 
-void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer, sf::Clock &enemyMovementClock, std::vector<DummyEnemy *> * enemyActiveVector, int i, int y, int x, sf::Sprite &lifeEnemySprite, int &playerLife, sf::Text &lebenText)
+void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer, sf::Clock &enemyMovementClock, std::vector<DummyEnemy *> * enemyActiveVector, int i, float y, float x, sf::Sprite &lifeEnemySprite, int &playerLife, sf::Text &lebenText)
 {
 	if ((movementElapsed + movementElapsedBuffer) >= 25) {
 		enemyMovementClock.restart();
@@ -678,7 +680,7 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer, s
 	}
 }
 
-void Game::UpdateEnemyLifeBar(std::vector<DummyEnemy *> * enemyActiveVector, int i, int &punkteZahl, int &gold, int &x, int &y, sf::Sprite &lifeEnemySprite, sf::Texture &hundredLifeTexture, sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture, sf::Texture &fortyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Text &punktZahlText)
+void Game::UpdateEnemyLifeBar(std::vector<DummyEnemy *> * enemyActiveVector, int i, int &punkteZahl, int &gold, float &x, float &y, sf::Sprite &lifeEnemySprite, sf::Texture &hundredLifeTexture, sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture, sf::Texture &fortyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Text &punktZahlText)
 {
 	if (enemyActiveVector->at(i)->getCurrentLife() == 0) {
 		enemyActiveVector->erase((enemyActiveVector->begin() + i));
@@ -709,9 +711,10 @@ void Game::UpdateEnemyLifeBar(std::vector<DummyEnemy *> * enemyActiveVector, int
 	}
 }
 
-void Game::ShowGameOverScreen(sf::Font &font, sf::Color &color, sf::Texture &backgroundTexture, sf::Sprite &backgroundSprite)
+void Game::ShowGameOverScreen(sf::Font &font, sf::Color &color, sf::Texture &backgroundTexture, sf::Sprite &backgroundSprite, sf::String &playerInput, sf::Text &playerText)
 {
 	running = false;
+
 	App.clear();
 	sf::Text GameOverText;
 	GameOverText.setFont(font);
@@ -742,8 +745,16 @@ void Game::ShowGameOverScreen(sf::Font &font, sf::Color &color, sf::Texture &bac
 	App.draw(GameOverText);
 	App.draw(BackToMenuButtonSprite);
 	App.draw(BackToMenuButtonText);
-
-
+	sf::Event event;
+	while (App.pollEvent(event))
+	{
+		if (event.type == sf::Event::TextEntered)
+		{
+			playerInput += event.text.unicode;
+			playerText.setString(playerInput);
+		}		
+	}
+	App.draw(playerText);
 
 
 	sf::Vector2i localPosition = sf::Mouse::getPosition(App);
@@ -758,6 +769,7 @@ void Game::ShowGameOverScreen(sf::Font &font, sf::Color &color, sf::Texture &bac
 			menu.Run();
 		}
 	}
+
 }
 
 

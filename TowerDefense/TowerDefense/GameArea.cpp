@@ -1,6 +1,6 @@
 #include "GameArea.h"
 
-GameArea::GameArea(bool empty, int xCoord, int yCoord) {
+GameArea::GameArea(bool empty, float xCoord, float yCoord) {
 	areaEmpty = empty;
 	areaXCoord = xCoord;
 	areaYCoord = yCoord;

@@ -7,12 +7,12 @@ using namespace std;
 class GameArea {
 private :
 	bool areaEmpty;
-	int areaXCoord;
-	int areaYCoord;
+	float areaXCoord;
+	float areaYCoord;
 
 public:
 	//Kontruktor
-	GameArea(bool empty, int xCoord, int yCoord);
+	GameArea(bool empty, float xCoord, float yCoord);
 
 	//setter
 	inline void setAreaEmpty(bool empty) {
@@ -25,11 +25,11 @@ public:
 		return areaEmpty;
 	}
 
-	inline int getAreaXCoord() {
+	inline float getAreaXCoord() {
 		return areaXCoord;
 	}
 
-	inline int getAreaYCoord() {
+	inline float getAreaYCoord() {
 		return areaYCoord;
 	}
 };

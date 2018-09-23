@@ -168,11 +168,12 @@ void Menu::Run()
 
 void Menu::SetCreditButtonText(sf::Text &Credits, sf::Font &font, sf::Color &color)
 {
+	string credits = "Andre Jelonek  -  259031\nJohannes Schmidt  -  293868\nStefan Reso  -  286788\n\n\nArt Assets by Kenney Vleugels (Kenney.nl) \nused under\n\nCreative Commons Zero, CC0 1.0 Universal\n\nBackground Assets by\n\nDinVStudio";
 	Credits.setFont(font);
-	Credits.setString("Hier Credtis einfügen!");
+	Credits.setString(credits);
 	Credits.setFillColor(color.White);
 	Credits.setCharacterSize(19);
-	Credits.setPosition(50, 200);
+	Credits.setPosition(30, 30);
 }
 
 void Menu::SetStartButtonText(sf::Text &StartButtonText, sf::Font &font, sf::Color &color, float StartButtonWidth, float StartButtonHeight)

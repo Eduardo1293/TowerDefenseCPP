@@ -15,23 +15,23 @@ private:
 	sf::Sprite lifeBarSprite;
 	double e_MaxLife;
 	double e_CurrentLife;
-	int e_XCoord;
-	int e_YCoord;
+	float e_XCoord;
+	float e_YCoord;
 
 public:
-	DummyEnemy(int XCoord, int YCoord);
+	DummyEnemy(float XCoord, float YCoord);
 
 	//Setter
-	void eSetRotation(int rotation);
+	void eSetRotation(float rotation);
 	void eSetPosition();
-	void eSetXCoord(int XCoord);
-	void eSetYCoord(int YCoord);
+	void eSetXCoord(float XCoord);
+	void eSetYCoord(float YCoord);
 
 	//Getter
 	double getMaxLife(); 
 	double getCurrentLife(); 
-	int getXCoord();
-	int getYCoord();
+	float getXCoord();
+	float getYCoord();
 	sf::Sprite getSprite();
 
 	void takeDamage(int damage);

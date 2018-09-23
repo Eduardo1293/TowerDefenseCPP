@@ -2,7 +2,7 @@
 
 
 
-BasicTower::BasicTower(int XCoord, int YCoord) {
+BasicTower::BasicTower(float XCoord, float YCoord) {
 	t_Name = "Basistower";
 	t_Description = "Test";
 	t_Cost = 10;
@@ -24,8 +24,8 @@ BasicTower::BasicTower()
 int BasicTower::checkForEnemies(vector<DummyEnemy*> *enemyActiveVector) {
 	if (attackCooldown == 0) {
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
-			int enemyXCoord = enemyActiveVector->at(i)->getXCoord();
-			int enemyYCoord = enemyActiveVector->at(i)->getYCoord();
+			float enemyXCoord = enemyActiveVector->at(i)->getXCoord();
+			float enemyYCoord = enemyActiveVector->at(i)->getYCoord();
 			//rechts unten
 			if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
 				&& (enemyYCoord > (t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
