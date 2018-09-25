@@ -6,7 +6,7 @@
 #include "CannonTower.h"
 #include "EnemyWaves.h"
 #include "Menu.h"
-#include "FlameTower.h"
+
 
 #include <iostream>
 
@@ -19,7 +19,9 @@ Game::Game()
 
 }
 
+//bool für gegnerphase oder bauphase
 bool buildingphase = true;
+
 Game::~Game()
 {
 }
@@ -30,8 +32,6 @@ void Game::Run()
 	App.setFramerateLimit(24);
 	float x;
 	float y;
-
-	//bool für gegnerphase oder bauphase
 
 
 
@@ -54,7 +54,7 @@ void Game::Run()
 	int gameTimeEnemyCounter = 1;
 	int waveEnemyAddedCounter = 0;
 
-	//Testturm und Testgegner, testgegner ist hardgecodet, dass er einen bestimmten weg abfährt
+	//Testturm und Testgegner
 	sf::Texture testTurmTexture;
 	testTurmTexture.loadFromFile("ArtAssets/Tower/tank_dark.png");
 	sf::Sprite testTurmSprite;

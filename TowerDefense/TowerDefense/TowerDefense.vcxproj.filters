@@ -69,15 +69,18 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Pathfinding.cpp">
+      <Filter>Quelldateien\Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="Zellen.cpp">
+      <Filter>Quelldateien\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CannonTower.h">
       <Filter>Headerdateien\Tower</Filter>
     </ClInclude>
     <ClInclude Include="BasicTower.h">
-      <Filter>Headerdateien\Tower</Filter>
-    </ClInclude>
-    <ClInclude Include="FlameTower.h">
       <Filter>Headerdateien\Tower</Filter>
     </ClInclude>
     <ClInclude Include="FrostTower.h">
@@ -102,6 +105,9 @@
       <Filter>Headerdateien\Core</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
+      <Filter>Headerdateien\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Pathfinding.h">
       <Filter>Headerdateien\Core</Filter>
     </ClInclude>
   </ItemGroup>

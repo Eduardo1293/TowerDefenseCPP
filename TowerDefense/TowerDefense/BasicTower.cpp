@@ -8,12 +8,31 @@ BasicTower::BasicTower(float XCoord, float YCoord) {
 	t_Cost = 10;
 	t_XCoord = XCoord;
 	t_YCoord = YCoord;
-	attackCooldown = 0;
-	damage = 10;
-	BasicTurmTexture.loadFromFile("ArtAssets/Tower/tank_dark.png");
-	BasicTurmSprite.setTexture(BasicTurmTexture);
-	BasicTurmSprite.setOrigin(32, 32);
-	BasicTurmSprite.setPosition(t_XCoord, t_YCoord);
+	t_attackCooldown = 0;
+	t_damage = 10;
+	t_BasicTurmTexture.loadFromFile("ArtAssets/Tower/tank_dark.png");
+	t_BasicTurmSprite.setTexture(t_BasicTurmTexture);
+	t_BasicTurmSprite.setOrigin(32, 32);
+	t_BasicTurmSprite.setPosition(t_XCoord, t_YCoord);
+}
+
+BasicTower::BasicTower(float xCoord, float yCoord, string textureLocation, string name, string description, int cost, int attackCooldown, int damage)
+{
+	t_Name = textureLocation;
+	t_Description = description;
+	t_Cost = cost;
+	t_XCoord = xCoord;
+	t_YCoord = yCoord;
+	t_attackCooldown = attackCooldown;
+	t_damage = damage;
+	t_BasicTurmTexture.loadFromFile(textureLocation);
+	t_BasicTurmSprite.setTexture(t_BasicTurmTexture);
+	t_BasicTurmSprite.setOrigin(32, 32);
+	t_BasicTurmSprite.setPosition(t_XCoord, t_YCoord);
+}
+
+BasicTower::~BasicTower()
+{
 }
 
 BasicTower::BasicTower()
@@ -22,23 +41,23 @@ BasicTower::BasicTower()
 }
 
 int BasicTower::checkForEnemies(vector<DummyEnemy*> *enemyActiveVector) {
-	if (attackCooldown == 0) {
+	if (t_attackCooldown == 0) {
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
 			float enemyXCoord = enemyActiveVector->at(i)->getXCoord();
 			float enemyYCoord = enemyActiveVector->at(i)->getYCoord();
 			//rechts unten
 			if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
 				&& (enemyYCoord > (t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
-				BasicTurmSprite.setRotation(315);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(315);
+				t_attackCooldown = 10;
 				return i;
 				break;
 				//rechts 
 			}
 			else if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
 				&& (enemyYCoord > (t_YCoord - 32)) && (enemyYCoord < (t_YCoord + 33))) {
-				BasicTurmSprite.setRotation(270);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(270);
+				t_attackCooldown = 10;
 				//deal damage
 				return i;
 				break;
@@ -46,8 +65,8 @@ int BasicTower::checkForEnemies(vector<DummyEnemy*> *enemyActiveVector) {
 			}
 			else if ((enemyXCoord > (t_XCoord + -32)) && (enemyXCoord < (t_XCoord + 33))
 				&& (enemyYCoord > (t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
-				BasicTurmSprite.setRotation(0);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(0);
+				t_attackCooldown = 10;
 				//deal damage
 				return i;
 				break;
@@ -55,8 +74,8 @@ int BasicTower::checkForEnemies(vector<DummyEnemy*> *enemyActiveVector) {
 			}
 			else if ((enemyXCoord > (t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
 				&& (enemyYCoord > (t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
-				BasicTurmSprite.setRotation(45);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(45);
+				t_attackCooldown = 10;
 				//deal damage
 				return i;
 				break;
@@ -64,8 +83,8 @@ int BasicTower::checkForEnemies(vector<DummyEnemy*> *enemyActiveVector) {
 			}
 			else if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
 				&& (enemyYCoord > (t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
-				BasicTurmSprite.setRotation(225);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(225);
+				t_attackCooldown = 10;
 				//deal damage
 				return i;
 				break;
@@ -73,8 +92,8 @@ int BasicTower::checkForEnemies(vector<DummyEnemy*> *enemyActiveVector) {
 			}
 			else if ((enemyXCoord > (t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
 				&& (enemyYCoord > (t_YCoord - 32)) && (enemyYCoord < (t_YCoord + 33))) {
-				BasicTurmSprite.setRotation(90);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(90);
+				t_attackCooldown = 10;
 				//deal damage
 				return i;
 				break;;
@@ -82,8 +101,8 @@ int BasicTower::checkForEnemies(vector<DummyEnemy*> *enemyActiveVector) {
 			}
 			else if ((enemyXCoord > (t_XCoord - 32)) && (enemyXCoord < (t_XCoord + 33))
 				&& (enemyYCoord > (t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
-				BasicTurmSprite.setRotation(180);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(180);
+				t_attackCooldown = 10;
 				return i;
 				break;
 				//deal damage
@@ -91,8 +110,8 @@ int BasicTower::checkForEnemies(vector<DummyEnemy*> *enemyActiveVector) {
 			}
 			else if ((enemyXCoord > (t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
 				&& (enemyYCoord > (t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
-				BasicTurmSprite.setRotation(135);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(135);
+				t_attackCooldown = 10;
 				return i;
 				break;
 				//deal damage	
@@ -100,7 +119,7 @@ int BasicTower::checkForEnemies(vector<DummyEnemy*> *enemyActiveVector) {
 		}
 	}
 	else {
-		attackCooldown -= 1;
+		t_attackCooldown -= 1;
 	}
 	return 999;
 }

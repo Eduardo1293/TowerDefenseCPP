@@ -37,7 +37,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="EnemyWaves.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="TowerDefense.cpp" />
+    <ClCompile Include="Zellen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DummyEnemy.h" />
@@ -45,11 +47,11 @@
     <ClInclude Include="GameArea.h" />
     <ClInclude Include="BasicTower.h" />
     <ClInclude Include="CannonTower.h" />
-    <ClInclude Include="FlameTower.h" />
     <ClInclude Include="FrostTower.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="LightningTower.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="PlayingField.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
