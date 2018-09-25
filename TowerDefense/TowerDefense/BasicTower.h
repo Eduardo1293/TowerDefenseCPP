@@ -50,6 +50,15 @@ public:
 
 };
 
+class CannonTower : BasicTower {
+
+public:
+	CannonTower(float XCoord, float YCoord);
+
+	int checkForEnemies(vector<DummyEnemy*> *enemyActiveVector);
+	void dealDamage();
+};
+
 class FlameTower : public BasicTower {
 
 public:
