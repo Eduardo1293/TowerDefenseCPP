@@ -1,44 +1,30 @@
-#include "CannonTower.h"
+#include "BasicTower.h"
 
 CannonTower::CannonTower(float XCoord, float YCoord)
+	: BasicTower(XCoord, YCoord, "ArtAssets/Tower/tank_green.png", "Cannontower",
+		"Kanonenturm mit grˆﬂerer Reichweite", 40, 0, 30)
 {
-	t_Name = "Cannontower";
-	t_Description = "Ein Turm der Feuer schieﬂt";
-	t_Cost = 20;
-	t_XCoord = XCoord;
-	t_YCoord = YCoord;
-	attackCooldown = 2;
-	damage = 25;
-	CannonTurmTexture.loadFromFile("ArtAssets/Tower/tank_green.png");
-	CannonTurmSprite.setTexture(CannonTurmTexture);
-	CannonTurmSprite.setOrigin(32, 32);
-	CannonTurmSprite.setPosition(t_XCoord, t_YCoord);
-}
-
-CannonTower::CannonTower()
-{
-	t_Description = "Ein Turm der Feuer schieﬂt, 25 Schaden";
 }
 
 int CannonTower::checkForEnemies(vector<DummyEnemy*>* enemyActiveVector)
 {
-	if (attackCooldown == 0) {
+	if (t_attackCooldown == 0) {
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
 			float enemyXCoord = enemyActiveVector->at(i)->getXCoord();
 			float enemyYCoord = enemyActiveVector->at(i)->getYCoord();
 			//rechts unten
 			if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
 				&& (enemyYCoord > (t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
-				CannonTurmSprite.setRotation(315);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(315);
+				t_attackCooldown = 10;
 				return i;
 				break;
 				//rechts 
 			}
 			else if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
 				&& (enemyYCoord > (t_YCoord - 32)) && (enemyYCoord < (t_YCoord + 33))) {
-				CannonTurmSprite.setRotation(270);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(270);
+				t_attackCooldown = 10;
 				//deal damage
 				return i;
 				break;
@@ -46,8 +32,8 @@ int CannonTower::checkForEnemies(vector<DummyEnemy*>* enemyActiveVector)
 			}
 			else if ((enemyXCoord > (t_XCoord + -32)) && (enemyXCoord < (t_XCoord + 33))
 				&& (enemyYCoord > (t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
-				CannonTurmSprite.setRotation(0);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(0);
+				t_attackCooldown = 10;
 				//deal damage
 				return i;
 				break;
@@ -55,8 +41,8 @@ int CannonTower::checkForEnemies(vector<DummyEnemy*>* enemyActiveVector)
 			}
 			else if ((enemyXCoord > (t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
 				&& (enemyYCoord > (t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
-				CannonTurmSprite.setRotation(45);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(45);
+				t_attackCooldown = 10;
 				//deal damage
 				return i;
 				break;
@@ -64,8 +50,8 @@ int CannonTower::checkForEnemies(vector<DummyEnemy*>* enemyActiveVector)
 			}
 			else if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
 				&& (enemyYCoord > (t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
-				CannonTurmSprite.setRotation(225);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(225);
+				t_attackCooldown = 10;
 				//deal damage
 				return i;
 				break;
@@ -73,8 +59,8 @@ int CannonTower::checkForEnemies(vector<DummyEnemy*>* enemyActiveVector)
 			}
 			else if ((enemyXCoord > (t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
 				&& (enemyYCoord > (t_YCoord - 32)) && (enemyYCoord < (t_YCoord + 33))) {
-				CannonTurmSprite.setRotation(90);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(90);
+				t_attackCooldown = 10;
 				//deal damage
 				return i;
 				break;;
@@ -82,8 +68,8 @@ int CannonTower::checkForEnemies(vector<DummyEnemy*>* enemyActiveVector)
 			}
 			else if ((enemyXCoord > (t_XCoord - 32)) && (enemyXCoord < (t_XCoord + 33))
 				&& (enemyYCoord > (t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
-				CannonTurmSprite.setRotation(180);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(180);
+				t_attackCooldown = 10;
 				return i;
 				break;
 				//deal damage
@@ -91,8 +77,8 @@ int CannonTower::checkForEnemies(vector<DummyEnemy*>* enemyActiveVector)
 			}
 			else if ((enemyXCoord > (t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
 				&& (enemyYCoord > (t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
-				CannonTurmSprite.setRotation(135);
-				attackCooldown = 10;
+				t_BasicTurmSprite.setRotation(135);
+				t_attackCooldown = 10;
 				return i;
 				break;
 				//deal damage	
@@ -100,7 +86,7 @@ int CannonTower::checkForEnemies(vector<DummyEnemy*>* enemyActiveVector)
 		}
 	}
 	else {
-		attackCooldown -= 1;
+		t_attackCooldown -= 1;
 	}
 	return 999;
 }
