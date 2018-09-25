@@ -46,7 +46,6 @@
     <ClInclude Include="EnemyWaves.h" />
     <ClInclude Include="GameArea.h" />
     <ClInclude Include="BasicTower.h" />
-    <ClInclude Include="CannonTower.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Pathfinding.h" />

@@ -77,9 +77,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CannonTower.h">
-      <Filter>Headerdateien\Tower</Filter>
-    </ClInclude>
     <ClInclude Include="BasicTower.h">
       <Filter>Headerdateien\Tower</Filter>
     </ClInclude>
