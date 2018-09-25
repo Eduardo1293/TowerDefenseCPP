@@ -47,9 +47,7 @@
     <ClInclude Include="GameArea.h" />
     <ClInclude Include="BasicTower.h" />
     <ClInclude Include="CannonTower.h" />
-    <ClInclude Include="FrostTower.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="LightningTower.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="PlayingField.cpp" />

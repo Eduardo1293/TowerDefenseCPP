@@ -83,12 +83,6 @@
     <ClInclude Include="BasicTower.h">
       <Filter>Headerdateien\Tower</Filter>
     </ClInclude>
-    <ClInclude Include="FrostTower.h">
-      <Filter>Headerdateien\Tower</Filter>
-    </ClInclude>
-    <ClInclude Include="LightningTower.h">
-      <Filter>Headerdateien\Tower</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Headerdateien\Core</Filter>
     </ClInclude>

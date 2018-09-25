@@ -59,4 +59,21 @@ public:
 	void dealDamage();
 };
 
+class FrostTower : public BasicTower {
+
+public:
+	FrostTower(float XCoord, float YCoord);
+
+	int checkForEnemies(vector<DummyEnemy*> *enemyActiveVector);
+	void dealDamage();
+};
+
+class LightningTower : public BasicTower {
+
+public:
+	LightningTower(float XCoord, float YCoord);
+
+	int checkForEnemies(vector<DummyEnemy*> *enemyActiveVector);
+	void dealDamage();
+};
 #endif
