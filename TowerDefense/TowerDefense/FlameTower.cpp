@@ -1,4 +1,3 @@
-//#include "FlameTower.h"
 #include "BasicTower.h"
 
 FlameTower::FlameTower(float XCoord, float YCoord) 
