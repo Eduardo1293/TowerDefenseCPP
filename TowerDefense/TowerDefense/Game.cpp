@@ -33,6 +33,15 @@ void Game::Run()
 	float x;
 	float y;
 
+	float gameTime = 0;
+	int gold = 100;
+	int runde = 0;
+	int timerText = 0;
+	int playerLife = 20;
+	int punkteZahl = 0;
+	int gameTimeEnemyCounter = 1;
+	int waveEnemyAddedCounter = 0;
+
 
 
 	enum SelectetTower
@@ -45,183 +54,119 @@ void Game::Run()
 		lightningTower
 	};
 
-	float gameTime = 0;
+
 
 	vector<DummyEnemy*> *enemyVector = new vector<DummyEnemy*>();
 	vector<DummyEnemy*> *enemyActiveVector = new vector<DummyEnemy*>();
 	*enemyVector = enemyWaves(1);
 
-	int gameTimeEnemyCounter = 1;
-	int waveEnemyAddedCounter = 0;
+
 
 	//Testturm und Testgegner
 	sf::Texture testTurmTexture;
-	testTurmTexture.loadFromFile("ArtAssets/Tower/tank_dark.png");
 	sf::Sprite testTurmSprite;
 	sf::Sprite testEnemySprite;
+	sf::Sprite buildTowerSprite;
+
+
+	testTurmTexture.loadFromFile("ArtAssets/Tower/tank_dark.png");
 	testEnemySprite.setTexture(testTurmTexture);
 
-	//halbdurchsichtiger tower zum bauen
-	sf::Sprite buildTowerSprite;
+	//halbdurchsichtiger tower zum bauen	
 	buildTowerSprite.setColor(sf::Color(255, 255, 255, 140));
 	buildTowerSprite.setOrigin(32, 32);
 
 	//lifebar
 	sf::Texture hundredLifeTexture;
-	hundredLifeTexture.loadFromFile("ArtAssets/Lifebar/100percent.png");
 	sf::Texture ninetyLifeTexture;
-	ninetyLifeTexture.loadFromFile("ArtAssets/Lifebar/90percent.png");
 	sf::Texture eightyLifeTexture;
-	eightyLifeTexture.loadFromFile("ArtAssets/Lifebar/80percent.png");
 	sf::Texture seventyLifeTexture;
-	seventyLifeTexture.loadFromFile("ArtAssets/Lifebar/70percent.png");
 	sf::Texture sixtyLifeTexture;
-	sixtyLifeTexture.loadFromFile("ArtAssets/Lifebar/60percent.png");
 	sf::Texture fiftyLifeTexture;
-	fiftyLifeTexture.loadFromFile("ArtAssets/Lifebar/50percent.png");
 	sf::Texture fortyLifeTexture;
-	fortyLifeTexture.loadFromFile("ArtAssets/Lifebar/40percent.png");
 	sf::Texture thirtyLifeTexture;
-	thirtyLifeTexture.loadFromFile("ArtAssets/Lifebar/30percent.png");
 	sf::Texture twentyLifeTexture;
-	twentyLifeTexture.loadFromFile("ArtAssets/Lifebar/20percent.png");
 	sf::Texture tenLifeTexture;
-	tenLifeTexture.loadFromFile("ArtAssets/Lifebar/10percent.png");
 	sf::Sprite lifeEnemySprite;
+	sf::Color color;
+	sf::Font font;
+
+	LoadLifeBarTextures(hundredLifeTexture, ninetyLifeTexture, eightyLifeTexture, seventyLifeTexture, sixtyLifeTexture, fiftyLifeTexture, fortyLifeTexture, thirtyLifeTexture, twentyLifeTexture, tenLifeTexture);
+
 	lifeEnemySprite.setTexture(fiftyLifeTexture);
 	lifeEnemySprite.setOrigin(20, 2);
 
-	sf::Color color;
-	sf::Font font;
-	if (!font.loadFromFile("ArtAssets/impact.ttf"))
-	{
-		std::cout << "Es konnte keine Fontdatei geunden werden!" << std::endl;
-	}
+
+	LoadGameFont(font);
 
 	sf::Texture basicTurmButton;
 	sf::Sprite basicTurmImage;
-
-	basicTurmButton.loadFromFile("ArtAssets/Tower/tank_dark.png");
-	basicTurmImage.setPosition(78, 779);
-
-	basicTurmImage.setTexture(basicTurmButton);
+	SetBasicTowerProperties(basicTurmButton, basicTurmImage);
 
 	//Feuerturmbutton
 	sf::Texture cannonTurmButton;
 	sf::Sprite cannonTurmImage;
-
-	cannonTurmButton.loadFromFile("ArtAssets/Tower/tank_green.png");
-	cannonTurmImage.setPosition(151, 779);
-
-	cannonTurmImage.setTexture(cannonTurmButton);
+	SetCannonTowerProperties(cannonTurmButton, cannonTurmImage);
 
 	//Frostturmbutton
 	sf::Texture frostTurmButton;
 	sf::Sprite frostTurmImage;
 
-	frostTurmButton.loadFromFile("ArtAssets/Tower/tank_blue.png");
-	frostTurmImage.setPosition(224, 779);
-
-	frostTurmImage.setTexture(frostTurmButton);
+	SetFrostTowerProperties(frostTurmButton, frostTurmImage);
 
 	//Turm 3
 	sf::Texture feuerTurmButton;
 	sf::Sprite feuerTurmImage;
 
-	feuerTurmButton.loadFromFile("ArtAssets/Tower/tank_red.png");
-	feuerTurmImage.setPosition(297, 779);
-
-	feuerTurmImage.setTexture(feuerTurmButton);
+	SetFireTowerProperties(feuerTurmButton, feuerTurmImage);
 
 	//Turm 4
 	sf::Texture lightningTurmButton;
 	sf::Sprite lightningTowerImage;
 
-	lightningTurmButton.loadFromFile("ArtAssets/Tower/tank_sand.png");
-	lightningTowerImage.setPosition(368, 779);
+	SetLightningTowerProperties(lightningTurmButton, lightningTowerImage);
 
-	lightningTowerImage.setTexture(lightningTurmButton);
 
-	int gold = 100;
-	int runde = 0;
-	int timerText = 0;
-	int playerLife = 20;
-	int punkteZahl = 0;
 	sf::Text rundenText;
-	rundenText.setFont(font);
-	rundenText.setFillColor(color.Black);
-	rundenText.setCharacterSize(13);
-	rundenText.setPosition(65, 15);
-
+	SetRoundTextProperties(rundenText, font, color);
 
 	sf::Text goldText;
-	goldText.setFont(font);
-
-	goldText.setFillColor(color.Black);
-	goldText.setCharacterSize(13);
-	goldText.setPosition(65, 35);
+	SetGoldTextProperties(goldText, font, color);
 
 
 	sf::Text TimerText;
-	TimerText.setFont(font);
-	TimerText.setCharacterSize(30);
-	TimerText.setPosition(250, 850);
-	TimerText.setFillColor(color.Black);
+	SetTimerTextProperties(TimerText, font, color);
 
 	sf::Text lebenText;
-	lebenText.setFont(font);
-	lebenText.setString(to_string(playerLife));
-	lebenText.setFillColor(color.Black);
-	lebenText.setCharacterSize(13);
-	lebenText.setPosition(360, 16);
+	SetLifeTextProperties(lebenText, font, playerLife, color);
 
 	sf::Text punktText;
-	punktText.setFont(font);
-	punktText.setString("PUNKTE:");
-	punktText.setFillColor(color.Black);
-	punktText.setCharacterSize(13);
-	punktText.setPosition(308, 32);
+	SetPointTextProperties(punktText, font, color);
 
 	sf::Text punktZahlText;
-	punktZahlText.setFont(font);
-	punktZahlText.setFillColor(color.Black);
-	punktZahlText.setString(to_string(punkteZahl));
-	punktZahlText.setCharacterSize(13);
-	punktZahlText.setPosition(370, 32);
+	SetPointNumberProperties(punktZahlText, font, color, punkteZahl);
 
 	sf::Text descriptionText;
-	descriptionText.setFont(font);
-	descriptionText.setFillColor(color.Black);
-	descriptionText.setCharacterSize(13);
-	descriptionText.setPosition(5, 870);
+	SetDescriptionTextProperties(descriptionText, font, color);
 
 	sf::Texture statusTexture;
-	statusTexture.loadFromFile("ArtAssets/Status.png");
-
 	sf::Texture hudTexture;
-	hudTexture.loadFromFile("ArtAssets/HUD.png");
-
 	sf::Sprite hudSprite;
-	hudSprite.setTexture(hudTexture);
-	hudSprite.setPosition(0, 768);
-
 	sf::Sprite statusSprite;
-	statusSprite.setTexture(statusTexture);
-	statusSprite.setPosition(0, 0);
-
 	sf::Texture backgroundTexture;
-	backgroundTexture.loadFromFile("ArtAssets/Nebula Blue_Background.png");
 	sf::Sprite backgroundSprite;
-	backgroundSprite.setTexture(backgroundTexture);
-	backgroundSprite.setPosition(0, 64);
+	sf::Texture emptySpaceTexture;
+	sf::Texture blockedSpaceTexture;
+	sf::Sprite emptySpaceSprite;
+	sf::Sprite blockedSpaceSprite;
+
+
+	LoadGameFieldTextures(statusTexture, hudTexture, hudSprite, statusSprite, backgroundTexture, backgroundSprite, emptySpaceTexture, blockedSpaceTexture, emptySpaceSprite, blockedSpaceSprite);
 
 	//explosion
 	sf::Texture explosionTexture;
-	explosionTexture.loadFromFile("ArtAssets/SFX/explosion2.png");
 	sf::Sprite explosionSprite;
-	explosionSprite.setTexture(explosionTexture);
-	explosionSprite.setOrigin(64, 64);
-	explosionSprite.setScale(0.5, 0.5);
+	LoadExplosionTextures(explosionTexture, explosionSprite);
 
 
 	sf::Text playerText;
@@ -231,21 +176,8 @@ void Game::Run()
 	playerText.setPosition(120, 600);
 	sf::String playerInput;
 
-	sf::Texture emptySpaceTexture;
-	sf::Texture blockedSpaceTexture;
-	emptySpaceTexture.loadFromFile("ArtAssets/emptyspace.png");
-	blockedSpaceTexture.loadFromFile("ArtAssets/blockedspace.png");
 
 
-
-	sf::Sprite emptySpaceSprite;
-	sf::Sprite blockedSpaceSprite;
-	emptySpaceSprite.setTexture(emptySpaceTexture);
-	emptySpaceSprite.setColor(sf::Color(255, 255, 255, 128));
-	emptySpaceSprite.setOrigin(32, 32);
-	blockedSpaceSprite.setTexture(blockedSpaceTexture);
-	blockedSpaceSprite.setColor(sf::Color(255, 255, 255, 128));
-	blockedSpaceSprite.setOrigin(32, 32);
 
 	testEnemySprite.setOrigin(32, 32);
 
@@ -567,31 +499,7 @@ void Game::Run()
 				(attackClockElapsedTimeBuffer = attackCDTime.asMilliseconds() - 100);
 				attackClock.restart();
 				//Tower malen
-				for (unsigned int i = 0; i < BasicTowerVector->size(); i++) {
-					int target = BasicTowerVector->at(i)->checkForEnemies(enemyActiveVector);
-					if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
-						enemyActiveVector->at(target)->takeDamage(BasicTowerVector->at(i)->getDamage());
-						explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
-						App.draw(explosionSprite);
-					}
-				}
-
-				for (unsigned int i = 0; i < CannonTowerVector->size(); i++) {
-					int target = CannonTowerVector->at(i)->checkForEnemies(enemyActiveVector);
-					if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
-						enemyActiveVector->at(target)->takeDamage(CannonTowerVector->at(i)->getDamage());
-						explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
-						App.draw(explosionSprite);
-					}
-				}
-				for (unsigned int i = 0; i < FlameTowerVector->size(); i++) {
-					int target = FlameTowerVector->at(i)->checkForEnemies(enemyActiveVector);
-					if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
-						enemyActiveVector->at(target)->takeDamage(FlameTowerVector->at(i)->getDamage());
-						explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
-						App.draw(explosionSprite);
-					}
-				}
+				TowerAnimation(BasicTowerVector, enemyActiveVector, explosionSprite, CannonTowerVector, FlameTowerVector);
 			}
 
 
@@ -613,7 +521,7 @@ void Game::Run()
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
 			UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x, y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture, sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture, tenLifeTexture, punktZahlText);
 			UpdateEnemyMovement(movementElapsed, movementElapsedBuffer, enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText);
-			
+
 
 			//Hier Knallt es wenn alle Gegner im Ziel sind!!!
 			App.draw(enemyActiveVector->at(i)->getSprite());
@@ -631,6 +539,188 @@ void Game::Run()
 		App.display();
 
 	}
+}
+
+void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector, std::vector<DummyEnemy *> * enemyActiveVector, sf::Sprite &explosionSprite, std::vector<CannonTower *> * CannonTowerVector, std::vector<FlameTower *> * FlameTowerVector)
+{
+	for (unsigned int i = 0; i < BasicTowerVector->size(); i++) {
+		int target = BasicTowerVector->at(i)->checkForEnemies(enemyActiveVector);
+		if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
+			enemyActiveVector->at(target)->takeDamage(BasicTowerVector->at(i)->getDamage());
+			explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
+			App.draw(explosionSprite);
+		}
+	}
+
+	for (unsigned int i = 0; i < CannonTowerVector->size(); i++) {
+		int target = CannonTowerVector->at(i)->checkForEnemies(enemyActiveVector);
+		if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
+			enemyActiveVector->at(target)->takeDamage(CannonTowerVector->at(i)->getDamage());
+			explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
+			App.draw(explosionSprite);
+		}
+	}
+	for (unsigned int i = 0; i < FlameTowerVector->size(); i++) {
+		int target = FlameTowerVector->at(i)->checkForEnemies(enemyActiveVector);
+		if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
+			enemyActiveVector->at(target)->takeDamage(FlameTowerVector->at(i)->getDamage());
+			explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
+			App.draw(explosionSprite);
+		}
+	}
+}
+
+void Game::LoadExplosionTextures(sf::Texture &explosionTexture, sf::Sprite &explosionSprite)
+{
+	explosionTexture.loadFromFile("ArtAssets/SFX/explosion2.png");
+	explosionSprite.setTexture(explosionTexture);
+	explosionSprite.setOrigin(64, 64);
+	explosionSprite.setScale(0.5, 0.5);
+}
+
+void Game::LoadGameFieldTextures(sf::Texture &statusTexture, sf::Texture &hudTexture,
+	sf::Sprite &hudSprite, sf::Sprite &statusSprite,
+	sf::Texture &backgroundTexture, sf::Sprite &backgroundSprite,
+	sf::Texture &emptySpaceTexture, sf::Texture &blockedSpaceTexture,
+	sf::Sprite &emptySpaceSprite, sf::Sprite &blockedSpaceSprite)
+{
+	statusTexture.loadFromFile("ArtAssets/Status.png");
+	hudTexture.loadFromFile("ArtAssets/HUD.png");
+	hudSprite.setTexture(hudTexture);
+	hudSprite.setPosition(0, 768);
+	statusSprite.setTexture(statusTexture);
+	statusSprite.setPosition(0, 0);
+	backgroundTexture.loadFromFile("ArtAssets/Nebula Blue_Background.png");
+	backgroundSprite.setTexture(backgroundTexture);
+	backgroundSprite.setPosition(0, 64);
+	emptySpaceTexture.loadFromFile("ArtAssets/emptyspace.png");
+	blockedSpaceTexture.loadFromFile("ArtAssets/blockedspace.png");
+	emptySpaceSprite.setTexture(emptySpaceTexture);
+	emptySpaceSprite.setColor(sf::Color(255, 255, 255, 128));
+	emptySpaceSprite.setOrigin(32, 32);
+	blockedSpaceSprite.setTexture(blockedSpaceTexture);
+	blockedSpaceSprite.setColor(sf::Color(255, 255, 255, 128));
+	blockedSpaceSprite.setOrigin(32, 32);
+}
+
+void Game::SetDescriptionTextProperties(sf::Text &descriptionText, sf::Font &font, sf::Color &color)
+{
+	descriptionText.setFont(font);
+	descriptionText.setFillColor(color.Black);
+	descriptionText.setCharacterSize(13);
+	descriptionText.setPosition(5, 870);
+}
+
+void Game::SetPointNumberProperties(sf::Text &punktZahlText, sf::Font &font, sf::Color &color, int punkteZahl)
+{
+	punktZahlText.setFont(font);
+	punktZahlText.setFillColor(color.Black);
+	punktZahlText.setString(to_string(punkteZahl));
+	punktZahlText.setCharacterSize(13);
+	punktZahlText.setPosition(370, 32);
+}
+
+void Game::SetPointTextProperties(sf::Text &punktText, sf::Font &font, sf::Color &color)
+{
+	punktText.setFont(font);
+	punktText.setString("PUNKTE:");
+	punktText.setFillColor(color.Black);
+	punktText.setCharacterSize(13);
+	punktText.setPosition(308, 32);
+}
+
+void Game::SetLifeTextProperties(sf::Text &lebenText, sf::Font &font, int playerLife, sf::Color &color)
+{
+	lebenText.setFont(font);
+	lebenText.setString(to_string(playerLife));
+	lebenText.setFillColor(color.Black);
+	lebenText.setCharacterSize(13);
+	lebenText.setPosition(360, 16);
+}
+
+void Game::SetTimerTextProperties(sf::Text &TimerText, sf::Font &font, sf::Color &color)
+{
+	TimerText.setFont(font);
+	TimerText.setCharacterSize(30);
+	TimerText.setPosition(250, 850);
+	TimerText.setFillColor(color.Black);
+}
+
+void Game::SetGoldTextProperties(sf::Text &goldText, sf::Font &font, sf::Color &color)
+{
+	goldText.setFont(font);
+	goldText.setFillColor(color.Black);
+	goldText.setCharacterSize(13);
+	goldText.setPosition(65, 35);
+}
+
+void Game::SetRoundTextProperties(sf::Text &rundenText, sf::Font &font, sf::Color &color)
+{
+	rundenText.setFont(font);
+	rundenText.setFillColor(color.Black);
+	rundenText.setCharacterSize(13);
+	rundenText.setPosition(65, 15);
+}
+
+void Game::SetLightningTowerProperties(sf::Texture &lightningTurmButton, sf::Sprite &lightningTowerImage)
+{
+	lightningTurmButton.loadFromFile("ArtAssets/Tower/tank_sand.png");
+	lightningTowerImage.setPosition(368, 779);
+
+	lightningTowerImage.setTexture(lightningTurmButton);
+}
+
+void Game::SetFireTowerProperties(sf::Texture &feuerTurmButton, sf::Sprite &feuerTurmImage)
+{
+	feuerTurmButton.loadFromFile("ArtAssets/Tower/tank_red.png");
+	feuerTurmImage.setPosition(297, 779);
+
+	feuerTurmImage.setTexture(feuerTurmButton);
+}
+
+void Game::SetFrostTowerProperties(sf::Texture &frostTurmButton, sf::Sprite &frostTurmImage)
+{
+	frostTurmButton.loadFromFile("ArtAssets/Tower/tank_blue.png");
+	frostTurmImage.setPosition(224, 779);
+	frostTurmImage.setTexture(frostTurmButton);
+}
+
+void Game::SetCannonTowerProperties(sf::Texture &cannonTurmButton, sf::Sprite &cannonTurmImage)
+{
+	cannonTurmButton.loadFromFile("ArtAssets/Tower/tank_green.png");
+	cannonTurmImage.setPosition(151, 779);
+
+	cannonTurmImage.setTexture(cannonTurmButton);
+}
+
+void Game::SetBasicTowerProperties(sf::Texture &basicTurmButton, sf::Sprite &basicTurmImage)
+{
+	basicTurmButton.loadFromFile("ArtAssets/Tower/tank_dark.png");
+	basicTurmImage.setPosition(78, 779);
+
+	basicTurmImage.setTexture(basicTurmButton);
+}
+
+void Game::LoadGameFont(sf::Font &font)
+{
+	if (!font.loadFromFile("ArtAssets/impact.ttf"))
+	{
+		std::cout << "Es konnte keine Fontdatei geunden werden!" << std::endl;
+	}
+}
+
+void Game::LoadLifeBarTextures(sf::Texture &hundredLifeTexture, sf::Texture &ninetyLifeTexture, sf::Texture &eightyLifeTexture, sf::Texture &seventyLifeTexture, sf::Texture &sixtyLifeTexture, sf::Texture &fiftyLifeTexture, sf::Texture &fortyLifeTexture, sf::Texture &thirtyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture)
+{
+	hundredLifeTexture.loadFromFile("ArtAssets/Lifebar/100percent.png");
+	ninetyLifeTexture.loadFromFile("ArtAssets/Lifebar/90percent.png");
+	eightyLifeTexture.loadFromFile("ArtAssets/Lifebar/80percent.png");
+	seventyLifeTexture.loadFromFile("ArtAssets/Lifebar/70percent.png");
+	sixtyLifeTexture.loadFromFile("ArtAssets/Lifebar/60percent.png");
+	fiftyLifeTexture.loadFromFile("ArtAssets/Lifebar/50percent.png");
+	fortyLifeTexture.loadFromFile("ArtAssets/Lifebar/40percent.png");
+	thirtyLifeTexture.loadFromFile("ArtAssets/Lifebar/30percent.png");
+	twentyLifeTexture.loadFromFile("ArtAssets/Lifebar/20percent.png");
+	tenLifeTexture.loadFromFile("ArtAssets/Lifebar/10percent.png");
 }
 
 void Game::DrawTower(std::vector<BasicTower *> * BasicTowerVector, std::vector<CannonTower *> * CannonTowerVector, std::vector<FlameTower *> * FeuerTowerVector)
