@@ -3,7 +3,6 @@
 #include <vector>
 #include "PlayingField.cpp"
 #include "BasicTower.h"
-#include "CannonTower.h"
 #include "EnemyWaves.h"
 #include "Menu.h"
 
@@ -281,8 +280,9 @@ void Game::Run()
 
 				sf::Vector2i localPosition = sf::Mouse::getPosition(App);
 				sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
-				BasicTower * Tower;
-				CannonTower * cannonTowerBuild;
+				BasicTower * BasicTowerRef;
+				CannonTower * CannonTowerRef;
+				FlameTower * FlameTowerRef;
 
 				//freie und belegte felder markieren
 				for (list<GameArea*>::const_iterator pos = GameAreaList.begin(); pos != GameAreaList.end(); ++pos) {
@@ -310,40 +310,40 @@ void Game::Run()
 							switch (selectetTower)
 							{
 							case basicTower:
-								Tower = new BasicTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
+								BasicTowerRef = new BasicTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
 								if ((*pos)->getEmpty())
 								{
-									if (gold >= Tower->getCost())
+									if (gold >= BasicTowerRef->getCost())
 									{
-										TowerVector->push_back(Tower);
+										TowerVector->push_back(BasicTowerRef);
 										(*pos)->setAreaEmpty(false);
-										gold = gold - Tower->getCost();
+										gold = gold - BasicTowerRef->getCost();
 									}
 								}
 								break;
 
 							case cannonTower:
-								cannonTowerBuild = new CannonTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
+								CannonTowerRef = new CannonTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
 
 								if ((*pos)->getEmpty())
 								{
-									if (gold >= cannonTowerBuild->getCost())
+									if (gold >= CannonTowerRef->getCost())
 									{
-										TowerVector->push_back(cannonTowerBuild);
+										TowerVector->push_back(CannonTowerRef);
 										(*pos)->setAreaEmpty(false);
-										gold = gold - cannonTowerBuild->getCost();
+										gold = gold - CannonTowerRef->getCost();
 									}
 								}
 								break;
 							case flameTower:
-								FlameTower * flameTower = new FlameTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
+								FlameTowerRef = new FlameTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
 								if ((*pos)->getEmpty())
 								{
-									if (gold >= flameTower->getCost())
+									if (gold >= FlameTowerRef->getCost())
 									{
-										TowerVector->push_back(flameTower);
+										TowerVector->push_back(FlameTowerRef);
 										(*pos)->setAreaEmpty(false);
-										gold = gold - flameTower->getCost();
+										gold = gold - FlameTowerRef->getCost();
 									}
 								}
 								break;
@@ -364,14 +364,11 @@ void Game::Run()
 				//buttons interface
 				if (basicTurmImage.getGlobalBounds().contains(mousePosF))
 				{
-					Tower = new BasicTower();
-
 					basicTurmImage.setTexture(basicTurmButton);
 					basicTurmImage.setColor(sf::Color(255, 255, 255, 140));
 
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 					{
-						descriptionText.setString(Tower->getDescription());
 						selectetTower = basicTower;
 						buildTowerSprite.setTexture(basicTurmButton);
 						basicTurmImage.setColor(sf::Color(255, 255, 255, 140));
@@ -386,12 +383,10 @@ void Game::Run()
 				}
 				if (cannonTurmImage.getGlobalBounds().contains(mousePosF))
 				{
-					cannonTowerBuild = new CannonTower();
 					cannonTurmImage.setTexture(cannonTurmButton);
 					cannonTurmImage.setColor(sf::Color(255, 255, 255, 140));
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 					{
-						descriptionText.setString(cannonTowerBuild->getDescription());
 						selectetTower = cannonTower;
 						buildTowerSprite.setTexture(cannonTurmButton);
 						cannonTurmImage.setColor(sf::Color(255, 255, 255, 140));
