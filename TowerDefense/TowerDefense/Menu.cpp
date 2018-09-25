@@ -149,7 +149,10 @@ void Menu::LoadMenuFont(sf::Font &font)
 	}
 }
 
-void Menu::LoadMenuTextures(sf::Texture &menuBackgroundTexture, sf::Sprite &menuBackgroundSprite, sf::Texture &MenuButton, sf::Sprite &StartButtonSprite, sf::Sprite &BestenlisteButtonSprite, sf::Sprite &CreditsButtonSprite, sf::Sprite &ExitButtonSprite)
+void Menu::LoadMenuTextures(sf::Texture &menuBackgroundTexture,
+	sf::Sprite &menuBackgroundSprite, sf::Texture &MenuButton,
+	sf::Sprite &StartButtonSprite, sf::Sprite &BestenlisteButtonSprite,
+	sf::Sprite &CreditsButtonSprite, sf::Sprite &ExitButtonSprite)
 {
 	menuBackgroundTexture.loadFromFile("ArtAssets/Menu/Nebula Blue.png");
 	menuBackgroundSprite.setTexture(menuBackgroundTexture);

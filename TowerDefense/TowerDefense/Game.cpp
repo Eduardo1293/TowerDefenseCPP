@@ -91,10 +91,11 @@ void Game::Run()
 	sf::Color color;
 	sf::Font font;
 
-	LoadLifeBarTextures(hundredLifeTexture, ninetyLifeTexture, eightyLifeTexture, seventyLifeTexture, sixtyLifeTexture, fiftyLifeTexture, fortyLifeTexture, thirtyLifeTexture, twentyLifeTexture, tenLifeTexture);
+	LoadLifeBarTextures(hundredLifeTexture, ninetyLifeTexture, eightyLifeTexture,
+		seventyLifeTexture, sixtyLifeTexture, fiftyLifeTexture, fortyLifeTexture,
+		thirtyLifeTexture, twentyLifeTexture, tenLifeTexture, lifeEnemySprite);
 
-	lifeEnemySprite.setTexture(fiftyLifeTexture);
-	lifeEnemySprite.setOrigin(20, 2);
+
 
 
 	LoadGameFont(font);
@@ -161,7 +162,9 @@ void Game::Run()
 	sf::Sprite blockedSpaceSprite;
 
 
-	LoadGameFieldTextures(statusTexture, hudTexture, hudSprite, statusSprite, backgroundTexture, backgroundSprite, emptySpaceTexture, blockedSpaceTexture, emptySpaceSprite, blockedSpaceSprite);
+	LoadGameFieldTextures(statusTexture, hudTexture, hudSprite, statusSprite,
+		backgroundTexture, backgroundSprite, emptySpaceTexture, blockedSpaceTexture,
+		emptySpaceSprite, blockedSpaceSprite);
 
 	//explosion
 	sf::Texture explosionTexture;
@@ -523,8 +526,13 @@ void Game::Run()
 		sf::Time enemyMovementElapsed = enemyMovementClock.getElapsedTime();
 		int movementElapsed = enemyMovementElapsed.asMilliseconds();
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
-			UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x, y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture, sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture, tenLifeTexture, punktZahlText);
-			UpdateEnemyMovement(movementElapsed, movementElapsedBuffer, enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText);
+			UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
+				y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
+				sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
+				tenLifeTexture, punktZahlText);
+
+			UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
+				enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText);
 
 
 			//Hier Knallt es wenn alle Gegner im Ziel sind!!!
@@ -545,7 +553,9 @@ void Game::Run()
 	}
 }
 
-void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector, std::vector<DummyEnemy *> * enemyActiveVector, sf::Sprite &explosionSprite, std::vector<CannonTower *> * CannonTowerVector, std::vector<FlameTower *> * FlameTowerVector)
+void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector,
+	std::vector<DummyEnemy *> * enemyActiveVector, sf::Sprite &explosionSprite,
+	std::vector<CannonTower *> * CannonTowerVector, std::vector<FlameTower *> * FlameTowerVector)
 {
 	for (unsigned int i = 0; i < BasicTowerVector->size(); i++) {
 		int target = BasicTowerVector->at(i)->checkForEnemies(enemyActiveVector);
@@ -713,7 +723,10 @@ void Game::LoadGameFont(sf::Font &font)
 	}
 }
 
-void Game::LoadLifeBarTextures(sf::Texture &hundredLifeTexture, sf::Texture &ninetyLifeTexture, sf::Texture &eightyLifeTexture, sf::Texture &seventyLifeTexture, sf::Texture &sixtyLifeTexture, sf::Texture &fiftyLifeTexture, sf::Texture &fortyLifeTexture, sf::Texture &thirtyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture)
+void Game::LoadLifeBarTextures(sf::Texture &hundredLifeTexture, sf::Texture &ninetyLifeTexture,
+	sf::Texture &eightyLifeTexture, sf::Texture &seventyLifeTexture, sf::Texture &sixtyLifeTexture,
+	sf::Texture &fiftyLifeTexture, sf::Texture &fortyLifeTexture, sf::Texture &thirtyLifeTexture,
+	sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Sprite &lifeEnemySprite)
 {
 	hundredLifeTexture.loadFromFile("ArtAssets/Lifebar/100percent.png");
 	ninetyLifeTexture.loadFromFile("ArtAssets/Lifebar/90percent.png");
@@ -725,6 +738,9 @@ void Game::LoadLifeBarTextures(sf::Texture &hundredLifeTexture, sf::Texture &nin
 	thirtyLifeTexture.loadFromFile("ArtAssets/Lifebar/30percent.png");
 	twentyLifeTexture.loadFromFile("ArtAssets/Lifebar/20percent.png");
 	tenLifeTexture.loadFromFile("ArtAssets/Lifebar/10percent.png");
+
+	lifeEnemySprite.setTexture(fiftyLifeTexture);
+	lifeEnemySprite.setOrigin(20, 2);
 }
 
 void Game::DrawTower(std::vector<BasicTower *> * BasicTowerVector, std::vector<CannonTower *> * CannonTowerVector, std::vector<FlameTower *> * FeuerTowerVector)
@@ -745,7 +761,9 @@ void Game::DrawTower(std::vector<BasicTower *> * BasicTowerVector, std::vector<C
 	}
 }
 
-void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer, sf::Clock &enemyMovementClock, std::vector<DummyEnemy *> * enemyActiveVector, int i, float y, float x, sf::Sprite &lifeEnemySprite, int &playerLife, sf::Text &lebenText)
+void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
+	sf::Clock &enemyMovementClock, std::vector<DummyEnemy *> * enemyActiveVector,
+	int i, float y, float x, sf::Sprite &lifeEnemySprite, int &playerLife, sf::Text &lebenText)
 {
 	if ((movementElapsed + movementElapsedBuffer) >= 25) {
 		enemyMovementClock.restart();
@@ -775,7 +793,10 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer, s
 	}
 }
 
-void Game::UpdateEnemyLifeBar(std::vector<DummyEnemy *> * enemyActiveVector, int i, int &punkteZahl, int &gold, float &x, float &y, sf::Sprite &lifeEnemySprite, sf::Texture &hundredLifeTexture, sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture, sf::Texture &fortyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Text &punktZahlText)
+void Game::UpdateEnemyLifeBar(std::vector<DummyEnemy *> * enemyActiveVector,
+	int i, int &punkteZahl, int &gold, float &x, float &y, sf::Sprite &lifeEnemySprite,
+	sf::Texture &hundredLifeTexture, sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture,
+	sf::Texture &fortyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Text &punktZahlText)
 {
 	if (enemyActiveVector->at(i)->getCurrentLife() == 0) {
 		enemyActiveVector->erase((enemyActiveVector->begin() + i));
