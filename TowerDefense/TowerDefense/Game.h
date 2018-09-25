@@ -15,7 +15,7 @@ public:
 
 	void Run();
 	void TowerAnimation(std::vector<BasicTower *> * BasicTowerVector, std::vector<DummyEnemy *> * enemyActiveVector,
-		sf::Sprite &explosionSprite, std::vector<CannonTower *> * CannonTowerVector, std::vector<FlameTower *> * FlameTowerVector);
+		sf::Sprite &explosionSprite);
 	void LoadExplosionTextures(sf::Texture &explosionTexture, sf::Sprite &explosionSprite);
 	void LoadGameFieldTextures(sf::Texture &statusTexture, sf::Texture &hudTexture, sf::Sprite &hudSprite,
 		sf::Sprite &statusSprite, sf::Texture &backgroundTexture, sf::Sprite &backgroundSprite,
@@ -40,7 +40,7 @@ public:
 		sf::Texture &fiftyLifeTexture, sf::Texture &fortyLifeTexture,
 		sf::Texture &thirtyLifeTexture, sf::Texture &twentyLifeTexture,
 		sf::Texture &tenLifeTexture, sf::Sprite &lifeEnemySprite);
-	void DrawTower(std::vector<BasicTower *> * BasicTowerVector, std::vector<CannonTower *> * CannonTowerVector, std::vector<FlameTower *> * FeuerTowerVector);
+	void DrawTower(std::vector<BasicTower *> * BasicTowerVector);
 	void UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 		sf::Clock &enemyMovementClock, std::vector<DummyEnemy *> * enemyActiveVector,
 		int i, float y, float x, sf::Sprite &lifeEnemySprite, int &playerLife, sf::Text &lebenText);

@@ -190,9 +190,7 @@ void Game::Run()
 	}*/
 
 	list<GameArea*> GameAreaList = PlayingField();
-	vector<BasicTower*> *BasicTowerVector = new vector<BasicTower*>();
-	vector<CannonTower*> *CannonTowerVector = new vector<CannonTower*>();
-	vector<FlameTower*> *FlameTowerVector = new vector<FlameTower*>();
+	vector<BasicTower*> *TowerVector = new vector<BasicTower*>();
 
 	sf::Clock timerClock;
 
@@ -329,7 +327,7 @@ void Game::Run()
 								{
 									if (gold >= Tower->getCost())
 									{
-										BasicTowerVector->push_back(Tower);
+										TowerVector->push_back(Tower);
 										(*pos)->setAreaEmpty(false);
 										gold = gold - Tower->getCost();
 									}
@@ -343,7 +341,7 @@ void Game::Run()
 								{
 									if (gold >= cannonTowerBuild->getCost())
 									{
-										CannonTowerVector->push_back(cannonTowerBuild);
+										TowerVector->push_back(cannonTowerBuild);
 										(*pos)->setAreaEmpty(false);
 										gold = gold - cannonTowerBuild->getCost();
 									}
@@ -355,7 +353,7 @@ void Game::Run()
 								{
 									if (gold >= flameTower->getCost())
 									{
-										FlameTowerVector->push_back(flameTower);
+										TowerVector->push_back(flameTower);
 										(*pos)->setAreaEmpty(false);
 										gold = gold - flameTower->getCost();
 									}
@@ -506,7 +504,7 @@ void Game::Run()
 				(attackClockElapsedTimeBuffer = attackCDTime.asMilliseconds() - 100);
 				attackClock.restart();
 				//Tower malen
-				TowerAnimation(BasicTowerVector, enemyActiveVector, explosionSprite, CannonTowerVector, FlameTowerVector);
+				TowerAnimation(TowerVector, enemyActiveVector, explosionSprite);
 			}
 
 
@@ -516,7 +514,7 @@ void Game::Run()
 
 		//male alles was immer dargestellt wird immer, oberer layer:
 
-		DrawTower(BasicTowerVector, CannonTowerVector, FlameTowerVector);
+		DrawTower(TowerVector);
 
 
 
@@ -554,30 +552,12 @@ void Game::Run()
 }
 
 void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector,
-	std::vector<DummyEnemy *> * enemyActiveVector, sf::Sprite &explosionSprite,
-	std::vector<CannonTower *> * CannonTowerVector, std::vector<FlameTower *> * FlameTowerVector)
+	std::vector<DummyEnemy *> * enemyActiveVector, sf::Sprite &explosionSprite)
 {
 	for (unsigned int i = 0; i < BasicTowerVector->size(); i++) {
 		int target = BasicTowerVector->at(i)->checkForEnemies(enemyActiveVector);
 		if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
 			enemyActiveVector->at(target)->takeDamage(BasicTowerVector->at(i)->getDamage());
-			explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
-			App.draw(explosionSprite);
-		}
-	}
-
-	for (unsigned int i = 0; i < CannonTowerVector->size(); i++) {
-		int target = CannonTowerVector->at(i)->checkForEnemies(enemyActiveVector);
-		if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
-			enemyActiveVector->at(target)->takeDamage(CannonTowerVector->at(i)->getDamage());
-			explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
-			App.draw(explosionSprite);
-		}
-	}
-	for (unsigned int i = 0; i < FlameTowerVector->size(); i++) {
-		int target = FlameTowerVector->at(i)->checkForEnemies(enemyActiveVector);
-		if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
-			enemyActiveVector->at(target)->takeDamage(FlameTowerVector->at(i)->getDamage());
 			explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
 			App.draw(explosionSprite);
 		}
@@ -743,21 +723,11 @@ void Game::LoadLifeBarTextures(sf::Texture &hundredLifeTexture, sf::Texture &nin
 	lifeEnemySprite.setOrigin(20, 2);
 }
 
-void Game::DrawTower(std::vector<BasicTower *> * BasicTowerVector, std::vector<CannonTower *> * CannonTowerVector, std::vector<FlameTower *> * FeuerTowerVector)
+void Game::DrawTower(std::vector<BasicTower *> * BasicTowerVector)
 {
 	for (unsigned int i = 0; i < BasicTowerVector->size(); i++)
 	{
 		App.draw(BasicTowerVector->at(i)->getSprite());
-	}
-
-	for (unsigned int i = 0; i < CannonTowerVector->size(); i++)
-	{
-		App.draw(CannonTowerVector->at(i)->getSprite());
-	}
-
-	for (unsigned int i = 0; i < FeuerTowerVector->size(); i++)
-	{
-		App.draw(FeuerTowerVector->at(i)->getSprite());
 	}
 }
 
