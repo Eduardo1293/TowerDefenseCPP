@@ -213,23 +213,11 @@ void Game::Run()
 
 		App.clear(sf::Color::Black);
 		App.draw(backgroundSprite);
-		goldText.setString(to_string(gold));
-		rundenText.setString(to_string(runde));
-		TimerText.setString(to_string(timerText));
-		App.draw(hudSprite);
-		App.draw(statusSprite);
-		App.draw(rundenText);
-		App.draw(goldText);
-		App.draw(lebenText);
-		App.draw(basicTurmImage);
-		App.draw(cannonTurmImage);
-		App.draw(frostTurmImage);
-		App.draw(feuerTurmImage);
-		App.draw(lightningTowerImage);
-		App.draw(TimerText);
-		App.draw(punktZahlText);
-		App.draw(descriptionText);
-		App.draw(punktText);
+		SetInfoText(goldText, gold, rundenText, runde, TimerText, timerText);
+		DrawGameTextures(hudSprite, statusSprite, rundenText,
+			goldText, lebenText, basicTurmImage, cannonTurmImage,
+			frostTurmImage, feuerTurmImage, lightningTowerImage,
+			TimerText, punktZahlText, descriptionText, punktText);
 
 		// check all the window's events that were triggered since the last iteration of the loop
 		sf::Event event;
@@ -549,6 +537,31 @@ void Game::Run()
 		App.display();
 
 	}
+}
+
+void Game::DrawGameTextures(sf::Sprite &hudSprite, sf::Sprite &statusSprite, sf::Text &rundenText, sf::Text &goldText, sf::Text &lebenText, sf::Sprite &basicTurmImage, sf::Sprite &cannonTurmImage, sf::Sprite &frostTurmImage, sf::Sprite &feuerTurmImage, sf::Sprite &lightningTowerImage, sf::Text &TimerText, sf::Text &punktZahlText, sf::Text &descriptionText, sf::Text &punktText)
+{
+	App.draw(hudSprite);
+	App.draw(statusSprite);
+	App.draw(rundenText);
+	App.draw(goldText);
+	App.draw(lebenText);
+	App.draw(basicTurmImage);
+	App.draw(cannonTurmImage);
+	App.draw(frostTurmImage);
+	App.draw(feuerTurmImage);
+	App.draw(lightningTowerImage);
+	App.draw(TimerText);
+	App.draw(punktZahlText);
+	App.draw(descriptionText);
+	App.draw(punktText);
+}
+
+void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int runde, sf::Text &TimerText, int timerText)
+{
+	goldText.setString(to_string(gold));
+	rundenText.setString(to_string(runde));
+	TimerText.setString(to_string(timerText));
 }
 
 void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector,
