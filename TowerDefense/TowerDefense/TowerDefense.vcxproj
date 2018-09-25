@@ -53,6 +53,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="PlayingField.cpp" />
+    <ClInclude Include="Zellen.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -1,8 +1,6 @@
 #pragma once
 #include <vector>
 #include "Zellen.h"
-#include "Enemy.h"
-
 #include <SFML\Graphics.hpp>
 
 class Path
@@ -11,7 +9,7 @@ public:
 	Path();
 	~Path();
 
-	void FindPath(Enemy currentPos, Enemy targetPos);
+	//void FindPath(Enemy currentPos, Enemy targetPos);
 
 	// Vector3 NextPathPos();
 
@@ -25,7 +23,7 @@ public:
 	}
 	void ClearPathToGoal()
 	{
-		z_pathToGOal;
+		//z_pathToGOal;
 	}
 	bool z_initializedStartGoal;
 	bool z_foundGoal;
@@ -44,6 +42,6 @@ private:
 	Zelle *z_zielZelle;
 	std::vector<Zelle*> z_openList;
 	std::vector<Zelle*> z_visitedList;
-	std::vector<Enemy*> z_pathToGOal;
+	//std::vector<Enemy*> z_pathToGOal;
 
 };

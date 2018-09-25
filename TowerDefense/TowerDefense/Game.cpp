@@ -6,8 +6,6 @@
 #include "CannonTower.h"
 #include "EnemyWaves.h"
 #include "Menu.h"
-
-
 #include <iostream>
 
 
@@ -32,8 +30,6 @@ void Game::Run()
 	App.setFramerateLimit(24);
 	float x;
 	float y;
-
-
 
 	enum SelectetTower
 	{

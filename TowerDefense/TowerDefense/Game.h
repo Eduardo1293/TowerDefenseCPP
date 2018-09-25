@@ -2,10 +2,10 @@
 #define GAME_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 #include "DummyEnemy.h"
 #include "BasicTower.h"
 #include "CannonTower.h"
-#include "FlameTower.h"
 
 class Game 
 {
