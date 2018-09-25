@@ -18,37 +18,24 @@ void Menu::Run()
 {
 
 	sf::Texture menuBackgroundTexture;
-	menuBackgroundTexture.loadFromFile("ArtAssets/Menu/Nebula Blue.png");
 	sf::Sprite menuBackgroundSprite;
-	menuBackgroundSprite.setTexture(menuBackgroundTexture);
-	menuBackgroundSprite.setPosition(0, 0);
-	menuBackgroundSprite.scale(0.1, 0.1);
-
 	sf::Texture MenuButton;
-	MenuButton.loadFromFile("ArtAssets/Menu/MenuButton.png");
-
 	sf::Sprite StartButtonSprite;
-	StartButtonSprite.setPosition(50, 25);
-	StartButtonSprite.setTexture(MenuButton);
-
 	sf::Sprite BestenlisteButtonSprite;
-	BestenlisteButtonSprite.setPosition(50, 120);
-	BestenlisteButtonSprite.setTexture(MenuButton);
-
 	sf::Sprite CreditsButtonSprite;
-	CreditsButtonSprite.setPosition(50, 215);
-	CreditsButtonSprite.setTexture(MenuButton);
-
 	sf::Sprite ExitButtonSprite;
-	ExitButtonSprite.setPosition(50, 310);
-	ExitButtonSprite.setTexture(MenuButton);
-
 	sf::Font font;
-	if (!font.loadFromFile("ArtAssets/impact.ttf"))
-	{
-		std::cout << "Es konnte keine Fontdatei geunden werden!" << std::endl;
-	}
 	sf::Color color;
+
+
+
+
+
+	LoadMenuTextures(menuBackgroundTexture, menuBackgroundSprite, MenuButton, StartButtonSprite, BestenlisteButtonSprite, CreditsButtonSprite, ExitButtonSprite);
+
+
+	LoadMenuFont(font);
+	
 
 	float StartButtonWidth = StartButtonSprite.getLocalBounds().width;
 	float StartButtonHeight = StartButtonSprite.getLocalBounds().height;
@@ -78,13 +65,6 @@ void Menu::Run()
 	sf::Text ExitButtonText;
 	SetExitButtonText(ExitButtonText, font, color, ExitButtonWidth);
 
-
-
-	
-
-
-
-
 	bool showButtons = true;
 	bool showCredits = false;
 
@@ -108,14 +88,9 @@ void Menu::Run()
 				
 		}
 
-
-
-
 		sf::Vector2i localPosition = sf::Mouse::getPosition(MenuWindow);
 		sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
-
-
-
+		
 		setButtonColor(StartButtonSprite, mousePosF, MenuButton, color, BestenlisteButtonSprite, CreditsButtonSprite, ExitButtonSprite);
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) 
@@ -164,6 +139,31 @@ void Menu::Run()
 
 
 	}
+}
+
+void Menu::LoadMenuFont(sf::Font &font)
+{
+	if (!font.loadFromFile("ArtAssets/impact.ttf"))
+	{
+		std::cout << "Es konnte keine Fontdatei geunden werden!" << std::endl;
+	}
+}
+
+void Menu::LoadMenuTextures(sf::Texture &menuBackgroundTexture, sf::Sprite &menuBackgroundSprite, sf::Texture &MenuButton, sf::Sprite &StartButtonSprite, sf::Sprite &BestenlisteButtonSprite, sf::Sprite &CreditsButtonSprite, sf::Sprite &ExitButtonSprite)
+{
+	menuBackgroundTexture.loadFromFile("ArtAssets/Menu/Nebula Blue.png");
+	menuBackgroundSprite.setTexture(menuBackgroundTexture);
+	menuBackgroundSprite.setPosition(0, 0);
+	menuBackgroundSprite.scale(0.1, 0.1);
+	MenuButton.loadFromFile("ArtAssets/Menu/MenuButton.png");
+	StartButtonSprite.setPosition(50, 25);
+	StartButtonSprite.setTexture(MenuButton);
+	BestenlisteButtonSprite.setPosition(50, 120);
+	BestenlisteButtonSprite.setTexture(MenuButton);
+	CreditsButtonSprite.setPosition(50, 215);
+	CreditsButtonSprite.setTexture(MenuButton);
+	ExitButtonSprite.setPosition(50, 310);
+	ExitButtonSprite.setTexture(MenuButton);
 }
 
 void Menu::SetCreditButtonText(sf::Text &Credits, sf::Font &font, sf::Color &color)

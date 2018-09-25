@@ -209,30 +209,8 @@ void Game::Run()
 	// run the program as long as the window is open
 	while (App.isOpen())
 	{
-		// check all the window's events that were triggered since the last iteration of the loop
-		sf::Event event;
-		while (App.pollEvent(event))
-		{
-			switch (event.type)
-			{
-			case sf::Event::Closed:
-				App.close();
-				running = false;
 
-			default:
-				break;
-			}
-		}
-
-		// clear the window with black color
 		App.clear(sf::Color::Black);
-
-		// draw everything here...
-		// window.draw(...);
-		//Background
-
-		//male alles was immer dargestellt wird immer, unterer layer:
-
 		App.draw(backgroundSprite);
 		goldText.setString(to_string(gold));
 		rundenText.setString(to_string(runde));
@@ -251,6 +229,32 @@ void Game::Run()
 		App.draw(punktZahlText);
 		App.draw(descriptionText);
 		App.draw(punktText);
+
+		// check all the window's events that were triggered since the last iteration of the loop
+		sf::Event event;
+		while (App.pollEvent(event))
+		{
+			switch (event.type)
+			{
+			case sf::Event::Closed:
+				App.close();
+				running = false;
+
+			default:
+				break;
+			}
+		}
+
+		// clear the window with black color
+
+
+		// draw everything here...
+		// window.draw(...);
+		//Background
+
+		//male alles was immer dargestellt wird immer, unterer layer:
+
+
 
 		//Gegnerphase / Bauphase unterscheidung hier!
 		//manches muss immer dargestellt werden, anderes nur in der entsprechenden phase
