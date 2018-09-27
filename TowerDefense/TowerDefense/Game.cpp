@@ -5,7 +5,7 @@
 #include "BasicTower.h"
 #include "EnemyWaves.h"
 #include "Menu.h"
-
+#include "BasicButton.h"
 
 #include <iostream>
 
@@ -62,18 +62,15 @@ void Game::Run()
 
 
 	//Testturm und Testgegner
-	sf::Texture testTurmTexture;
 	sf::Sprite testTurmSprite;
 	sf::Sprite testEnemySprite;
 	sf::Sprite buildTowerSprite;
-
-
-	testTurmTexture.loadFromFile("ArtAssets/Tower/tank_dark.png");
-	testEnemySprite.setTexture(testTurmTexture);
-
+	sf::Texture basicTowerTexture;
+	basicTowerTexture.loadFromFile("ArtAssets/Tower/tank_dark.png");
 	//halbdurchsichtiger tower zum bauen	
 	buildTowerSprite.setColor(sf::Color(255, 255, 255, 140));
 	buildTowerSprite.setOrigin(32, 32);
+
 
 	//lifebar
 	sf::Texture hundredLifeTexture;
@@ -90,6 +87,8 @@ void Game::Run()
 	sf::Color color;
 	sf::Font font;
 
+	sf::Color hoverColer = sf::Color(255, 255, 255, 140);
+
 	LoadLifeBarTextures(hundredLifeTexture, ninetyLifeTexture, eightyLifeTexture,
 		seventyLifeTexture, sixtyLifeTexture, fiftyLifeTexture, fortyLifeTexture,
 		thirtyLifeTexture, twentyLifeTexture, tenLifeTexture, lifeEnemySprite);
@@ -99,33 +98,11 @@ void Game::Run()
 
 	LoadGameFont(font);
 
-	sf::Texture basicTurmButton;
-	sf::Sprite basicTurmImage;
-	SetBasicTowerProperties(basicTurmButton, basicTurmImage);
-
-	//Feuerturmbutton
-	sf::Texture cannonTurmButton;
-	sf::Sprite cannonTurmImage;
-	SetCannonTowerProperties(cannonTurmButton, cannonTurmImage);
-
-	//Frostturmbutton
-	sf::Texture frostTurmButton;
-	sf::Sprite frostTurmImage;
-
-	SetFrostTowerProperties(frostTurmButton, frostTurmImage);
-
-	//Turm 3
-	sf::Texture feuerTurmButton;
-	sf::Sprite feuerTurmImage;
-
-	SetFireTowerProperties(feuerTurmButton, feuerTurmImage);
-
-	//Turm 4
-	sf::Texture lightningTurmButton;
-	sf::Sprite lightningTowerImage;
-
-	SetLightningTowerProperties(lightningTurmButton, lightningTowerImage);
-
+	BasicButton basicTowerButton = BasicButton(78, 779, "", "ArtAssets/Tower/tank_green.png", color.White, 0, 0, 0);
+	BasicButton cannonTowerButton = BasicButton(151, 779, "", "ArtAssets/Tower/tank_green.png", color.White, 0, 0, 0);
+	BasicButton frostTowerButton = BasicButton(224, 779, "", "ArtAssets/Tower/tank_blue.png", color.White, 0, 0, 0);
+	BasicButton fireTowerButton = BasicButton(297, 779, "", "ArtAssets/Tower/tank_red.png", color.White, 0, 0, 0);
+	BasicButton lightningTowerButton = BasicButton(368, 779, "", "ArtAssets/Tower/tank_sand.png", color.White, 0, 0, 0);
 
 	sf::Text rundenText;
 	SetRoundTextProperties(rundenText, font, color);
@@ -214,8 +191,8 @@ void Game::Run()
 		App.draw(backgroundSprite);
 		SetInfoText(goldText, gold, rundenText, runde, TimerText, timerText);
 		DrawGameTextures(hudSprite, statusSprite, rundenText,
-			goldText, lebenText, basicTurmImage, cannonTurmImage,
-			frostTurmImage, feuerTurmImage, lightningTowerImage,
+			goldText, lebenText, basicTowerButton.getSprite(), cannonTowerButton.getSprite(),
+			frostTowerButton.getSprite(), fireTowerButton.getSprite(), lightningTowerButton.getSprite(),
 			TimerText, punktZahlText, descriptionText, punktText);
 
 		// check all the window's events that were triggered since the last iteration of the loop
@@ -271,7 +248,7 @@ void Game::Run()
 			if (buildingphaseCountdown == 0)
 			{
 				buildingphase = false;
-				TimerText.setFillColor(sf::Color(255, 255, 255, 140));
+				TimerText.setFillColor(hoverColer);
 				buildphaseElapsedTimeBuffer = 0;
 				clock.restart();
 			}
@@ -362,98 +339,98 @@ void Game::Run()
 				}
 
 				//buttons interface
-				if (basicTurmImage.getGlobalBounds().contains(mousePosF))
+				if (basicTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
 				{
-					basicTurmImage.setTexture(basicTurmButton);
-					basicTurmImage.setColor(sf::Color(255, 255, 255, 140));
+					basicTowerButton.setColor(hoverColer);
 
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 					{
 						selectetTower = basicTower;
-						buildTowerSprite.setTexture(basicTurmButton);
-						basicTurmImage.setColor(sf::Color(255, 255, 255, 140));
+						buildTowerSprite.setTexture(basicTowerButton.getButtonTexture());
+						basicTowerButton.setColor(hoverColer);
 					}
 				}
 				else
 				{
 					if (selectetTower != basicTower)
 					{
-						basicTurmImage.setColor(color.White);
+						basicTowerButton.setColor(color.White);
 					}
 				}
-				if (cannonTurmImage.getGlobalBounds().contains(mousePosF))
+				if (cannonTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
 				{
-					cannonTurmImage.setTexture(cannonTurmButton);
-					cannonTurmImage.setColor(sf::Color(255, 255, 255, 140));
+					cannonTowerButton.setColor(hoverColer);
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 					{
 						selectetTower = cannonTower;
-						buildTowerSprite.setTexture(cannonTurmButton);
-						cannonTurmImage.setColor(sf::Color(255, 255, 255, 140));
+						
+						buildTowerSprite.setTexture(cannonTowerButton.getButtonTexture());
+						cannonTowerButton.setColor(hoverColer);
 					}
 				}
 				else
 				{
 					if (selectetTower != cannonTower)
 					{
-						cannonTurmImage.setColor(color.White);
+						cannonTowerButton.setColor(color.White);
 					}
 				}
-				if (frostTurmImage.getGlobalBounds().contains(mousePosF))
+				if (frostTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
 				{
-					frostTurmImage.setTexture(frostTurmButton);
-					frostTurmImage.setColor(sf::Color(255, 255, 255, 140));
+					frostTowerButton.setColor(hoverColer);
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 					{
 						selectetTower = frostTower;
-						buildTowerSprite.setTexture(frostTurmButton);
-						frostTurmImage.setColor(sf::Color(255, 255, 255, 140));
+
+						buildTowerSprite.setTexture(frostTowerButton.getButtonTexture());
+						frostTowerButton.setColor(hoverColer);
 					}
 				}
 				else
 				{
 					if (selectetTower != frostTower)
 					{
-						frostTurmImage.setColor(color.White);
+						frostTowerButton.setColor(color.White);
 					}
 				}
 
 
-				if (feuerTurmImage.getGlobalBounds().contains(mousePosF))
+				if (fireTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
 				{
-					feuerTurmImage.setTexture(feuerTurmButton);
-					feuerTurmImage.setColor(sf::Color(255, 255, 255, 140));
+					fireTowerButton.setColor(hoverColer);
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 					{
 						selectetTower = flameTower;
-						buildTowerSprite.setTexture(feuerTurmButton);
-						feuerTurmImage.setColor(sf::Color(255, 255, 255, 140));
+
+						buildTowerSprite.setTexture(fireTowerButton.getButtonTexture());
+						fireTowerButton.setColor(hoverColer);
 					}
 				}
 				else
 				{
 					if (selectetTower != flameTower)
 					{
-						feuerTurmImage.setColor(color.White);
+						fireTowerButton.setColor(color.White);
 					}
 				}
 
 
-				if (lightningTowerImage.getGlobalBounds().contains(mousePosF))
+				if (lightningTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
 				{
-					lightningTowerImage.setTexture(lightningTurmButton);
-					lightningTowerImage.setColor(sf::Color(255, 255, 255, 140));
+					lightningTowerButton.setColor(hoverColer);
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 					{
+						lightningTowerButton.setColor(hoverColer);
 						selectetTower = lightningTower;
-						buildTowerSprite.setTexture(lightningTurmButton);
+
+						buildTowerSprite.setTexture(lightningTowerButton.getButtonTexture()); 
 					}
 				}
 				else
 				{
 					if (selectetTower != lightningTower)
 					{
-						lightningTowerImage.setColor(color.White);
+						lightningTowerButton.setColor(color.White);
 					}
 				}
 			}
@@ -662,45 +639,6 @@ void Game::SetRoundTextProperties(sf::Text &rundenText, sf::Font &font, sf::Colo
 	rundenText.setFillColor(color.Black);
 	rundenText.setCharacterSize(13);
 	rundenText.setPosition(65, 15);
-}
-
-void Game::SetLightningTowerProperties(sf::Texture &lightningTurmButton, sf::Sprite &lightningTowerImage)
-{
-	lightningTurmButton.loadFromFile("ArtAssets/Tower/tank_sand.png");
-	lightningTowerImage.setPosition(368, 779);
-
-	lightningTowerImage.setTexture(lightningTurmButton);
-}
-
-void Game::SetFireTowerProperties(sf::Texture &feuerTurmButton, sf::Sprite &feuerTurmImage)
-{
-	feuerTurmButton.loadFromFile("ArtAssets/Tower/tank_red.png");
-	feuerTurmImage.setPosition(297, 779);
-
-	feuerTurmImage.setTexture(feuerTurmButton);
-}
-
-void Game::SetFrostTowerProperties(sf::Texture &frostTurmButton, sf::Sprite &frostTurmImage)
-{
-	frostTurmButton.loadFromFile("ArtAssets/Tower/tank_blue.png");
-	frostTurmImage.setPosition(224, 779);
-	frostTurmImage.setTexture(frostTurmButton);
-}
-
-void Game::SetCannonTowerProperties(sf::Texture &cannonTurmButton, sf::Sprite &cannonTurmImage)
-{
-	cannonTurmButton.loadFromFile("ArtAssets/Tower/tank_green.png");
-	cannonTurmImage.setPosition(151, 779);
-
-	cannonTurmImage.setTexture(cannonTurmButton);
-}
-
-void Game::SetBasicTowerProperties(sf::Texture &basicTurmButton, sf::Sprite &basicTurmImage)
-{
-	basicTurmButton.loadFromFile("ArtAssets/Tower/tank_dark.png");
-	basicTurmImage.setPosition(78, 779);
-
-	basicTurmImage.setTexture(basicTurmButton);
 }
 
 void Game::LoadGameFont(sf::Font &font)

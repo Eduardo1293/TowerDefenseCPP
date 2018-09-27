@@ -29,6 +29,8 @@ public:
 
 	inline sf::Sprite getSprite() const { return b_ButtonSrite; };
 	inline sf::Text getButtonText() const { return b_ButtonText; };
+	inline sf::Texture getButtonTexture() { return b_BasicButtonTexture; };
+	inline void setColor(sf::Color color) { b_ButtonSrite.setColor(color); };
 
 };
 

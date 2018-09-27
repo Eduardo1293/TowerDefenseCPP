@@ -42,6 +42,8 @@ void Menu::Run()
 	bool showCredits = false;
 
 	MenuWindow.setFramerateLimit(24);
+
+	
 	while (MenuWindow.isOpen())
 	{
 		
@@ -70,6 +72,7 @@ void Menu::Run()
 
 		if (!showCredits)
 		{
+			menuBackgroundSprite.setScale(0.1, 0.1);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
 				if (StartButton.getSprite().getGlobalBounds().contains(mousePosF))
@@ -112,6 +115,7 @@ void Menu::Run()
 		}
 		else
 		{
+			menuBackgroundSprite.setScale(1, 1);
 			menuBackgroundTexture.loadFromFile("ArtAssets/Menu/Credits.png");
 			menuBackgroundSprite.setTexture(menuBackgroundTexture);
 			MenuWindow.draw(ZurückButton.getSprite()); 
@@ -137,6 +141,7 @@ void Menu::LoadMenuTextures(sf::Texture &menuBackgroundTexture,	sf::Sprite &menu
 	menuBackgroundTexture.loadFromFile("ArtAssets/Menu/Nebula Blue.png");
 	menuBackgroundSprite.setTexture(menuBackgroundTexture);
 	menuBackgroundSprite.setPosition(0, 0);
+	menuBackgroundSprite.setScale(0.1, 0.1);
 }
 
 
