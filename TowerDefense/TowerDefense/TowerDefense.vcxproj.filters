@@ -31,6 +31,9 @@
     <Filter Include="Headerdateien\Enemies">
       <UniqueIdentifier>{6f6d169c-36aa-4298-9f1e-6cf343b52525}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\Gui">
+      <UniqueIdentifier>{9e28731b-9a34-4af6-be1a-4ebbb9e79f66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicTower.cpp">
@@ -75,6 +78,9 @@
     <ClCompile Include="TowerDefense.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
+    <ClCompile Include="BasicButton.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicTower.h">
@@ -103,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="Zellen.h">
       <Filter>Headerdateien\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicButton.h">
+      <Filter>Headerdateien\Gui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

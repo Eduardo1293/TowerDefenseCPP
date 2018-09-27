@@ -50,7 +50,7 @@ public:
 
 };
 
-class CannonTower : BasicTower {
+class CannonTower : public BasicTower {
 
 public:
 	CannonTower(float XCoord, float YCoord);

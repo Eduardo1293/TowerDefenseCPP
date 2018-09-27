@@ -26,6 +26,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BasicButton.cpp" />
     <ClCompile Include="DummyEnemy.cpp" />
     <ClCompile Include="GameArea.cpp" />
     <ClCompile Include="BasicTower.cpp" />
@@ -42,6 +43,7 @@
     <ClCompile Include="Zellen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasicButton.h" />
     <ClInclude Include="DummyEnemy.h" />
     <ClInclude Include="EnemyWaves.h" />
     <ClInclude Include="GameArea.h" />
