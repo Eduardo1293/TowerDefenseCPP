@@ -27,7 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicButton.cpp" />
-    <ClCompile Include="DummyEnemy.cpp" />
+    <ClCompile Include="BasicEnemy.cpp" />
     <ClCompile Include="GameArea.cpp" />
     <ClCompile Include="BasicTower.cpp" />
     <ClCompile Include="CannonTower.cpp" />
@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicButton.h" />
-    <ClInclude Include="DummyEnemy.h" />
+    <ClInclude Include="BasicEnemy.h" />
     <ClInclude Include="EnemyWaves.h" />
     <ClInclude Include="GameArea.h" />
     <ClInclude Include="BasicTower.h" />

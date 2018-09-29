@@ -6,7 +6,7 @@ FlameTower::FlameTower(float XCoord, float YCoord)
 {
 }
 
-int FlameTower::checkForEnemies(vector<DummyEnemy*>* enemyActiveVector)
+int FlameTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 {
 	if (t_attackCooldown == 0) {
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {

@@ -1,8 +1,8 @@
 #ifndef ENEMYWAVES_H
 #define ENEMYWAVES_H
 
-#include "DummyEnemy.h"
+#include "BasicEnemy.h"
 
-vector<DummyEnemy*> enemyWaves(int waveNumber);
+vector<BasicEnemy*> enemyWaves(int waveNumber);
 
 #endif

@@ -3,16 +3,16 @@
 #include <vector>
 
 //Gegnerwaves
-vector<DummyEnemy*> enemyWaves(int waveNumber) {
-	vector<DummyEnemy*> *enemyWaveVector = new vector<DummyEnemy*>();
+vector<BasicEnemy*> enemyWaves(int waveNumber) {
+	vector<BasicEnemy*> *enemyWaveVector = new vector<BasicEnemy*>();
 	if (waveNumber == 1) {
-		DummyEnemy *numberOne = new DummyEnemy(63, 96);
-		DummyEnemy *numberTwo = new DummyEnemy(63, 96);
-		DummyEnemy *numberThree = new DummyEnemy(63, 96);
-		DummyEnemy *numberFour = new DummyEnemy(63, 96);
-		DummyEnemy *numberFive = new DummyEnemy(63, 96);
-		DummyEnemy *numberSix = new DummyEnemy(63, 96);
-		DummyEnemy *numberSeven = new DummyEnemy(63, 96);
+		BasicEnemy *numberOne = new BasicEnemy(63, 96);
+		BasicEnemy *numberTwo = new BasicEnemy(63, 96);
+		BasicEnemy *numberThree = new BasicEnemy(63, 96);
+		BasicEnemy *numberFour = new BasicEnemy(63, 96);
+		BasicEnemy *numberFive = new BasicEnemy(63, 96);
+		BasicEnemy *numberSix = new BasicEnemy(63, 96);
+		BasicEnemy *numberSeven = new BasicEnemy(63, 96);
 		
 		enemyWaveVector->push_back(numberOne);
 		enemyWaveVector->push_back(numberTwo);

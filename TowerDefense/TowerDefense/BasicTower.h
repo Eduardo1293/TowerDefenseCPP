@@ -5,7 +5,7 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include "DummyEnemy.h"
+#include "BasicEnemy.h"
 
 using namespace std;
 
@@ -45,7 +45,7 @@ public:
 	
 	BasicTower();
 
-	int checkForEnemies(vector<DummyEnemy*> *enemyActiveVector);
+	int checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
 	void dealDamage();
 
 };
@@ -55,7 +55,7 @@ class CannonTower : public BasicTower {
 public:
 	CannonTower(float XCoord, float YCoord);
 
-	int checkForEnemies(vector<DummyEnemy*> *enemyActiveVector);
+	int checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
 	void dealDamage();
 };
 
@@ -64,7 +64,7 @@ class FlameTower : public BasicTower {
 public:
 	FlameTower(float XCoord, float YCoord);
 
-	int checkForEnemies(vector<DummyEnemy*> *enemyActiveVector);
+	int checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
 	void dealDamage();
 };
 
@@ -73,7 +73,7 @@ class FrostTower : public BasicTower {
 public:
 	FrostTower(float XCoord, float YCoord);
 
-	int checkForEnemies(vector<DummyEnemy*> *enemyActiveVector);
+	int checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
 	void dealDamage();
 };
 
@@ -82,7 +82,7 @@ class LightningTower : public BasicTower {
 public:
 	LightningTower(float XCoord, float YCoord);
 
-	int checkForEnemies(vector<DummyEnemy*> *enemyActiveVector);
+	int checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
 	void dealDamage();
 };
 #endif

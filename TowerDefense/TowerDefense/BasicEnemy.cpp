@@ -1,8 +1,8 @@
-#include "DummyEnemy.h"
+#include "BasicEnemy.h"
 
 
 
-DummyEnemy::DummyEnemy(float XCoord, float YCoord) {
+BasicEnemy::BasicEnemy(float XCoord, float YCoord) {
 	e_MaxLife = 100;
 	e_CurrentLife = 100;
 	e_XCoord = XCoord;
@@ -12,51 +12,51 @@ DummyEnemy::DummyEnemy(float XCoord, float YCoord) {
 	dummyEnemySprite.setOrigin(32, 32);
 }
 
-void DummyEnemy::eSetRotation(float rotation) {
+void BasicEnemy::eSetRotation(float rotation) {
 	dummyEnemySprite.setRotation(rotation);
 }
 
-void DummyEnemy::eSetPosition() {
+void BasicEnemy::eSetPosition() {
 	dummyEnemySprite.setPosition(e_XCoord, e_YCoord);
 }
 
-void DummyEnemy::eSetXCoord(float XCoord) {
+void BasicEnemy::eSetXCoord(float XCoord) {
 	e_XCoord = XCoord;
 }
 
-void DummyEnemy::eSetYCoord(float YCoord) {
+void BasicEnemy::eSetYCoord(float YCoord) {
 	e_YCoord = YCoord;
 }
 
-double DummyEnemy::getMaxLife()
+double BasicEnemy::getMaxLife()
 {
 	return e_MaxLife;
 }
 
-double DummyEnemy::getCurrentLife()
+double BasicEnemy::getCurrentLife()
 {
 	return e_CurrentLife;
 }
 
-float DummyEnemy::getXCoord()
+float BasicEnemy::getXCoord()
 {
 	return e_XCoord;
 }
 
-float DummyEnemy::getYCoord()
+float BasicEnemy::getYCoord()
 {
 	return e_YCoord;
 }
 
-sf::Sprite DummyEnemy::getSprite()
+sf::Sprite BasicEnemy::getSprite()
 {
 	return dummyEnemySprite;
 }
 
-void DummyEnemy::takeDamage(int damage) {
+void BasicEnemy::takeDamage(int damage) {
 	e_CurrentLife = (e_CurrentLife - damage);
 }
 
-DummyEnemy::DummyEnemy()
+BasicEnemy::BasicEnemy()
 {
 }
