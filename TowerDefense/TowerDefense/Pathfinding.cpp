@@ -15,21 +15,21 @@ class PathFinding {
 		return distance;
 	}
 
-	vector<int> aStar(vector<GameArea*> PlayingField) {
+	vector<int> aStar(vector<GameArea*> playingField) {
 		//alle areas zurücksetzen
 		for (int i = 0; i <= 62; i++) {
-			PlayingField.at(i)->setVisited(false);
-			PlayingField.at(i)->setDistanceFromStart(999.9f);
-			// ????? kA ob benötigt, zu müde PlayingField.at(i)->setDistanceToGoal(999.9f);
-			PlayingField.at(i)->setParent(nullptr);
+			playingField.at(i)->setVisited(false);
+			playingField.at(i)->setDistanceFromStart(999.9f);
+			// ????? kA ob benötigt, zu müde playingField.at(i)->setDistanceToGoal(999.9f);
+			playingField.at(i)->setParent(nullptr);
 		}
 
-		GameArea *currentArea = PlayingField.at(0);
+		GameArea *currentArea = playingField.at(0);
 
 		list<GameArea*> notVisited;
-		notVisited.push_back(PlayingField.at(0));
+		notVisited.push_back(playingField.at(0));
 		
-		while (!notVisited.empty() && currentArea != PlayingField.at(62)) {
+		while (!notVisited.empty() && currentArea != playingField.at(62)) {
 
 			//sortieren mit lambda-funktion, thx stackoverflow
 			notVisited.sort([] (GameArea* const& a, GameArea* const& b) {
@@ -61,7 +61,7 @@ class PathFinding {
 					areaConnected->setDistanceFromStart(lowerLQuestionMark);
 
 					areaConnected->setWholeDistance(areaConnected->getDistanceFromStart()
-						+ manhattan(areaConnected, PlayingField.at(62)));
+						+ manhattan(areaConnected, playingField.at(62)));
 				}
 			}
 		}
@@ -71,8 +71,8 @@ class PathFinding {
 
 		int counter = 62;
 		while (counter != 0) {
-			path.insert(path.begin(), PlayingField.at(counter)->getID());
-			counter = PlayingField.at(counter)->getParent()->getID();
+			path.insert(path.begin(), playingField.at(counter)->getID());
+			counter = playingField.at(counter)->getParent()->getID();
 		}
 		
 		return path;
