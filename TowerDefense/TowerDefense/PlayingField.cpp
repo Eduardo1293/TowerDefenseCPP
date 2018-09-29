@@ -79,7 +79,7 @@ public:
 		GameArea *AI = new GameArea(true, 63, 703, 1, 9, 56);
 		GameArea *BI = new GameArea(true, 127, 703, 2, 9, 57);
 		GameArea *CI = new GameArea(true, 191, 703, 3, 9, 58);
-		GameArea *DI = new GameArea(true, 255, 703, 4, 9, 69);
+		GameArea *DI = new GameArea(true, 255, 703, 4, 9, 59);
 		GameArea *EI = new GameArea(true, 319, 703, 5, 9, 60);
 		GameArea *FI = new GameArea(true, 383, 703, 6, 9, 61);
 		GameArea *GI = new GameArea(false, 447, 703, 7, 9, 62);

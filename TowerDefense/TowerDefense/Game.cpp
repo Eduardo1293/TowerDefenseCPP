@@ -1,7 +1,7 @@
 /*
 Hier Sachen reinschrieben, die noch gemacht werden müssen!
 Problem mit PlayingField beheben.
-
+gucken ob clock verwendet wird
 */
 
 
@@ -187,6 +187,10 @@ void Game::Run()
 	sf::Clock buildingphaseClock;
 	int buildingphaseCountdown = 30;
 	int buildphaseElapsedTimeBuffer = 0;
+
+	//attackclock, brauchen wir für tower attacken;
+	sf::Clock enemyClock;
+	int enemyClockElapsedTimeBuffer = 0;
 
 	//attackclock, brauchen wir für tower attacken;
 	sf::Clock attackClock;
@@ -464,8 +468,7 @@ void Game::Run()
 
 			//schickt die gegner aus wave1 auf die reise
 			//hier ist noch was madig
-			sf::Time elapsed1 = clock.getElapsedTime();
-			gameTime = elapsed1.asSeconds();
+			sf::Time enemyTime = enemyClock.getElapsedTime();
 			if (gameTime > gameTimeEnemyCounter && gameTime < (enemyVector->size()) + 2) {
 				enemyActiveVector->push_back(enemyVector->at(waveEnemyAddedCounter));
 				gameTimeEnemyCounter = (gameTimeEnemyCounter + 1);
