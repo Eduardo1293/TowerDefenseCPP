@@ -55,8 +55,8 @@ void Game::Run()
 
 
 
-	vector<DummyEnemy*> *enemyVector = new vector<DummyEnemy*>();
-	vector<DummyEnemy*> *enemyActiveVector = new vector<DummyEnemy*>();
+	vector<BasicEnemy*> *enemyVector = new vector<BasicEnemy*>();
+	vector<BasicEnemy*> *enemyActiveVector = new vector<BasicEnemy*>();
 	*enemyVector = enemyWaves(1);
 
 
@@ -537,7 +537,7 @@ void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int r
 }
 
 void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector,
-	std::vector<DummyEnemy *> * enemyActiveVector, sf::Sprite &explosionSprite)
+	std::vector<BasicEnemy *> * enemyActiveVector, sf::Sprite &explosionSprite)
 {
 	for (unsigned int i = 0; i < BasicTowerVector->size(); i++) {
 		int target = BasicTowerVector->at(i)->checkForEnemies(enemyActiveVector);
@@ -678,7 +678,7 @@ void Game::DrawTower(std::vector<BasicTower *> * BasicTowerVector)
 }
 
 void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
-	sf::Clock &enemyMovementClock, std::vector<DummyEnemy *> * enemyActiveVector,
+	sf::Clock &enemyMovementClock, std::vector<BasicEnemy *> * enemyActiveVector,
 	int i, float y, float x, sf::Sprite &lifeEnemySprite, int &playerLife, sf::Text &lebenText)
 {
 	if ((movementElapsed + movementElapsedBuffer) >= 25) {
@@ -709,7 +709,7 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 	}
 }
 
-void Game::UpdateEnemyLifeBar(std::vector<DummyEnemy *> * enemyActiveVector,
+void Game::UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector,
 	int i, int &punkteZahl, int &gold, float &x, float &y, sf::Sprite &lifeEnemySprite,
 	sf::Texture &hundredLifeTexture, sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture,
 	sf::Texture &fortyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Text &punktZahlText)

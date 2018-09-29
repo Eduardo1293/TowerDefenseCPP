@@ -57,9 +57,6 @@
     <ClCompile Include="GameArea.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
-    <ClCompile Include="DummyEnemy.cpp">
-      <Filter>Quelldateien\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyWaves.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
@@ -81,6 +78,12 @@
     <ClCompile Include="BasicButton.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="BasicEnemy.cpp">
+      <Filter>Quelldateien\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="FastEnemy.cpp">
+      <Filter>Quelldateien\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicTower.h">
@@ -95,23 +98,17 @@
     <ClInclude Include="PlayingField.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClInclude>
-    <ClInclude Include="DummyEnemy.h">
-      <Filter>Headerdateien\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyWaves.h">
       <Filter>Headerdateien\Core</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Headerdateien\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Pathfinding.h">
-      <Filter>Headerdateien\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Zellen.h">
-      <Filter>Headerdateien\Core</Filter>
-    </ClInclude>
     <ClInclude Include="BasicButton.h">
       <Filter>Headerdateien\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicEnemy.h">
+      <Filter>Headerdateien\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

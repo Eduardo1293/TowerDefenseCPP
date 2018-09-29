@@ -6,7 +6,7 @@ CannonTower::CannonTower(float XCoord, float YCoord)
 {
 }
 
-int CannonTower::checkForEnemies(vector<DummyEnemy*>* enemyActiveVector)
+int CannonTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 {
 	if (t_attackCooldown == 0) {
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
