@@ -1,6 +1,6 @@
 #include "GameArea.h"
 #include <list>
-vector<GameArea*> PlayingField() {
+vector<GameArea*> PlayingFields() {
 	//erste zeile von links nach rechts
 	GameArea *AA = new GameArea(false, 63, 191, 1, 1, 1);
 	GameArea *BA = new GameArea(true, 127, 191, 2, 1, 2);
