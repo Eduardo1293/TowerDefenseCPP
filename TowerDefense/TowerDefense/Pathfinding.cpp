@@ -9,12 +9,18 @@ using namespace std;
 
 class PathFinding {
 
+	float manhattan(GameArea* a, GameArea* b) {
+		float distance = (abs(a->getXID() - b->getXID())
+			+ (abs(a->getYID() - b->getYID())));
+		return distance;
+	}
+
 	vector<int> aStar(vector<GameArea*> PlayingField) {
 		//alle areas zurücksetzen
 		for (int i = 0; i <= 62; i++) {
 			PlayingField.at(i)->setVisited(false);
 			PlayingField.at(i)->setDistanceFromStart(999.9f);
-			// ????? PlayingField.at(i)->setDistanceToGoal(999.9f);
+			// ????? kA ob benötigt, zu müde PlayingField.at(i)->setDistanceToGoal(999.9f);
 			PlayingField.at(i)->setParent(nullptr);
 		}
 
@@ -51,7 +57,7 @@ class PathFinding {
 
 				if (lowerLQuestionMark < areaConnected->getDistanceFromStart())
 				{
-					areaConnected->setParent = currentArea;
+					areaConnected->setParent(currentArea);
 					areaConnected->setDistanceFromStart(lowerLQuestionMark);
 
 					areaConnected->setWholeDistance(areaConnected->getDistanceFromStart()
@@ -76,9 +82,5 @@ class PathFinding {
 
 };
 
-float manhattan(GameArea* a, GameArea* b) {	
-	float distance = (abs(a->getXID() - b->getXID())
-	+ (abs(a->getYID() - b->getYID())));
-	return distance;
-}
+
 

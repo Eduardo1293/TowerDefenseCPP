@@ -165,7 +165,7 @@ void Game::Run()
 		this.playingFieldList.Add(prop)
 	}*/
 
-	list<GameArea*> GameAreaList = PlayingField();
+	vector<GameArea*> GameAreaVector = PlayingField();
 	vector<BasicTower*> *TowerVector = new vector<BasicTower*>();
 
 	sf::Clock timerClock;
@@ -262,7 +262,8 @@ void Game::Run()
 				FlameTower * FlameTowerRef;
 
 				//freie und belegte felder markieren
-				for (list<GameArea*>::const_iterator pos = GameAreaList.begin(); pos != GameAreaList.end(); ++pos) {
+				////// hier verbuggt, benutzt noch listen-iterator ist jetzt aber ein vector
+				for (vector<GameArea*>::const_iterator pos = GameAreaVector.begin(); pos != GameAreaVector.end(); ++pos) {
 
 					if ((*pos)->getEmpty()) {
 						emptySpaceSprite.setPosition((*pos)->getAreaXCoord(), (*pos)->getAreaYCoord());

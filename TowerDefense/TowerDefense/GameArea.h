@@ -13,8 +13,7 @@ private :
 	int a_XID;						// Koordinaten der Area im areagrid
 	int	a_YID;						// Koordinaten der Area im areagrid
 	int a_ID;						// ID der Area
-	GameArea* aParent;				// Pointer zur Parent-Area
-	
+	GameArea* aParent;				// Pointer zur Parent-Area	
 	float distanceFromStart;		// Lokaler Zielwert der Area
 	float distanceToGoal;			// Heuristischer Zielwert der Area
 	float wholeDistance;
@@ -24,7 +23,7 @@ public:
 	vector<GameArea*> a_Connected;	// benachbarte areas
 
 	//Kontruktor
-	GameArea(bool empty, float xCoord, float yCoord, int xID, int yID, int aID, GameArea *_parent = 0);
+	GameArea(bool empty, float xCoord, float yCoord, int xID, int yID, int aID);
 
 	//setter
 	inline void setAreaEmpty(bool empty) {
