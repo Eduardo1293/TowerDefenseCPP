@@ -5,7 +5,7 @@
 #include <SFML/System.hpp>
 #include "DummyEnemy.h"
 #include "BasicTower.h"
-// #include "CannonTower.h"
+#include "CannonTower.h"
 
 class Game 
 {
