@@ -3,22 +3,29 @@
 
 #define WORLD_SIZE 64
 // Eine Zelle konstruieren und ihr Werte zuteilen
-struct Zelle
+struct Area
 {
 
 public:
-	int z_xcoord, z_ycoord;	// Koordinaten der Zellen
-	int z_id;				// Identität der Zelle
-	Zelle* parent;			// Pointer zur Parent-Zelle
+	int a_XCoord, a_YCoord;	// Koordinaten der Zellen
+	int a_ID;				// ID der Zelle
+	Area* parent;			// Pointer zur Parent-Zelle
 	float G;				// Lokaler Zielwert der Zelle
 	float H;				// Heuristischer Zielwert der Zelle
 
 							//Kontruktoren 
-	Zelle() : parent(0)
+	Area() : parent(0)
 	{
 	}
-	Zelle(int x, int y, Zelle *_parent = NULL) : z_xcoord(x), z_ycoord(y), parent(_parent), z_id(y * WORLD_SIZE + y), G(0), H(0)
+	Area(int x, int y, Area *_parent = 0) 
 	{
+		a_XCoord = x;
+		a_YCoord = y;
+		parent = _parent;
+		a_ID = (y * WORLD_SIZE + y);
+		G = 0;
+		H = 0;
+
 	}
 
 	// F ist die Summe des heuristischen und lokalen Wert und bestimmt die Kosten der Zelle
@@ -28,9 +35,11 @@ public:
 	}
 
 	// Distantz zwischen der aktuellen Zelle und der Zielzelle
-	float ManhattanDistance(Zelle *nodeEnd)
+	float ManhattanDistance(Area *nodeEnd)
 	{
-		float x = (float)(fabs((float)this->z_xcoord - nodeEnd->z_xcoord));
-		float y = (float)(fabs((float)this->z_ycoord - nodeEnd->z_ycoord));
+		float x = (float)(fabs((float)this->a_XCoord - nodeEnd->a_XCoord));
+		float y = (float)(fabs((float)this->a_YCoord - nodeEnd->a_YCoord));
+
+		return x + y;
 	}
 };

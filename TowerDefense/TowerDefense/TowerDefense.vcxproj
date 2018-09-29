@@ -37,7 +37,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="EnemyWaves.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Pathfinding.cpp" />
+    <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="TowerDefense.cpp" />
     <ClCompile Include="Zellen.cpp" />
   </ItemGroup>
@@ -48,9 +48,7 @@
     <ClInclude Include="BasicTower.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="PlayingField.cpp" />
-    <ClInclude Include="Zellen.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

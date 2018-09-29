@@ -66,13 +66,13 @@
     <ClCompile Include="Zellen.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Pathfinding.cpp">
-      <Filter>Quelldateien\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Menu.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
     <ClCompile Include="TowerDefense.cpp">
+      <Filter>Quelldateien\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinding.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -96,12 +96,6 @@
       <Filter>Headerdateien\Core</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
-      <Filter>Headerdateien\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Pathfinding.h">
-      <Filter>Headerdateien\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Zellen.h">
       <Filter>Headerdateien\Core</Filter>
     </ClInclude>
   </ItemGroup>
