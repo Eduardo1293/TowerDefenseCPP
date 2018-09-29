@@ -9,8 +9,8 @@ Problem mit PlayingField beheben.
 #include "Game.h"
 #include <list>
 #include <vector>
-//#include "PlayingField.cpp"
-#include "GameArea.h"
+#include "PathFinding.cpp"
+//#include "GameArea.h"
 #include "BasicTower.h"
 #include "EnemyWaves.h"
 #include "Menu.h"
@@ -175,7 +175,7 @@ void Game::Run()
 	}*/
 
 	//HIER HABE ICH WAS GEMACHT
-	vector<GameArea*> GameAreaVector;// = PlayingFields();
+	vector<GameArea*> GameAreaVector;// = PlayingField();
 	vector<BasicTower*> *TowerVector = new vector<BasicTower*>();
 
 	sf::Clock timerClock;
