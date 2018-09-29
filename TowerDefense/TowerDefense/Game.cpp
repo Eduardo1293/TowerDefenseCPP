@@ -35,7 +35,7 @@ Game::~Game()
 
 void Game::Run()
 {
-	sf::Clock clock;
+
 	App.setFramerateLimit(24);
 	float x;
 	float y;
@@ -178,7 +178,7 @@ void Game::Run()
 	PlayingField playingFieldRef;
 
 	GameAreaVector = playingFieldRef.getPlayingField();
-	
+
 	vector<BasicTower*> *TowerVector = new vector<BasicTower*>();
 
 	sf::Clock timerClock;
@@ -267,190 +267,191 @@ void Game::Run()
 				buildingphase = false;
 				TimerText.setFillColor(hoverColer);
 				buildphaseElapsedTimeBuffer = 0;
-				clock.restart();
+				enemyClock.restart();
 			}
 
-			{
 
-				sf::Vector2i localPosition = sf::Mouse::getPosition(App);
-				sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
-				BasicTower * BasicTowerRef;
-				CannonTower * CannonTowerRef;
-				FlameTower * FlameTowerRef;
 
-				//freie und belegte felder markieren
-				////// hier verbuggt, benutzt noch listen-iterator ist jetzt aber ein vector
-				for (int i = 0; i < GameAreaVector.size(); i++) {
-					if (GameAreaVector.at(i)->getEmpty()) {
-						emptySpaceSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
-						App.draw(emptySpaceSprite);
-					}
-					else {
-						blockedSpaceSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
-						App.draw(blockedSpaceSprite);
-					}
+			sf::Vector2i localPosition = sf::Mouse::getPosition(App);
+			sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
+			BasicTower * BasicTowerRef;
+			CannonTower * CannonTowerRef;
+			FlameTower * FlameTowerRef;
 
-					//mouse-movement auslesen
+			//freie und belegte felder markieren
+			////// hier verbuggt, benutzt noch listen-iterator ist jetzt aber ein vector
+			for (int i = 0; i < GameAreaVector.size(); i++) {
+				if (GameAreaVector.at(i)->getEmpty()) {
+					emptySpaceSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
+					App.draw(emptySpaceSprite);
+				}
+				else {
+					blockedSpaceSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
+					App.draw(blockedSpaceSprite);
+				}
+
+				//mouse-movement auslesen
+				if (localPosition.x <= (GameAreaVector.at(i)->getAreaXCoord() + 32) && (localPosition.x >= (GameAreaVector.at(i)->getAreaXCoord() - 31))
+					&& (localPosition.y <= (GameAreaVector.at(i)->getAreaYCoord() + 32)) && (localPosition.y >= (GameAreaVector.at(i)->getAreaYCoord() - 31))) {
+					buildTowerSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
+					App.draw(buildTowerSprite);
+				}
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
 					if (localPosition.x <= (GameAreaVector.at(i)->getAreaXCoord() + 32) && (localPosition.x >= (GameAreaVector.at(i)->getAreaXCoord() - 31))
 						&& (localPosition.y <= (GameAreaVector.at(i)->getAreaYCoord() + 32)) && (localPosition.y >= (GameAreaVector.at(i)->getAreaYCoord() - 31))) {
-						buildTowerSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
-						App.draw(buildTowerSprite);
-					}
-					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-					{
-						if (localPosition.x <= (GameAreaVector.at(i)->getAreaXCoord() + 32) && (localPosition.x >= (GameAreaVector.at(i)->getAreaXCoord() - 31))
-							&& (localPosition.y <= (GameAreaVector.at(i)->getAreaYCoord() + 32)) && (localPosition.y >= (GameAreaVector.at(i)->getAreaYCoord() - 31))) {
 
-							switch (selectetTower)
+						switch (selectetTower)
+						{
+						case basicTower:
+							BasicTowerRef = new BasicTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
+							if (GameAreaVector.at(i)->getEmpty())
 							{
-							case basicTower:
-								BasicTowerRef = new BasicTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
-								if (GameAreaVector.at(i)->getEmpty())
+								if (gold >= BasicTowerRef->getCost())
 								{
-									if (gold >= BasicTowerRef->getCost())
-									{
-										TowerVector->push_back(BasicTowerRef);
-										GameAreaVector.at(i)->setAreaEmpty(false);
-										gold = gold - BasicTowerRef->getCost();
-									}
+									TowerVector->push_back(BasicTowerRef);
+									GameAreaVector.at(i)->setAreaEmpty(false);
+									gold = gold - BasicTowerRef->getCost();
 								}
-								break;
-
-							case cannonTower:
-								CannonTowerRef = new CannonTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
-
-								if (GameAreaVector.at(i)->getEmpty())
-								{
-									if (gold >= CannonTowerRef->getCost())
-									{
-										TowerVector->push_back(CannonTowerRef);
-										GameAreaVector.at(i)->setAreaEmpty(false);
-										gold = gold - CannonTowerRef->getCost();
-									}
-								}
-								break;
-							case flameTower:
-								FlameTowerRef = new FlameTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
-								if (GameAreaVector.at(i)->getEmpty())
-								{
-									if (gold >= FlameTowerRef->getCost())
-									{
-										TowerVector->push_back(FlameTowerRef);
-										GameAreaVector.at(i)->setAreaEmpty(false);
-										gold = gold - FlameTowerRef->getCost();
-									}
-								}
-								break;
-								//case frostTower:
-								//	BasicTower * Tower = new BasicTower((GameAreaVector.at(i))->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
-								//	break;
-								//case lightningTower:
-								//	BasicTower * Tower = new BasicTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
-								//	break;
-								//default:
-								//BasicTower * Tower = new BasicTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
-								//break;
 							}
+							break;
+
+						case cannonTower:
+							CannonTowerRef = new CannonTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
+
+							if (GameAreaVector.at(i)->getEmpty())
+							{
+								if (gold >= CannonTowerRef->getCost())
+								{
+									TowerVector->push_back(CannonTowerRef);
+									GameAreaVector.at(i)->setAreaEmpty(false);
+									gold = gold - CannonTowerRef->getCost();
+								}
+							}
+							break;
+						case flameTower:
+							FlameTowerRef = new FlameTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
+							if (GameAreaVector.at(i)->getEmpty())
+							{
+								if (gold >= FlameTowerRef->getCost())
+								{
+									TowerVector->push_back(FlameTowerRef);
+									GameAreaVector.at(i)->setAreaEmpty(false);
+									gold = gold - FlameTowerRef->getCost();
+								}
+							}
+							break;
+							//case frostTower:
+							//	BasicTower * Tower = new BasicTower((GameAreaVector.at(i))->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
+							//	break;
+							//case lightningTower:
+							//	BasicTower * Tower = new BasicTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
+							//	break;
+							//default:
+							//BasicTower * Tower = new BasicTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
+							//break;
 						}
 					}
 				}
+			}
 
-				//buttons interface
-				if (basicTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
+			//buttons interface
+			if (basicTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
+			{
+				basicTowerButton.setColor(hoverColer);
+
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
+					selectetTower = basicTower;
+					buildTowerSprite.setTexture(basicTowerButton.getButtonTexture());
 					basicTowerButton.setColor(hoverColer);
-
-					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-					{
-						selectetTower = basicTower;
-						buildTowerSprite.setTexture(basicTowerButton.getButtonTexture());
-						basicTowerButton.setColor(hoverColer);
-					}
-				}
-				else
-				{
-					if (selectetTower != basicTower)
-					{
-						basicTowerButton.setColor(color.White);
-					}
-				}
-				if (cannonTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
-				{
-					cannonTowerButton.setColor(hoverColer);
-					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-					{
-						selectetTower = cannonTower;
-						
-						buildTowerSprite.setTexture(cannonTowerButton.getButtonTexture());
-						cannonTowerButton.setColor(hoverColer);
-					}
-				}
-				else
-				{
-					if (selectetTower != cannonTower)
-					{
-						cannonTowerButton.setColor(color.White);
-					}
-				}
-				if (frostTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
-				{
-					frostTowerButton.setColor(hoverColer);
-					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-					{
-						selectetTower = frostTower;
-
-						buildTowerSprite.setTexture(frostTowerButton.getButtonTexture());
-						frostTowerButton.setColor(hoverColer);
-					}
-				}
-				else
-				{
-					if (selectetTower != frostTower)
-					{
-						frostTowerButton.setColor(color.White);
-					}
-				}
-
-
-				if (fireTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
-				{
-					fireTowerButton.setColor(hoverColer);
-					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-					{
-						selectetTower = flameTower;
-
-						buildTowerSprite.setTexture(fireTowerButton.getButtonTexture());
-						fireTowerButton.setColor(hoverColer);
-					}
-				}
-				else
-				{
-					if (selectetTower != flameTower)
-					{
-						fireTowerButton.setColor(color.White);
-					}
-				}
-
-
-				if (lightningTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
-				{
-					lightningTowerButton.setColor(hoverColer);
-					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-					{
-						lightningTowerButton.setColor(hoverColer);
-						selectetTower = lightningTower;
-
-						buildTowerSprite.setTexture(lightningTowerButton.getButtonTexture()); 
-					}
-				}
-				else
-				{
-					if (selectetTower != lightningTower)
-					{
-						lightningTowerButton.setColor(color.White);
-					}
 				}
 			}
+			else
+			{
+				if (selectetTower != basicTower)
+				{
+					basicTowerButton.setColor(color.White);
+				}
+			}
+			if (cannonTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
+			{
+				cannonTowerButton.setColor(hoverColer);
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					selectetTower = cannonTower;
+
+					buildTowerSprite.setTexture(cannonTowerButton.getButtonTexture());
+					cannonTowerButton.setColor(hoverColer);
+				}
+			}
+			else
+			{
+				if (selectetTower != cannonTower)
+				{
+					cannonTowerButton.setColor(color.White);
+				}
+			}
+			if (frostTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
+			{
+				frostTowerButton.setColor(hoverColer);
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					selectetTower = frostTower;
+
+					buildTowerSprite.setTexture(frostTowerButton.getButtonTexture());
+					frostTowerButton.setColor(hoverColer);
+				}
+			}
+			else
+			{
+				if (selectetTower != frostTower)
+				{
+					frostTowerButton.setColor(color.White);
+				}
+			}
+
+
+			if (fireTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
+			{
+				fireTowerButton.setColor(hoverColer);
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					selectetTower = flameTower;
+
+					buildTowerSprite.setTexture(fireTowerButton.getButtonTexture());
+					fireTowerButton.setColor(hoverColer);
+				}
+			}
+			else
+			{
+				if (selectetTower != flameTower)
+				{
+					fireTowerButton.setColor(color.White);
+				}
+			}
+
+
+			if (lightningTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
+			{
+				lightningTowerButton.setColor(hoverColer);
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					lightningTowerButton.setColor(hoverColer);
+					selectetTower = lightningTower;
+
+					buildTowerSprite.setTexture(lightningTowerButton.getButtonTexture());
+					buildTowerSprite.setTexture(lightningTowerButton.getButtonTexture());
+				}
+			}
+			else
+			{
+				if (selectetTower != lightningTower)
+				{
+					lightningTowerButton.setColor(color.White);
+				}
+			}
+
 		}
 		else {
 
@@ -469,10 +470,10 @@ void Game::Run()
 			//schickt die gegner aus wave1 auf die reise
 			//hier ist noch was madig
 			sf::Time enemyTime = enemyClock.getElapsedTime();
-			if (gameTime > gameTimeEnemyCounter && gameTime < (enemyVector->size()) + 2) {
-				enemyActiveVector->push_back(enemyVector->at(waveEnemyAddedCounter));
-				gameTimeEnemyCounter = (gameTimeEnemyCounter + 1);
-				waveEnemyAddedCounter = (waveEnemyAddedCounter + 1);
+			if (!enemyVector->empty() && enemyTime.asSeconds() > 1) {
+				enemyActiveVector->push_back(enemyVector->at(0));
+				enemyVector->erase(enemyVector->begin() + 0);
+				enemyClock.restart();
 			}
 
 			sf::Time attackCDTime = attackClock.getElapsedTime();
