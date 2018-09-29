@@ -26,6 +26,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BasicButton.cpp" />
     <ClCompile Include="DummyEnemy.cpp" />
     <ClCompile Include="GameArea.cpp" />
     <ClCompile Include="BasicTower.cpp" />
@@ -42,6 +43,7 @@
     <ClCompile Include="Zellen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasicButton.h" />
     <ClInclude Include="DummyEnemy.h" />
     <ClInclude Include="EnemyWaves.h" />
     <ClInclude Include="GameArea.h" />
@@ -136,13 +138,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Andre\source\repos\TowerDefenseCPP\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Johannes\Source\Repos\TowerDefenseCPP\TowerDefenseCPP\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>sfml-system.lib;sfml-graphics.lib;sfml-audio.lib;sfml-network.lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-system-d.lib;sfml-graphics-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-window-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>Main</EntryPointSymbol>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>C:\Users\Andre\source\repos\TowerDefenseCPP\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Johannes\Source\Repos\TowerDefenseCPP\TowerDefenseCPP\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
