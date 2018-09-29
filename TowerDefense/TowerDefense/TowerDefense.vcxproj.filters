@@ -63,9 +63,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Zellen.cpp">
-      <Filter>Quelldateien\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Pathfinding.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
@@ -109,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="BasicEnemy.h">
       <Filter>Headerdateien\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayingField.h">
+      <Filter>Headerdateien\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

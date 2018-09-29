@@ -1,8 +1,19 @@
 #include "GameArea.h"
 #include <list>
+#include "PlayingField.h"
+
 class PlayingField {
+private:
+	vector<GameArea*> GameAreaVector;
+
 public:
-	vector<GameArea*> getPlayingField() {
+	PlayingField::PlayingField()
+	{
+	}
+	PlayingField::~PlayingField()
+	{
+	}
+	void setPlayingField() {
 		//erste zeile von links nach rechts
 		GameArea *AA = new GameArea(false, 63, 191, 1, 1, 0);
 		GameArea *BA = new GameArea(true, 127, 191, 2, 1, 1);
@@ -187,8 +198,10 @@ public:
 		for (int i = 0; i < 63; i++) {
 			GameAreaVector.at(i)->setWholeDistance((abs(GameAreaVector.at(i)->getXID() - GameAreaVector.at(62)->getXID()))
 				+ (abs(GameAreaVector.at(i)->getYID() - GameAreaVector.at(62)->getYID())));
-		}
-
-		return GameAreaVector;
+		}		
 	};
+	
+	vector<GameArea*> getPlayingField() {
+		return GameAreaVector;
+	}
 };

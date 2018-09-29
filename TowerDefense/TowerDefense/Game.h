@@ -5,6 +5,8 @@
 #include <SFML/System.hpp>
 #include "BasicEnemy.h"
 #include "BasicTower.h"
+#include "PlayingField.h"
+#include "GameArea.h"
 
 class Game 
 {
@@ -39,7 +41,8 @@ public:
 	void DrawTower(std::vector<BasicTower *> * BasicTowerVector);
 	void UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 		sf::Clock &enemyMovementClock, std::vector<BasicEnemy *> * enemyActiveVector,
-		int i, float y, float x, sf::Sprite &lifeEnemySprite, int &playerLife, sf::Text &lebenText);
+		int i, float y, float x, sf::Sprite &lifeEnemySprite, int &playerLife, sf::Text &lebenText,
+		vector<GameArea*> &playingField, vector<int> &path);
 	void UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector, int i, int &punkteZahl,
 		int &gold, float &x, float &y, sf::Sprite &lifeEnemySprite, sf::Texture &hundredLifeTexture,
 		sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture, sf::Texture &fortyLifeTexture,

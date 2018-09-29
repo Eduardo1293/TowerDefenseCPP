@@ -2,6 +2,7 @@
 Hier Sachen reinschrieben, die noch gemacht werden müssen!
 Problem mit PlayingField beheben.
 gucken ob clock verwendet wird
+update movement ist momentan komisch, timer außerhalb der methode überprüfen
 */
 
 
@@ -9,12 +10,12 @@ gucken ob clock verwendet wird
 #include "Game.h"
 #include <list>
 #include <vector>
-#include "PlayingField.cpp"
+#include "PlayingField.h"
 #include "BasicTower.h"
 #include "EnemyWaves.h"
 #include "Menu.h"
 #include "BasicButton.h"
-
+#include "PathFinding.cpp"
 #include <iostream>
 
 
@@ -163,9 +164,6 @@ void Game::Run()
 	playerText.setPosition(120, 600);
 	sf::String playerInput;
 
-
-
-
 	testEnemySprite.setOrigin(32, 32);
 
 	/*for each (PropertyInfo prop in typeof(PlayingField))
@@ -174,10 +172,11 @@ void Game::Run()
 	}*/
 
 	//HIER HABE ICH WAS GEMACHT
-	vector<GameArea*> GameAreaVector;
 	PlayingField playingFieldRef;
-
-	GameAreaVector = playingFieldRef.getPlayingField();
+	vector<GameArea*> GameAreaVector = playingFieldRef.getPlayingField();
+	
+	vector<int> path;
+	PathFinding pathFindingRef;
 
 	vector<BasicTower*> *TowerVector = new vector<BasicTower*>();
 
@@ -267,6 +266,7 @@ void Game::Run()
 				buildingphase = false;
 				TimerText.setFillColor(hoverColer);
 				buildphaseElapsedTimeBuffer = 0;
+				path = pathFindingRef.aStar(GameAreaVector);				
 				enemyClock.restart();
 			}
 
@@ -507,12 +507,16 @@ void Game::Run()
 				tenLifeTexture, punktZahlText);
 
 			UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
-				enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText);
-
+				enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText,
+				GameAreaVector, path);
 
 			//Hier Knallt es wenn alle Gegner im Ziel sind!!!
-			App.draw(enemyActiveVector->at(i)->getSprite());
-			App.draw(lifeEnemySprite);
+			if(!enemyActiveVector->empty()) 
+			{
+				App.draw(enemyActiveVector->at(i)->getSprite());
+				App.draw(lifeEnemySprite);
+			}
+			
 
 
 		}
@@ -696,9 +700,33 @@ void Game::DrawTower(std::vector<BasicTower *> * BasicTowerVector)
 
 void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 	sf::Clock &enemyMovementClock, std::vector<BasicEnemy *> * enemyActiveVector,
-	int i, float y, float x, sf::Sprite &lifeEnemySprite, int &playerLife, sf::Text &lebenText)
+	int i, float y, float x, sf::Sprite &lifeEnemySprite, int &playerLife, sf::Text &lebenText,
+	vector<GameArea*> &playingfield, vector<int> &path)
 {
-	if ((movementElapsed + movementElapsedBuffer) >= 25) {
+	for (int i = 0; i < path.size(); i++) {
+		if (x >= playingfield.at(i)->getXID() && x < playingfield.at(i + 1)->getXID()) {
+			enemyActiveVector->at(i)->eSetRotation(270);
+			lifeEnemySprite.setPosition(x, (y - 25));
+			(enemyActiveVector->at(i)->eSetXCoord((x + 2)));
+		} 
+		if (x <= playingfield.at(i)->getXID() && x > playingfield.at(i + 1)->getXID()) {
+			enemyActiveVector->at(i)->eSetRotation(90);
+			lifeEnemySprite.setPosition(x, (y - 25));
+			(enemyActiveVector->at(i)->eSetXCoord((x - 2)));
+		}
+		if (y >= playingfield.at(i)->getYID() && y < playingfield.at(i + 1)->getYID()) {
+			enemyActiveVector->at(i)->eSetRotation(0);
+			lifeEnemySprite.setPosition(x, (y - 25));
+			(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
+		}
+		if (y <= playingfield.at(i)->getYID() && y > playingfield.at(i + 1)->getYID()) {
+			enemyActiveVector->at(i)->eSetRotation(180);
+			lifeEnemySprite.setPosition(x, (y - 25));
+			(enemyActiveVector->at(i)->eSetYCoord((y - 2)));
+		}
+
+	}
+	/*if ((movementElapsed + movementElapsedBuffer) >= 25) {
 		enemyMovementClock.restart();
 		enemyActiveVector->at(i)->eSetPosition();
 		if (y > 191 && x < 447) {
@@ -723,7 +751,7 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 			playerLife = playerLife--;
 			lebenText.setString(to_string(playerLife));
 		}
-	}
+	}*/
 }
 
 void Game::UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector,

@@ -1,8 +1,9 @@
 //#include "PathFinding.h"
 #include <SFML/System.hpp>
 #include "Game.h"
-#include "PlayingField.cpp"
+#include "PlayingField.h"
 #include "GameArea.h"
+#include <list>
 
 //FML ich geh ins bett, zu 90% fertig
 using namespace std;
@@ -15,6 +16,7 @@ class PathFinding {
 		return distance;
 	}
 
+public:
 	vector<int> aStar(vector<GameArea*> playingField) {
 		//alle areas zurücksetzen
 		for (int i = 0; i <= 62; i++) {

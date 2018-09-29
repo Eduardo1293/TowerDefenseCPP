@@ -41,7 +41,6 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="TowerDefense.cpp" />
-    <ClCompile Include="Zellen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicButton.h" />
@@ -52,6 +51,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="PlayingField.cpp" />
+    <ClInclude Include="PlayingField.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
