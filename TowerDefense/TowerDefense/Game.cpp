@@ -263,76 +263,75 @@ void Game::Run()
 
 				//freie und belegte felder markieren
 				////// hier verbuggt, benutzt noch listen-iterator ist jetzt aber ein vector
-				for (vector<GameArea*>::const_iterator pos = GameAreaVector.begin(); pos != GameAreaVector.end(); ++pos) {
-
-					if ((*pos)->getEmpty()) {
-						emptySpaceSprite.setPosition((*pos)->getAreaXCoord(), (*pos)->getAreaYCoord());
+				for (int i = 0; i < GameAreaVector.size(); i++) {
+					if (GameAreaVector.at(i)->getEmpty()) {
+						emptySpaceSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
 						App.draw(emptySpaceSprite);
 					}
 					else {
-						blockedSpaceSprite.setPosition((*pos)->getAreaXCoord(), (*pos)->getAreaYCoord());
+						blockedSpaceSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
 						App.draw(blockedSpaceSprite);
 					}
 
 					//mouse-movement auslesen
-					if (localPosition.x <= ((*pos)->getAreaXCoord() + 32) && (localPosition.x >= ((*pos)->getAreaXCoord() - 31))
-						&& (localPosition.y <= ((*pos)->getAreaYCoord() + 32)) && (localPosition.y >= ((*pos)->getAreaYCoord() - 31))) {
-						buildTowerSprite.setPosition((*pos)->getAreaXCoord(), (*pos)->getAreaYCoord());
+					if (localPosition.x <= (GameAreaVector.at(i)->getAreaXCoord() + 32) && (localPosition.x >= (GameAreaVector.at(i)->getAreaXCoord() - 31))
+						&& (localPosition.y <= (GameAreaVector.at(i)->getAreaYCoord() + 32)) && (localPosition.y >= (GameAreaVector.at(i)->getAreaYCoord() - 31))) {
+						buildTowerSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
 						App.draw(buildTowerSprite);
 					}
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 					{
-						if (localPosition.x <= ((*pos)->getAreaXCoord() + 32) && (localPosition.x >= ((*pos)->getAreaXCoord() - 31))
-							&& (localPosition.y <= ((*pos)->getAreaYCoord() + 32)) && (localPosition.y >= ((*pos)->getAreaYCoord() - 31))) {
+						if (localPosition.x <= (GameAreaVector.at(i)->getAreaXCoord() + 32) && (localPosition.x >= (GameAreaVector.at(i)->getAreaXCoord() - 31))
+							&& (localPosition.y <= (GameAreaVector.at(i)->getAreaYCoord() + 32)) && (localPosition.y >= (GameAreaVector.at(i)->getAreaYCoord() - 31))) {
 
 							switch (selectetTower)
 							{
 							case basicTower:
-								BasicTowerRef = new BasicTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
-								if ((*pos)->getEmpty())
+								BasicTowerRef = new BasicTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
+								if (GameAreaVector.at(i)->getEmpty())
 								{
 									if (gold >= BasicTowerRef->getCost())
 									{
 										TowerVector->push_back(BasicTowerRef);
-										(*pos)->setAreaEmpty(false);
+										GameAreaVector.at(i)->setAreaEmpty(false);
 										gold = gold - BasicTowerRef->getCost();
 									}
 								}
 								break;
 
 							case cannonTower:
-								CannonTowerRef = new CannonTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
+								CannonTowerRef = new CannonTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
 
-								if ((*pos)->getEmpty())
+								if (GameAreaVector.at(i)->getEmpty())
 								{
 									if (gold >= CannonTowerRef->getCost())
 									{
 										TowerVector->push_back(CannonTowerRef);
-										(*pos)->setAreaEmpty(false);
+										GameAreaVector.at(i)->setAreaEmpty(false);
 										gold = gold - CannonTowerRef->getCost();
 									}
 								}
 								break;
 							case flameTower:
-								FlameTowerRef = new FlameTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
-								if ((*pos)->getEmpty())
+								FlameTowerRef = new FlameTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
+								if (GameAreaVector.at(i)->getEmpty())
 								{
 									if (gold >= FlameTowerRef->getCost())
 									{
 										TowerVector->push_back(FlameTowerRef);
-										(*pos)->setAreaEmpty(false);
+										GameAreaVector.at(i)->setAreaEmpty(false);
 										gold = gold - FlameTowerRef->getCost();
 									}
 								}
 								break;
 								//case frostTower:
-								//	BasicTower * Tower = new BasicTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
+								//	BasicTower * Tower = new BasicTower((GameAreaVector.at(i))->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
 								//	break;
 								//case lightningTower:
-								//	BasicTower * Tower = new BasicTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
+								//	BasicTower * Tower = new BasicTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
 								//	break;
-							//default:
-								//BasicTower * Tower = new BasicTower(((*pos)->getAreaXCoord()), (*pos)->getAreaYCoord());
+								//default:
+								//BasicTower * Tower = new BasicTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
 								//break;
 							}
 						}

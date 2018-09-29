@@ -32,7 +32,7 @@ class PathFinding {
 		while (!notVisited.empty() && currentArea != PlayingField.at(62)) {
 
 			//sortieren mit lambda-funktion, thx stackoverflow
-			sort(notVisited.begin(), notVisited.end(), [] (GameArea* const& a, GameArea* const& b) {
+			sort(notVisited.begin(), notVisited.end(), [] (GameArea* a, GameArea* b) {
 				return a->getWholeDistance() < b->getWholeDistance();
 			});
 

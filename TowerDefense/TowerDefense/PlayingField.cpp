@@ -167,16 +167,16 @@ vector<GameArea*> PlayingField() {
 
 	for (int i = 0; i < 63; i++) {
 		//klammern richtig?
-		if (GameAreaVector.at(i)->getXID() >= 1) {
+		if (GameAreaVector.at(i)->getXID() > 1) {
 			GameAreaVector.at(i)->addConnected(GameAreaVector.at((GameAreaVector.at(i)->getID() - 1)));
 		}
-		if (GameAreaVector.at(i)->getXID() <= 6) {
+		if (GameAreaVector.at(i)->getXID() < 7) {
 			GameAreaVector.at(i)->addConnected(GameAreaVector.at((GameAreaVector.at(i)->getID() + 1)));
 		}
-		if (GameAreaVector.at(i)->getYID() >= 1) {
+		if (GameAreaVector.at(i)->getYID() > 1) {
 			GameAreaVector.at(i)->addConnected(GameAreaVector.at((GameAreaVector.at(i)->getID() - 7)));
 		}
-		if (GameAreaVector.at(i)->getYID() <= 9) {
+		if (GameAreaVector.at(i)->getYID() < 9) {
 			GameAreaVector.at(i)->addConnected(GameAreaVector.at((GameAreaVector.at(i)->getID() + 7)));
 		}
 	}
