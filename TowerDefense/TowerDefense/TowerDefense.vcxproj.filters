@@ -81,6 +81,9 @@
     <ClCompile Include="BasicEnemy.cpp">
       <Filter>Quelldateien\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="FastEnemy.cpp">
+      <Filter>Quelldateien\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicTower.h">

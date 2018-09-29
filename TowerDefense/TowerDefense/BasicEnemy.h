@@ -9,8 +9,8 @@ using namespace std;
 
 class BasicEnemy {
 private:
-	sf::Texture dummyEnemyTexture;
-	sf::Sprite dummyEnemySprite;
+	sf::Texture BasicEnemyTexture;
+	sf::Sprite BasicEnemySprite;
 	sf::Texture lifeBarTexture;
 	sf::Sprite lifeBarSprite;
 	double e_MaxLife;
@@ -20,6 +20,7 @@ private:
 
 public:
 	BasicEnemy(float XCoord, float YCoord);
+	BasicEnemy(float XCoord, float YCoord, int maxLife, int CurrentLife, string textureLocation);
 
 	//Setter
 	void eSetRotation(float rotation);
@@ -37,6 +38,13 @@ public:
 	void takeDamage(int damage);
 
 	BasicEnemy();
+
+	~BasicEnemy();
+};
+
+class FastEnemy : public BasicEnemy {
+public:
+	FastEnemy(float XCoord, float YCoord,string textureLocation);
 };
 
 

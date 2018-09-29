@@ -2,22 +2,27 @@
 
 
 
-BasicEnemy::BasicEnemy(float XCoord, float YCoord) {
-	e_MaxLife = 100;
-	e_CurrentLife = 100;
+BasicEnemy::BasicEnemy(float XCoord, float YCoord, int maxLife, int CurrentLife, string textureLocation) {
+	e_MaxLife = maxLife;
+	e_CurrentLife = CurrentLife;
 	e_XCoord = XCoord;
 	e_YCoord = YCoord;
-	dummyEnemyTexture.loadFromFile("ArtAssets/Enemies/enemyBlack1.png");
-	dummyEnemySprite.setTexture(dummyEnemyTexture);
-	dummyEnemySprite.setOrigin(32, 32);
+	BasicEnemyTexture.loadFromFile(textureLocation);
+	BasicEnemySprite.setTexture(BasicEnemyTexture);
+	BasicEnemySprite.setOrigin(32, 32);
+	//"ArtAssets/Enemies/enemyBlack1.png"
+}
+
+BasicEnemy::~BasicEnemy()
+{
 }
 
 void BasicEnemy::eSetRotation(float rotation) {
-	dummyEnemySprite.setRotation(rotation);
+	BasicEnemySprite.setRotation(rotation);
 }
 
 void BasicEnemy::eSetPosition() {
-	dummyEnemySprite.setPosition(e_XCoord, e_YCoord);
+	BasicEnemySprite.setPosition(e_XCoord, e_YCoord);
 }
 
 void BasicEnemy::eSetXCoord(float XCoord) {
@@ -50,7 +55,7 @@ float BasicEnemy::getYCoord()
 
 sf::Sprite BasicEnemy::getSprite()
 {
-	return dummyEnemySprite;
+	return BasicEnemySprite;
 }
 
 void BasicEnemy::takeDamage(int damage) {
