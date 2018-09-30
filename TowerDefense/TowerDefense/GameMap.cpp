@@ -1,19 +1,15 @@
+#include "GameMap.h"
 #include "GameArea.h"
 #include <list>
-#include "PlayingField.h"
 
-class PlayingField {
-private:
-	vector<GameArea*> GameAreaVector;
 
-public:
-	PlayingField::PlayingField()
+	GameMap::GameMap()
 	{
 	}
-	PlayingField::~PlayingField()
+	GameMap::~GameMap()
 	{
 	}
-	void setPlayingField() {
+	void GameMap::setGameMap() {
 		//erste zeile von links nach rechts
 		GameArea *AA = new GameArea(false, 63, 191, 1, 1, 0);
 		GameArea *BA = new GameArea(true, 127, 191, 2, 1, 1);
@@ -95,7 +91,7 @@ public:
 		GameArea *FI = new GameArea(true, 383, 703, 6, 9, 61);
 		GameArea *GI = new GameArea(false, 447, 703, 7, 9, 62);
 
-		vector<GameArea*> GameAreaVector;
+		//vector<GameArea*> GameAreaVector;
 
 		//erste zeile von links nach rechts
 		GameAreaVector.push_back(AA);
@@ -198,10 +194,10 @@ public:
 		for (int i = 0; i < 63; i++) {
 			GameAreaVector.at(i)->setWholeDistance((abs(GameAreaVector.at(i)->getXID() - GameAreaVector.at(62)->getXID()))
 				+ (abs(GameAreaVector.at(i)->getYID() - GameAreaVector.at(62)->getYID())));
-		}		
+		}
 	};
-	
-	vector<GameArea*> getPlayingField() {
+
+	vector<GameArea*> GameMap::getGameMap() {
 		return GameAreaVector;
 	}
-};
+

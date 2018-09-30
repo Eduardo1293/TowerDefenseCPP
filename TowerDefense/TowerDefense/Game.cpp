@@ -11,7 +11,7 @@ update movement ist momentan komisch, timer außerhalb der methode überprüfen
 #include "Game.h"
 #include <list>
 #include <vector>
-#include "PlayingField.h"
+#include "GameMap.h"
 #include "BasicTower.h"
 #include "EnemyWaves.h"
 #include "Menu.h"
@@ -174,9 +174,9 @@ void Game::Run()
 	//irgendwas löst nicht auf... :(
 	//Nachtrag 02:05Uhr:
 	//FUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCCCCCCCCCCCCKKKKKKKKKKKKK
-	PlayingField playingFieldRef;
-	playingFieldRef.setPlayingField();
-	vector<GameArea*> GameAreaVector = playingFieldRef.getPlayingField();
+	GameMap *GameMapRef = new GameMap;
+	GameMapRef->setGameMap();
+	vector<GameArea*> GameAreaVector = GameMapRef->getGameMap();
 	
 	vector<int> path;
 	PathFinding pathFindingRef;
@@ -706,28 +706,33 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 	int i, float y, float x, sf::Sprite &lifeEnemySprite, int &playerLife, sf::Text &lebenText,
 	vector<GameArea*> &playingfield, vector<int> &path)
 {
-	for (int i = 0; i < path.size(); i++) {
-		if (x >= playingfield.at(i)->getXID() && x < playingfield.at(i + 1)->getXID()) {
+	enemyActiveVector->at(i)->eSetPosition();
+	if (y <= 191) {
+		lifeEnemySprite.setPosition(x, (y - 25));		
+		(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
+	}					
+	for (int j = 0; j < (path.size() - 1); j++) {
+		if (x >= playingfield.at(path.at(j))->getXID() && x < playingfield.at(path.at(j + 1))->getXID()) {
 			enemyActiveVector->at(i)->eSetRotation(270);
 			lifeEnemySprite.setPosition(x, (y - 25));
 			(enemyActiveVector->at(i)->eSetXCoord((x + 2)));
 		} 
-		if (x <= playingfield.at(i)->getXID() && x > playingfield.at(i + 1)->getXID()) {
+		if (x <= playingfield.at(path.at(j))->getXID() && x > playingfield.at(path.at(j + 1))->getXID()) {
 			enemyActiveVector->at(i)->eSetRotation(90);
 			lifeEnemySprite.setPosition(x, (y - 25));
 			(enemyActiveVector->at(i)->eSetXCoord((x - 2)));
 		}
-		if (y >= playingfield.at(i)->getYID() && y < playingfield.at(i + 1)->getYID()) {
+		if (y >= playingfield.at(path.at(j))->getYID() && y < playingfield.at(path.at(j + 1))->getYID()) {				
 			enemyActiveVector->at(i)->eSetRotation(0);
 			lifeEnemySprite.setPosition(x, (y - 25));
 			(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
 		}
-		if (y <= playingfield.at(i)->getYID() && y > playingfield.at(i + 1)->getYID()) {
+		if (y <= playingfield.at(path.at(j))->getYID() && y > playingfield.at(path.at(j + 1))->getYID()) {
 			enemyActiveVector->at(i)->eSetRotation(180);
 			lifeEnemySprite.setPosition(x, (y - 25));
 			(enemyActiveVector->at(i)->eSetYCoord((y - 2)));
 		}
-
+		
 	}
 	/*if ((movementElapsed + movementElapsedBuffer) >= 25) {
 		enemyMovementClock.restart();

@@ -5,7 +5,7 @@
 #include <SFML/System.hpp>
 #include "BasicEnemy.h"
 #include "BasicTower.h"
-#include "PlayingField.h"
+#include "GameMap.h"
 #include "GameArea.h"
 
 class Game 

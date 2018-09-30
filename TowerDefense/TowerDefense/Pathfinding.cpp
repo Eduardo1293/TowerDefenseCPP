@@ -1,7 +1,7 @@
 //#include "PathFinding.h"
 #include <SFML/System.hpp>
 #include "Game.h"
-#include "PlayingField.h"
+#include "GameMap.h"
 #include "GameArea.h"
 #include <list>
 
@@ -76,7 +76,7 @@ public:
 			path.insert(path.begin(), playingField.at(counter)->getID());
 			counter = playingField.at(counter)->getParent()->getID();
 		}
-		
+		path.insert(path.begin(), playingField.at(0)->getID());
 		return path;
 	}
 

@@ -81,6 +81,9 @@
     <ClCompile Include="FastEnemy.cpp">
       <Filter>Quelldateien\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="GameMap.cpp">
+      <Filter>Quelldateien\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicTower.h">
@@ -91,9 +94,6 @@
     </ClInclude>
     <ClInclude Include="GameArea.h">
       <Filter>Headerdateien\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayingField.cpp">
-      <Filter>Quelldateien\Core</Filter>
     </ClInclude>
     <ClInclude Include="EnemyWaves.h">
       <Filter>Headerdateien\Core</Filter>
@@ -107,7 +107,7 @@
     <ClInclude Include="BasicEnemy.h">
       <Filter>Headerdateien\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="PlayingField.h">
+    <ClInclude Include="GameMap.h">
       <Filter>Headerdateien\Core</Filter>
     </ClInclude>
   </ItemGroup>
