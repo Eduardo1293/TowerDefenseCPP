@@ -3,6 +3,7 @@ Hier Sachen reinschrieben, die noch gemacht werden müssen!
 Problem mit PlayingField beheben.
 gucken ob clock verwendet wird
 update movement ist momentan komisch, timer außerhalb der methode überprüfen
+
 */
 
 
@@ -17,7 +18,6 @@ update movement ist momentan komisch, timer außerhalb der methode überprüfen
 #include "BasicButton.h"
 #include "PathFinding.cpp"
 #include <iostream>
-
 
 Game::Game()
 {
@@ -171,8 +171,11 @@ void Game::Run()
 		this.playingFieldList.Add(prop)
 	}*/
 
-	//HIER HABE ICH WAS GEMACHT
+	//irgendwas löst nicht auf... :(
+	//Nachtrag 02:05Uhr:
+	//FUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCCCCCCCCCCCCKKKKKKKKKKKKK
 	PlayingField playingFieldRef;
+	playingFieldRef.setPlayingField();
 	vector<GameArea*> GameAreaVector = playingFieldRef.getPlayingField();
 	
 	vector<int> path;
