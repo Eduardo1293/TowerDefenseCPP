@@ -107,7 +107,7 @@ void Game::Run()
 
 	LoadGameFont(font);
 
-	BasicButton basicTowerButton = BasicButton(78, 779, "", "ArtAssets/Tower/tank_green.png", color.White, 0, 0, 0);
+	BasicButton basicTowerButton = BasicButton(78, 779, "", "ArtAssets/Tower/tank_dark.png", color.White, 0, 0, 0);
 	BasicButton cannonTowerButton = BasicButton(151, 779, "", "ArtAssets/Tower/tank_green.png", color.White, 0, 0, 0);
 	BasicButton frostTowerButton = BasicButton(224, 779, "", "ArtAssets/Tower/tank_blue.png", color.White, 0, 0, 0);
 	BasicButton fireTowerButton = BasicButton(297, 779, "", "ArtAssets/Tower/tank_red.png", color.White, 0, 0, 0);
@@ -187,7 +187,7 @@ void Game::Run()
 
 	//phasen-clock
 	sf::Clock buildingphaseClock;
-	int buildingphaseCountdown = 30;
+	int buildingphaseCountdown = 10;
 	int buildphaseElapsedTimeBuffer = 0;
 
 	//attackclock, brauchen wir für tower attacken;
