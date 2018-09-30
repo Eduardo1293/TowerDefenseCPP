@@ -6,8 +6,11 @@
 
 Menu::Menu()
 {
+	sf::Image GameIcon;
+	GameIcon.loadFromFile("ArtAssets/gameIcon.png");
 	name = "Tower Defense - Beats by Dad";
 	MenuWindow.create(sf::VideoMode(400, 400), name, sf::Style::Close);
+	MenuWindow.setIcon(GameIcon.getSize().x, GameIcon.getSize().y, GameIcon.getPixelsPtr());
 	running = true;
 }
 
@@ -155,6 +158,7 @@ void Menu::Run()
 			{
 				if (ZurückButton.getSprite().getGlobalBounds().contains(mousePosF))
 				{
+					LoadMenuTextures(menuBackgroundTexture, menuBackgroundSprite);
 					showCredits = false;
 				}
 			}

@@ -21,8 +21,11 @@ update movement ist momentan komisch, timer außerhalb der methode überprüfen
 
 Game::Game()
 {
+	sf::Image GameIcon;
+	GameIcon.loadFromFile("ArtAssets/gameIcon.png");
 	name = "Lennard is kacke.exe";
 	App.create(sf::VideoMode(512, 896), name, sf::Style::Close);
+	App.setIcon(GameIcon.getSize().x, GameIcon.getSize().y, GameIcon.getPixelsPtr());
 	running = true;
 
 }
