@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
+#include <SFML/Audio.hpp>
 #include "BasicEnemy.h"
 #include "BasicTower.h"
 #include "GameMap.h"

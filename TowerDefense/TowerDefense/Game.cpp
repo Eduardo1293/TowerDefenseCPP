@@ -71,7 +71,17 @@ void Game::Run()
 	vector<BasicEnemy*> *enemyActiveVector = new vector<BasicEnemy*>();
 	*enemyVector = enemyWaves(1);
 
+	//Hintergrundmusik
+	sf::SoundBuffer soundBuffer;
+	sf::Sound sound;
 
+	if (!soundBuffer.loadFromFile("ArtAssets/Audio/hintergrundmusik.ogg"))
+	{
+		cout << "Error" << endl;
+	}
+
+	sound.setBuffer(soundBuffer);
+	sound.setVolume(100);
 
 	//Testturm und Testgegner
 	sf::Sprite testTurmSprite;
@@ -205,10 +215,11 @@ void Game::Run()
 	sf::Clock enemyMovementClock;
 	int movementElapsedBuffer = 0;
 
+	//Hintergrundmusik wird ausgeführt
+	sound.play();
 	// run the program as long as the window is open
 	while (App.isOpen())
 	{
-
 		App.clear(sf::Color::Black);
 		App.draw(backgroundSprite);
 		SetInfoText(goldText, gold, rundenText, runde, TimerText, timerText);
