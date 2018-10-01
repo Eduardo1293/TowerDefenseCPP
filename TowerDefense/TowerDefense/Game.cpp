@@ -493,6 +493,9 @@ void Game::Run()
 
 			TimerText.setFillColor(color.Black);
 			//buildingphase = true;
+			if (enemyActiveVector->empty() && enemyVector->empty()) {
+				buildingphase = true;
+			}
 		}
 
 		//male alles was immer dargestellt wird immer, oberer layer:
@@ -506,25 +509,71 @@ void Game::Run()
 		enemyMovementClock.getElapsedTime();
 		sf::Time enemyMovementElapsed = enemyMovementClock.getElapsedTime();
 		int movementElapsed = enemyMovementElapsed.asMilliseconds();
-		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
-			UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
-				y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
-				sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
-				tenLifeTexture, punktZahlText);
 
-			UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
-				enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText,
-				GameAreaVector, path);
+		
 
 			//Hier Knallt es wenn alle Gegner im Ziel sind!!!
-			if(!enemyActiveVector->empty()) 
+		if (!enemyActiveVector->empty())
+		{
+			for (unsigned int i = 0; i < enemyActiveVector->size(); i++) 
 			{
-				App.draw(enemyActiveVector->at(i)->getSprite());
-				App.draw(lifeEnemySprite);
-			}
+				UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
+					y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
+					sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
+					tenLifeTexture, punktZahlText);
+
+				UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
+					enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText,
+					GameAreaVector, path);
 			
+				if (!enemyActiveVector->empty())
+				{
+					App.draw(enemyActiveVector->at(i)->getSprite());
+					App.draw(lifeEnemySprite);
+				}
+			}												
+		}
 
+		if (!enemyActiveVector->empty())
+		{
+			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
+			{
+				UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
+					y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
+					sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
+					tenLifeTexture, punktZahlText);
 
+				UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
+					enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText,
+					GameAreaVector, path);
+
+				if (!enemyActiveVector->empty())
+				{
+					App.draw(enemyActiveVector->at(i)->getSprite());
+					App.draw(lifeEnemySprite);
+				}
+			}
+		}
+
+		if (!enemyActiveVector->empty())
+		{
+			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
+			{
+				UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
+					y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
+					sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
+					tenLifeTexture, punktZahlText);
+
+				UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
+					enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText,
+					GameAreaVector, path);
+
+				if (!enemyActiveVector->empty())
+				{
+					App.draw(enemyActiveVector->at(i)->getSprite());
+					App.draw(lifeEnemySprite);
+				}
+			}
 		}
 
 		if (playerLife <= 0)
@@ -532,6 +581,7 @@ void Game::Run()
 			ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite, playerInput, playerText);
 		}
 
+		
 		// end the current frame
 		App.display();
 
@@ -707,35 +757,64 @@ void Game::DrawTower(std::vector<BasicTower *> * BasicTowerVector)
 void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 	sf::Clock &enemyMovementClock, std::vector<BasicEnemy *> * enemyActiveVector,
 	int i, float y, float x, sf::Sprite &lifeEnemySprite, int &playerLife, sf::Text &lebenText,
-	vector<GameArea*> &playingfield, vector<int> &path)
+	vector<GameArea*>& playingfield, vector<int> &path)
 {
-	enemyActiveVector->at(i)->eSetPosition();
-	if (y <= 191) {
-		lifeEnemySprite.setPosition(x, (y - 25));		
-		(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
-	}					
-	for (int j = 0; j < (path.size() - 1); j++) {
-		if (x >= playingfield.at(path.at(j))->getXID() && x < playingfield.at(path.at(j + 1))->getXID()) {
-			enemyActiveVector->at(i)->eSetRotation(270);
+	GameMap *GameMapRef = new GameMap;
+	GameMapRef->setGameMap();
+	vector<GameArea*> GameAreaVector = GameMapRef->getGameMap();
+
+	if (!enemyActiveVector->empty())
+	{		
+		if (y < 191) {
 			lifeEnemySprite.setPosition(x, (y - 25));
-			(enemyActiveVector->at(i)->eSetXCoord((x + 2)));
-		} 
-		if (x <= playingfield.at(path.at(j))->getXID() && x > playingfield.at(path.at(j + 1))->getXID()) {
-			enemyActiveVector->at(i)->eSetRotation(90);
-			lifeEnemySprite.setPosition(x, (y - 25));
-			(enemyActiveVector->at(i)->eSetXCoord((x - 2)));
+			(enemyActiveVector->at(i)->eSetYCoord((y + 1)));
 		}
-		if (y >= playingfield.at(path.at(j))->getYID() && y < playingfield.at(path.at(j + 1))->getYID()) {				
-			enemyActiveVector->at(i)->eSetRotation(0);
-			lifeEnemySprite.setPosition(x, (y - 25));
-			(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
+		if (y >= 191) {
+			for (int j = 0; j < (path.size() - 1); j++) {
+
+				int pathXCoord = GameAreaVector.at(path.at(j))->getAreaXCoord();
+				int pathPlusOneXCoord = GameAreaVector.at(path.at(j + 1))->getAreaXCoord();
+				int pathYCoord = GameAreaVector.at(path.at(j))->getAreaYCoord();
+				int pathPlusOneYCoord = GameAreaVector.at(path.at(j + 1))->getAreaYCoord();
+
+				if ((x >= pathXCoord) && (x < pathPlusOneXCoord)
+					&& (y == pathYCoord))
+				{
+					lifeEnemySprite.setPosition(x, (y - 25));
+					enemyActiveVector->at(i)->eSetXCoord((x + 1));
+					enemyActiveVector->at(i)->eSetRotation(270);
+					break;
+				}
+				if ((x <= pathXCoord) && (x > pathPlusOneXCoord)
+					&& (y == pathYCoord))
+				{
+					lifeEnemySprite.setPosition(x, (y - 25));
+					enemyActiveVector->at(i)->eSetXCoord((x - 1));
+					enemyActiveVector->at(i)->eSetRotation(90);
+					break;
+				}
+				if ((y >= pathYCoord) && (y < pathPlusOneYCoord)
+					&& (x == pathXCoord))
+				{
+					lifeEnemySprite.setPosition(x, (y - 25));
+					enemyActiveVector->at(i)->eSetYCoord((y + 1));
+					enemyActiveVector->at(i)->eSetRotation(0);
+					break;
+				}
+				if ((y <= pathYCoord) && (y > pathPlusOneYCoord)
+					&& (x == pathXCoord))
+				{
+					lifeEnemySprite.setPosition(x, (y - 25));
+					enemyActiveVector->at(i)->eSetYCoord((y - 1));
+					enemyActiveVector->at(i)->eSetRotation(180);
+					break;
+				}
+			}
 		}
-		if (y <= playingfield.at(path.at(j))->getYID() && y > playingfield.at(path.at(j + 1))->getYID()) {
-			enemyActiveVector->at(i)->eSetRotation(180);
-			lifeEnemySprite.setPosition(x, (y - 25));
-			(enemyActiveVector->at(i)->eSetYCoord((y - 2)));
+		if (!enemyActiveVector->empty())
+		{
+			enemyActiveVector->at(i)->eSetPosition();
 		}
-		
 	}
 	/*if ((movementElapsed + movementElapsedBuffer) >= 25) {
 		enemyMovementClock.restart();

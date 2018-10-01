@@ -9,7 +9,7 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 	int yCoord = 96;
 	if (waveNumber == 1) 
 	{
-		int maxLife = 100;
+		int maxLife = 300;
 		int currentLife = maxLife;
 		string textureLocation = "ArtAssets/Enemies/enemyBlack1.png";
 		BasicEnemy *numberOne = new BasicEnemy(xCoord, yCoord, maxLife, currentLife, textureLocation);

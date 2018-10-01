@@ -5,7 +5,7 @@
 BasicTower::BasicTower(float XCoord, float YCoord) {
 	t_Name = "Basistower";
 	t_Description = "Test";
-	t_Cost = 10;
+	t_Cost = 1;
 	t_XCoord = XCoord;
 	t_YCoord = YCoord;
 	t_attackCooldown = 0;
