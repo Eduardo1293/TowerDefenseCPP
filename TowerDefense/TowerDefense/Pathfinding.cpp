@@ -17,21 +17,24 @@ class PathFinding {
 	}
 
 public:
-	vector<int> aStar(vector<GameArea*> playingField) {
+	vector<int> aStar(vector<GameArea*> *playingField) {
 		//alle areas zurücksetzen
 		for (int i = 0; i <= 62; i++) {
-			playingField.at(i)->setVisited(false);
-			playingField.at(i)->setDistanceFromStart(999.9f);
-			// ????? kA ob benötigt, zu müde PlayingField.at(i)->setDistanceToGoal(999.9f);
-			playingField.at(i)->setParent(nullptr);
+			playingField->at(i)->setVisited(false);
+			playingField->at(i)->setDistanceFromStart(INFINITY);
+			playingField->at(i)->setWholeDistance(INFINITY);
+			playingField->at(i)->setParent(nullptr);
 		}
 
-		GameArea *currentArea = playingField.at(0);
+		GameArea *currentArea = playingField->at(0);
+
+		playingField->at(0)->setDistanceFromStart(0.0f);
+		playingField->at(0)->setWholeDistance(manhattan(playingField->at(0), playingField->at(62)));
 
 		list<GameArea*> notVisited;
-		notVisited.push_back(playingField.at(0));
+		notVisited.push_back(playingField->at(0));
 		
-		while (!notVisited.empty() && currentArea != playingField.at(62)) {
+		while (!notVisited.empty() && currentArea != playingField->at(62)) {
 
 			//sortieren mit lambda-funktion, thx stackoverflow
 			notVisited.sort([] (GameArea* const& a, GameArea* const& b) {
@@ -55,7 +58,8 @@ public:
 					notVisited.push_back(areaConnected);
 				}
 
-				float lowerLQuestionMark = manhattan(currentArea, areaConnected);
+				float lowerLQuestionMark = currentArea->getDistanceFromStart()
+					+ manhattan(currentArea, areaConnected);
 
 				if (lowerLQuestionMark < areaConnected->getDistanceFromStart())
 				{
@@ -63,7 +67,7 @@ public:
 					areaConnected->setDistanceFromStart(lowerLQuestionMark);
 
 					areaConnected->setWholeDistance(areaConnected->getDistanceFromStart()
-						+ manhattan(areaConnected, playingField.at(62)));
+						+ manhattan(areaConnected, playingField->at(62)));
 				}
 			}
 		}
@@ -73,10 +77,10 @@ public:
 
 		int counter = 62;
 		while (counter != 0) {
-			path.insert(path.begin(), playingField.at(counter)->getID());
-			counter = playingField.at(counter)->getParent()->getID();
+			path.insert(path.begin(), playingField->at(counter)->getID());
+			counter = playingField->at(counter)->getParent()->getID();
 		}
-		path.insert(path.begin(), playingField.at(0)->getID());
+		path.insert(path.begin(), 0);
 		return path;
 	}
 
