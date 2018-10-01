@@ -21,8 +21,8 @@ public:
 		//alle areas zurücksetzen
 		for (int i = 0; i <= 62; i++) {
 			playingField.at(i)->setVisited(false);
-			playingField.at(i)->setDistanceFromStart(INFINITY);
-			playingField.at(i)->setWholeDistance(INFINITY);
+			playingField.at(i)->setDistanceFromStart(999.9f);
+			playingField.at(i)->setWholeDistance(999.9f);
 			playingField.at(i)->setParent(nullptr);
 		}
 

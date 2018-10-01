@@ -70,7 +70,7 @@ public:
 
 	float getWholeDistance()
 	{
-		return distanceFromStart + distanceToGoal;
+		return wholeDistance;
 	}
 
 	bool getVisited() {
