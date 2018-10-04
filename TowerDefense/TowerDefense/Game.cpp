@@ -506,6 +506,7 @@ void Game::Run()
 			//buildingphase = true;
 			if (enemyActiveVector->empty() && enemyVector->empty()) {
 				buildingphase = true;
+				buildingphaseCountdown = 30;
 			}
 		}
 
