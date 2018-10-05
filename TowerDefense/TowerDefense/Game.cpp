@@ -4,6 +4,7 @@ Hier Sachen reinschrieben, die noch gemacht werden müssen!
 -gucken ob clock verwendet wird X
 -update movement ist momentan komisch, timer außerhalb der methode überprüfen
 -wir benutzen nicht alle life%, life% aufräumen
+-eine der distanzen in gamearea ist unnütz, beizeiten aufräumen :D und die namen sind komisch
 */
 
 
@@ -18,6 +19,7 @@ Hier Sachen reinschrieben, die noch gemacht werden müssen!
 #include "BasicButton.h"
 #include "PathFinding.cpp"
 #include <iostream>
+#include <map>
 
 Game::Game()
 {
@@ -282,7 +284,19 @@ void Game::Run()
 				buildingphase = false;
 				TimerText.setFillColor(hoverColer);
 				buildphaseElapsedTimeBuffer = 0;
-				path = pathFindingRef.aStar(GameAreaVector);				
+				path = pathFindingRef.aStar(GameAreaVector);						
+				map<int, int, int> navigation;
+					
+				for (int i = 0; i < path.size(); i++) {
+					for (int j = 0; j < GameAreaVector.size(); j++) 
+					{
+						if (path.at(i) == GameAreaVector.at(i)->getID) {
+							navigation[path.at(i)] = GameAreaVector.at(i)->getAreaXCoord, GameAreaVector.at(i)->getAreaYCoord;
+						}						
+					}				
+				}
+				
+				
 				enemyClock.restart();
 			}
 
@@ -585,17 +599,28 @@ void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int r
 	TimerText.setString(to_string(timerText));
 }
 
+//irgendwas funktioniert hier nicht, stehe übelst auf dem schlauch
 void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector,
 	std::vector<BasicEnemy *> * enemyActiveVector, sf::Sprite &explosionSprite)
 {
-	for (unsigned int i = 0; i < BasicTowerVector->size(); i++) {
-		int target = BasicTowerVector->at(i)->checkForEnemies(enemyActiveVector);
-		if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
-			enemyActiveVector->at(target)->takeDamage(BasicTowerVector->at(i)->getDamage());
-			explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
-			App.draw(explosionSprite);
+	if (!enemyActiveVector->empty())
+	{
+		for (int i = 0; i < BasicTowerVector->size(); i++)
+		{
+			vector<int> targets = BasicTowerVector->at(i)->checkForEnemies(enemyActiveVector);
+			if (targets.size() > 1) {
+				for (int j = 1; j < targets.size(); j++)
+				{
+					int k = targets.at(j);
+					enemyActiveVector->at(k)->takeDamage(BasicTowerVector->at(i)->getDamage());
+					explosionSprite.setPosition(enemyActiveVector->at(k)->getXCoord(), enemyActiveVector->at(k)->getYCoord());
+					App.draw(explosionSprite);
+				}
+				targets.clear();
+			}
 		}
 	}
+	
 }
 
 void Game::LoadExplosionTextures(sf::Texture &explosionTexture, sf::Sprite &explosionSprite)
@@ -739,6 +764,7 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 	enemyMovementClock.restart();
 	enemyActiveVector->at(i)->eSetPosition();
 	*/
+
 	if (!enemyActiveVector->empty())
 	{		
 		if (y < 191) {

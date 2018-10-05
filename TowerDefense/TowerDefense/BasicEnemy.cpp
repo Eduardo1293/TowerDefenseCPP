@@ -7,6 +7,8 @@ BasicEnemy::BasicEnemy(float XCoord, float YCoord, int maxLife, int CurrentLife,
 	e_CurrentLife = CurrentLife;
 	e_XCoord = XCoord;
 	e_YCoord = YCoord;
+	e_globalLocation = 999;
+	e_navigationHelper = -1;
 	BasicEnemyTexture.loadFromFile(textureLocation);
 	BasicEnemySprite.setTexture(BasicEnemyTexture);
 	BasicEnemySprite.setOrigin(32, 32);
@@ -33,6 +35,16 @@ void BasicEnemy::eSetYCoord(float YCoord) {
 	e_YCoord = YCoord;
 }
 
+void BasicEnemy::eSetGlobalLocation(int location)
+{
+	e_globalLocation = location;
+}
+
+void BasicEnemy::eSetNavigationHelper(int navi)
+{
+	e_navigationHelper = navi;
+}
+
 double BasicEnemy::getMaxLife()
 {
 	return e_MaxLife;
@@ -51,6 +63,21 @@ float BasicEnemy::getXCoord()
 float BasicEnemy::getYCoord()
 {
 	return e_YCoord;
+}
+
+int BasicEnemy::getGlobalLocation()
+{
+	return e_globalLocation;
+}
+
+int BasicEnemy::getNavigationHelper()
+{
+	return e_navigationHelper;
+}
+
+int BasicEnemy::getMovementSpeed()
+{
+	return e_movementSpeed;
 }
 
 sf::Sprite BasicEnemy::getSprite()

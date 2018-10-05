@@ -6,89 +6,90 @@ FlameTower::FlameTower(float XCoord, float YCoord)
 {
 }
 
-int FlameTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
+
+//work in progress
+vector<int> FlameTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 {
 	if (t_attackCooldown == 0) {
+
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
+			vector<int> enemies;
+			enemies.push_back(999);
 			float enemyXCoord = enemyActiveVector->at(i)->getXCoord();
 			float enemyYCoord = enemyActiveVector->at(i)->getYCoord();
+			int priorityLocation;
 			//rechts unten
-			if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
-				&& (enemyYCoord > (t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
+			if ((enemyXCoord >(t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
+				&& (enemyYCoord >(t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
 				t_BasicTurmSprite.setRotation(315);
 				t_attackCooldown = 10;
-				return i;
-				break;
-				//rechts 
+				priorityLocation = 9;
+				enemyActiveVector->at(i)->eSetRelativeLocation(9);
+				break;				
 			}
-			else if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
-				&& (enemyYCoord > (t_YCoord - 32)) && (enemyYCoord < (t_YCoord + 33))) {
+			//rechts 
+			else if ((enemyXCoord >(t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
+				&& (enemyYCoord >(t_YCoord - 32)) && (enemyYCoord < (t_YCoord + 33))) {
 				t_BasicTurmSprite.setRotation(270);
 				t_attackCooldown = 10;
-				//deal damage
-				return i;
-				break;
-				//unten
+				priorityLocation = 6;				
 			}
-			else if ((enemyXCoord > (t_XCoord + -32)) && (enemyXCoord < (t_XCoord + 33))
-				&& (enemyYCoord > (t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
+			//unten
+			else if ((enemyXCoord >(t_XCoord + -32)) && (enemyXCoord < (t_XCoord + 33))
+				&& (enemyYCoord >(t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
 				t_BasicTurmSprite.setRotation(0);
 				t_attackCooldown = 10;
-				//deal damage
-				return i;
-				break;
-				//links unten 
+				priorityLocation = 8;			 
 			}
-			else if ((enemyXCoord > (t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
-				&& (enemyYCoord > (t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
+			//links unten
+			else if ((enemyXCoord >(t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
+				&& (enemyYCoord >(t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
 				t_BasicTurmSprite.setRotation(45);
 				t_attackCooldown = 10;
-				//deal damage
-				return i;
-				break;
-				//rechts oben
+				priorityLocation = 7;				
 			}
-			else if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
-				&& (enemyYCoord > (t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
+			//rechts oben
+			else if ((enemyXCoord >(t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
+				&& (enemyYCoord >(t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
 				t_BasicTurmSprite.setRotation(225);
 				t_attackCooldown = 10;
-				//deal damage
-				return i;
-				break;
-				//links
+				priorityLocation = 3;				
 			}
-			else if ((enemyXCoord > (t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
-				&& (enemyYCoord > (t_YCoord - 32)) && (enemyYCoord < (t_YCoord + 33))) {
+			//links
+			else if ((enemyXCoord >(t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
+				&& (enemyYCoord >(t_YCoord - 32)) && (enemyYCoord < (t_YCoord + 33))) {
 				t_BasicTurmSprite.setRotation(90);
 				t_attackCooldown = 10;
-				//deal damage
-				return i;
-				break;;
-				//oben
+				priorityLocation = 4;				
 			}
-			else if ((enemyXCoord > (t_XCoord - 32)) && (enemyXCoord < (t_XCoord + 33))
-				&& (enemyYCoord > (t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
+			//oben
+			else if ((enemyXCoord >(t_XCoord - 32)) && (enemyXCoord < (t_XCoord + 33))
+				&& (enemyYCoord >(t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
 				t_BasicTurmSprite.setRotation(180);
 				t_attackCooldown = 10;
-				return i;
-				break;
-				//deal damage
-				//links oben
+				enemies.push_back(i);
+				priorityLocation = 2;
 			}
-			else if ((enemyXCoord > (t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
-				&& (enemyYCoord > (t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
+			//links oben
+			else if ((enemyXCoord >(t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
+				&& (enemyYCoord >(t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
 				t_BasicTurmSprite.setRotation(135);
 				t_attackCooldown = 10;
-				return i;
-				break;
-				//deal damage	
+				priorityLocation = 1;
+			}
+			if (priorityLocation <= 9)
+			{
+				for (int i = 0; i < enemyActiveVector->size(); i++)
+				{
+
+				}
 			}
 		}
 	}
 	else {
 		t_attackCooldown -= 1;
 	}
-	return 999;
+
 }
 
 void FlameTower::dealDamage()

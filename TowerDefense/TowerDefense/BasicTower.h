@@ -20,6 +20,7 @@ private:
 protected:
 	int t_attackCooldown;
 	int t_damage;
+	int t_globalLocation;
 	float t_XCoord;
 	float t_YCoord;
 	sf::Sprite t_BasicTurmSprite;
@@ -45,7 +46,7 @@ public:
 	
 	BasicTower();
 
-	int checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
+	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
 	void dealDamage();
 
 };
@@ -55,7 +56,7 @@ class CannonTower : public BasicTower {
 public:
 	CannonTower(float XCoord, float YCoord);
 
-	int checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
+	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
 	void dealDamage();
 };
 
@@ -64,7 +65,7 @@ class FlameTower : public BasicTower {
 public:
 	FlameTower(float XCoord, float YCoord);
 
-	int checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
+	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
 	void dealDamage();
 };
 
@@ -73,7 +74,7 @@ class FrostTower : public BasicTower {
 public:
 	FrostTower(float XCoord, float YCoord);
 
-	int checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
+	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
 	void dealDamage();
 };
 
@@ -82,7 +83,7 @@ class LightningTower : public BasicTower {
 public:
 	LightningTower(float XCoord, float YCoord);
 
-	int checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
+	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
 	void dealDamage();
 };
 #endif

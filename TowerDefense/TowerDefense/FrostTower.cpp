@@ -6,3 +6,8 @@ FrostTower::FrostTower(float XCoord, float YCoord)
 {
 }
 
+vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
+{
+	return vector<int>();
+}
+
