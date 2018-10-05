@@ -95,13 +95,9 @@ void Game::Run()
 
 	//lifebar
 	sf::Texture hundredLifeTexture;
-	sf::Texture ninetyLifeTexture;
 	sf::Texture eightyLifeTexture;
-	sf::Texture seventyLifeTexture;
 	sf::Texture sixtyLifeTexture;
-	sf::Texture fiftyLifeTexture;
 	sf::Texture fortyLifeTexture;
-	sf::Texture thirtyLifeTexture;
 	sf::Texture twentyLifeTexture;
 	sf::Texture tenLifeTexture;
 	sf::Sprite lifeEnemySprite;
@@ -110,9 +106,9 @@ void Game::Run()
 
 	sf::Color hoverColer = sf::Color(255, 255, 255, 140);
 
-	LoadLifeBarTextures(hundredLifeTexture, ninetyLifeTexture, eightyLifeTexture,
-		seventyLifeTexture, sixtyLifeTexture, fiftyLifeTexture, fortyLifeTexture,
-		thirtyLifeTexture, twentyLifeTexture, tenLifeTexture, lifeEnemySprite);
+	LoadLifeBarTextures(hundredLifeTexture, eightyLifeTexture,
+		sixtyLifeTexture, fortyLifeTexture,
+		twentyLifeTexture, tenLifeTexture,lifeEnemySprite);
 
 
 
@@ -509,10 +505,7 @@ void Game::Run()
 
 			TimerText.setFillColor(color.Black);
 			//buildingphase = true;
-			if (enemyActiveVector->empty() && enemyVector->empty()) {
-				buildingphase = true;
-				buildingphaseCountdown = 30;
-			}
+
 		}
 
 		//male alles was immer dargestellt wird immer, oberer layer:
@@ -538,17 +531,21 @@ void Game::Run()
 					y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
 					sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
 					tenLifeTexture, punktZahlText);
-
+				
 				UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
 					enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText,
 					GameAreaVector, path);
-			
+
 				if (!enemyActiveVector->empty())
 				{
 					App.draw(enemyActiveVector->at(i)->getSprite());
 					App.draw(lifeEnemySprite);
 				}
 			}												
+		}
+		if (enemyActiveVector->empty() && enemyVector->empty()) {
+			buildingphase = true;
+			buildingphaseCountdown = 30;
 		}
 
 
@@ -703,23 +700,17 @@ void Game::LoadGameFont(sf::Font &font)
 	}
 }
 
-void Game::LoadLifeBarTextures(sf::Texture &hundredLifeTexture, sf::Texture &ninetyLifeTexture,
-	sf::Texture &eightyLifeTexture, sf::Texture &seventyLifeTexture, sf::Texture &sixtyLifeTexture,
-	sf::Texture &fiftyLifeTexture, sf::Texture &fortyLifeTexture, sf::Texture &thirtyLifeTexture,
-	sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Sprite &lifeEnemySprite)
+void Game::LoadLifeBarTextures(sf::Texture &hundredLifeTexture,
+	sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture,
+	sf::Texture &fortyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Sprite &lifeEnemySprite)
 {
 	hundredLifeTexture.loadFromFile("ArtAssets/Lifebar/100percent.png");
-	ninetyLifeTexture.loadFromFile("ArtAssets/Lifebar/90percent.png");
+	
 	eightyLifeTexture.loadFromFile("ArtAssets/Lifebar/80percent.png");
-	seventyLifeTexture.loadFromFile("ArtAssets/Lifebar/70percent.png");
 	sixtyLifeTexture.loadFromFile("ArtAssets/Lifebar/60percent.png");
-	fiftyLifeTexture.loadFromFile("ArtAssets/Lifebar/50percent.png");
 	fortyLifeTexture.loadFromFile("ArtAssets/Lifebar/40percent.png");
-	thirtyLifeTexture.loadFromFile("ArtAssets/Lifebar/30percent.png");
 	twentyLifeTexture.loadFromFile("ArtAssets/Lifebar/20percent.png");
 	tenLifeTexture.loadFromFile("ArtAssets/Lifebar/10percent.png");
-
-	lifeEnemySprite.setTexture(fiftyLifeTexture);
 	lifeEnemySprite.setOrigin(20, 2);
 }
 

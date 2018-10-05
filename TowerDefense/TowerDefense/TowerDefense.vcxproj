@@ -28,6 +28,7 @@
   <ItemGroup>
     <ClCompile Include="BasicButton.cpp" />
     <ClCompile Include="BasicEnemy.cpp" />
+    <ClCompile Include="CustomException.cpp" />
     <ClCompile Include="FastEnemy.cpp" />
     <ClCompile Include="GameArea.cpp" />
     <ClCompile Include="BasicTower.cpp" />

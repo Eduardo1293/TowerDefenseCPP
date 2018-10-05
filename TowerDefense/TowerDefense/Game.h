@@ -33,12 +33,9 @@ public:
 	void SetGoldTextProperties(sf::Text &goldText, sf::Font &font, sf::Color &color);
 	void SetRoundTextProperties(sf::Text &rundenText, sf::Font &font, sf::Color &color);
 	void LoadGameFont(sf::Font &font);
-	void LoadLifeBarTextures(sf::Texture &hundredLifeTexture,
-		sf::Texture &ninetyLifeTexture, sf::Texture &eightyLifeTexture,
-		sf::Texture &seventyLifeTexture, sf::Texture &sixtyLifeTexture,
-		sf::Texture &fiftyLifeTexture, sf::Texture &fortyLifeTexture,
-		sf::Texture &thirtyLifeTexture, sf::Texture &twentyLifeTexture,
-		sf::Texture &tenLifeTexture, sf::Sprite &lifeEnemySprite);
+	void LoadLifeBarTextures(sf::Texture &hundredLifeTexture, sf::Texture &eightyLifeTexture,
+		sf::Texture &sixtyLifeTexture, sf::Texture &fortyLifeTexture,
+		sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Sprite &lifeEnemySprite);
 	void DrawTower(std::vector<BasicTower *> * BasicTowerVector);
 	void UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 		sf::Clock &enemyMovementClock, std::vector<BasicEnemy *> * enemyActiveVector,
