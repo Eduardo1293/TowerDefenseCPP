@@ -69,7 +69,6 @@ void Game::Run()
 
 	vector<BasicEnemy*> *enemyVector = new vector<BasicEnemy*>();
 	vector<BasicEnemy*> *enemyActiveVector = new vector<BasicEnemy*>();
-	
 
 	//Hintergrundmusik
 	sf::SoundBuffer soundBuffer;
@@ -221,7 +220,7 @@ void Game::Run()
 	{
 		App.clear(sf::Color::Black);
 		App.draw(backgroundSprite);
-		SetInfoText(goldText, gold, rundenText, runde, TimerText, timerText);
+		SetInfoText(goldText, gold, rundenText, runde, TimerText, timerText, lebenText, playerLife);
 		DrawGameTextures(hudSprite, statusSprite, rundenText,
 			goldText, lebenText, basicTowerButton.getSprite(), cannonTowerButton.getSprite(),
 			frostTowerButton.getSprite(), fireTowerButton.getSprite(), lightningTowerButton.getSprite(),
@@ -468,10 +467,15 @@ void Game::Run()
 				}
 			}
 
+			if (enemyVector->empty()) {
+				*enemyVector = enemyWaves(runde);
+				runde++;
+			}
+			
 		}
 		else {
 
-			*enemyVector = enemyWaves(1);
+			
 
 			descriptionText.setString("");
 			//enemyphasenkram
@@ -578,11 +582,12 @@ void Game::DrawGameTextures(sf::Sprite &hudSprite, sf::Sprite &statusSprite, sf:
 	App.draw(punktText);
 }
 
-void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int runde, sf::Text &TimerText, int timerText)
+void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int runde, sf::Text &TimerText, int timerText, sf::Text &lebenText, int playerLife)
 {
 	goldText.setString(to_string(gold));
 	rundenText.setString(to_string(runde));
 	TimerText.setString(to_string(timerText));
+	lebenText.setString(to_string(playerLife));
 }
 
 void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector,
@@ -744,6 +749,10 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 		if (y < 191) {
 			lifeEnemySprite.setPosition(x, (y - 25));
 			(enemyActiveVector->at(i)->eSetYCoord((y + 1)));
+		}
+		if (y >= 703) {
+			enemyActiveVector->erase((enemyActiveVector->begin() + i));
+			playerLife -= 1;
 		}
 		if (y >= 191) {
 			for (int j = 0; j < (path.size() - 1); j++) {
