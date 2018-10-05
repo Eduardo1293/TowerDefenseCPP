@@ -9,7 +9,8 @@
 	GameMap::~GameMap()
 	{
 	}
-	void GameMap::setGameMap() {
+	void GameMap::setGameMap() 
+	{
 		//erste zeile von links nach rechts
 		GameArea *AA = new GameArea(false, 63, 191, 1, 1, 0);
 		GameArea *BA = new GameArea(true, 127, 191, 2, 1, 1);
@@ -174,7 +175,8 @@
 		GameAreaVector.push_back(FI);
 		GameAreaVector.push_back(GI);
 
-		for (int i = 0; i < 63; i++) {
+		for (int i = 0; i < 63; i++) 
+		{
 			//klammern richtig?
 			if (GameAreaVector.at(i)->getXID() > 1) {
 				GameAreaVector.at(i)->addConnected(GameAreaVector.at((GameAreaVector.at(i)->getID() - 1)));
@@ -191,13 +193,15 @@
 		}
 
 		//distance zur zielzelle für alle zellen bestimmen.
-		for (int i = 0; i < 63; i++) {
+		for (int i = 0; i < 63; i++) 
+		{
 			GameAreaVector.at(i)->setWholeDistance((abs(GameAreaVector.at(i)->getXID() - GameAreaVector.at(62)->getXID()))
 				+ (abs(GameAreaVector.at(i)->getYID() - GameAreaVector.at(62)->getYID())));
 		}
 	};
 
-	vector<GameArea*> GameMap::getGameMap() {
+	vector<GameArea*> GameMap::getGameMap() 
+	{
 		return GameAreaVector;
 	}
 

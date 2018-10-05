@@ -1,9 +1,9 @@
 /*
 Hier Sachen reinschrieben, die noch gemacht werden müssen!
-Problem mit PlayingField beheben.
-gucken ob clock verwendet wird
-update movement ist momentan komisch, timer außerhalb der methode überprüfen
-
+-Problem mit PlayingField beheben.
+-gucken ob clock verwendet wird X
+-update movement ist momentan komisch, timer außerhalb der methode überprüfen
+-wir benutzen nicht alle life%, life% aufräumen
 */
 
 
@@ -69,7 +69,7 @@ void Game::Run()
 
 	vector<BasicEnemy*> *enemyVector = new vector<BasicEnemy*>();
 	vector<BasicEnemy*> *enemyActiveVector = new vector<BasicEnemy*>();
-	*enemyVector = enemyWaves(1);
+	
 
 	//Hintergrundmusik
 	sf::SoundBuffer soundBuffer;
@@ -131,7 +131,6 @@ void Game::Run()
 
 	sf::Text goldText;
 	SetGoldTextProperties(goldText, font, color);
-
 
 	sf::Text TimerText;
 	SetTimerTextProperties(TimerText, font, color);
@@ -472,6 +471,8 @@ void Game::Run()
 		}
 		else {
 
+			*enemyVector = enemyWaves(1);
+
 			descriptionText.setString("");
 			//enemyphasenkram
 			//berechne weg mit a* hier
@@ -546,47 +547,6 @@ void Game::Run()
 			}												
 		}
 
-		if (!enemyActiveVector->empty())
-		{
-			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
-			{
-				UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
-					y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
-					sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
-					tenLifeTexture, punktZahlText);
-
-				UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
-					enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText,
-					GameAreaVector, path);
-
-				if (!enemyActiveVector->empty())
-				{
-					App.draw(enemyActiveVector->at(i)->getSprite());
-					App.draw(lifeEnemySprite);
-				}
-			}
-		}
-
-		if (!enemyActiveVector->empty())
-		{
-			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
-			{
-				UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
-					y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
-					sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
-					tenLifeTexture, punktZahlText);
-
-				UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
-					enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText,
-					GameAreaVector, path);
-
-				if (!enemyActiveVector->empty())
-				{
-					App.draw(enemyActiveVector->at(i)->getSprite());
-					App.draw(lifeEnemySprite);
-				}
-			}
-		}
 
 		if (playerLife <= 0)
 		{
@@ -775,6 +735,10 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 	GameMapRef->setGameMap();
 	vector<GameArea*> GameAreaVector = GameMapRef->getGameMap();
 
+	/*if ((movementElapsed + movementElapsedBuffer) >= 25) {
+	enemyMovementClock.restart();
+	enemyActiveVector->at(i)->eSetPosition();
+	*/
 	if (!enemyActiveVector->empty())
 	{		
 		if (y < 191) {
@@ -827,33 +791,7 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 		{
 			enemyActiveVector->at(i)->eSetPosition();
 		}
-	}
-	/*if ((movementElapsed + movementElapsedBuffer) >= 25) {
-		enemyMovementClock.restart();
-		enemyActiveVector->at(i)->eSetPosition();
-		if (y > 191 && x < 447) {
-			enemyActiveVector->at(i)->eSetRotation(270);
-			lifeEnemySprite.setPosition(x, (y - 25));
-			(enemyActiveVector->at(i)->eSetXCoord((x + 2)));
-		}
-		if (y <= 191) {
-			lifeEnemySprite.setPosition(x, (y - 25));
-			App.draw((enemyActiveVector->at(i)->getSprite()));
-			App.draw(lifeEnemySprite);
-			(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
-		}
-		if (x >= 447 && y <= 738) {
-			(enemyActiveVector->at(i)->eSetRotation(0));
-			lifeEnemySprite.setPosition(x, (y - 25));
-			(enemyActiveVector->at(i)->eSetYCoord((y + 2)));
-
-		}
-		if (y > 738) {
-			enemyActiveVector->erase(enemyActiveVector->begin() + i);
-			playerLife = playerLife--;
-			lebenText.setString(to_string(playerLife));
-		}
-	}*/
+	}					
 }
 
 void Game::UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector,
