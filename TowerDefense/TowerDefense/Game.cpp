@@ -180,14 +180,7 @@ void Game::Run()
 
 	testEnemySprite.setOrigin(32, 32);
 
-	/*for each (PropertyInfo prop in typeof(PlayingField))
-	{
-		this.playingFieldList.Add(prop)
-	}*/
 
-	//irgendwas löst nicht auf... :(
-	//Nachtrag 02:05Uhr:
-	//FUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCCCCCCCCCCCCKKKKKKKKKKKKK
 	GameMap *GameMapRef = new GameMap;
 	GameMapRef->setGameMap();
 	vector<GameArea*> GameAreaVector = GameMapRef->getGameMap();
@@ -285,7 +278,8 @@ void Game::Run()
 				buildingphase = false;
 				TimerText.setFillColor(hoverColer);
 				buildphaseElapsedTimeBuffer = 0;
-				//wegfindung, hilfsvertoren für gegnernavigation
+
+				//wegfindung, hilfsvectoren für gegnernavigation
 				path = pathFindingRef.aStar(GameAreaVector);
 				pathXCoord.clear(), pathYCoord.clear(), pathDirection.clear();
 
@@ -293,9 +287,9 @@ void Game::Run()
 				{
 					for (int j = 0; j < GameAreaVector.size(); j++)
 					{
-						if (path.at(i) == GameAreaVector.at(i)->getID) {
-							pathXCoord.at(i) = GameAreaVector.at(i)->getAreaXCoord;
-							pathYCoord.at(i) = GameAreaVector.at(i)->getAreaYCoord;
+						if (path.at(i) == GameAreaVector.at(j)->getID()) {
+							pathXCoord.push_back(GameAreaVector.at(j)->getAreaXCoord());
+							pathYCoord.push_back(GameAreaVector.at(j)->getAreaYCoord());
 						}
 					}
 				}
@@ -305,19 +299,19 @@ void Game::Run()
 				{
 					if (pathXCoord.at(i) < pathXCoord.at(x + 1))
 					{
-						pathDirection.at(i) = 1;
+						pathDirection.push_back(1);
 					}
 					else if (pathYCoord.at(i) < pathYCoord.at(x + 1))
 					{
-						pathDirection.at(i) = 2;
+						pathDirection.push_back(2);
 					}
 					else if (pathXCoord.at(i) > pathXCoord.at(x + 1))
 					{
-						pathDirection.at(i) = 3;
+						pathDirection.push_back(3);
 					}
 					else if (pathXCoord.at(i) > pathXCoord.at(x + 1))
 					{
-						pathDirection.at(i) = 4;
+						pathDirection.push_back(4);
 					}
 				}
 
@@ -572,12 +566,12 @@ void Game::Run()
 		{
 			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
 			{
-				for (unsigned int j = 0; j < enemyActiveVector->at(i)->eGetMovementSpeed; j++)
+				for (unsigned int j = 0; j < enemyActiveVector->at(i)->eGetMovementSpeed(); j++)
 				{
-					UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
+					/*UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
 						y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
 						sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
-						tenLifeTexture, punktZahlText);
+						tenLifeTexture, punktZahlText); */
 
 					int iNavigationhelper = enemyActiveVector->at(i)->eGetNavigationHelper();
 					int enemyX = enemyActiveVector->at(i)->eGetXCoord();
@@ -628,7 +622,7 @@ void Game::Run()
 						case 2:
 							enemyActiveVector->at(i)->eSetYCoord(enemyY + 1);
 							//enemy globallocation updaten, wenn in neuem feld
-							if (enemyActiveVector->at(i)->eGetGlobalLocation != path.at(iNavigationhelper + 1)
+							if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
 								&& (enemyActiveVector->at(i)->eGetYCoord() > (pathXCoord.at(iNavigationhelper + 1) - 32)))
 							{
 								enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
@@ -645,7 +639,7 @@ void Game::Run()
 						case 3:
 							enemyActiveVector->at(i)->eSetXCoord(enemyX - 1);
 							//enemy globallocation updaten, wenn in neuem feld
-							if (enemyActiveVector->at(i)->eGetGlobalLocation != path.at(iNavigationhelper + 1)
+							if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
 								&& (enemyActiveVector->at(i)->eGetXCoord() <= (pathXCoord.at(iNavigationhelper + 1) + 32)))
 							{
 								enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
@@ -662,7 +656,7 @@ void Game::Run()
 						case 4:
 							enemyActiveVector->at(i)->eSetXCoord(enemyX - 1);
 							//enemy globallocation updaten, wenn in neuem feld
-							if (enemyActiveVector->at(i)->eGetGlobalLocation != path.at(iNavigationhelper + 1)
+							if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
 								&& (enemyActiveVector->at(i)->eGetYCoord() <= (pathYCoord.at(iNavigationhelper + 1) + 32)))
 							{
 								enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
@@ -708,40 +702,40 @@ void Game::Run()
 				}
 			}
 		}
-	}
 
 
-	/*if (!enemyActiveVector->empty())
-	{
-		for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
+
+		/*if (!enemyActiveVector->empty())
 		{
-			UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
-				y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
-				sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
-				tenLifeTexture, punktZahlText);
-
-			UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
-				enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText,
-				GameAreaVector, path);
-
-			if (!enemyActiveVector->empty())
+			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
 			{
-				App.draw(enemyActiveVector->at(i)->getSprite());
-				App.draw(lifeEnemySprite);
+				UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
+					y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
+					sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
+					tenLifeTexture, punktZahlText);
+
+				UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
+					enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText,
+					GameAreaVector, path);
+
+				if (!enemyActiveVector->empty())
+				{
+					App.draw(enemyActiveVector->at(i)->getSprite());
+					App.draw(lifeEnemySprite);
+				}
 			}
 		}
+		*/
+
+		if (playerLife <= 0)
+		{
+			ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite, playerInput, playerText);
+		}
+
+
+		// end the current frame
+		App.display();
 	}
-	*/
-
-	if (playerLife <= 0)
-	{
-		ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite, playerInput, playerText);
-	}
-
-
-	// end the current frame
-	App.display();
-
 }
 
 
