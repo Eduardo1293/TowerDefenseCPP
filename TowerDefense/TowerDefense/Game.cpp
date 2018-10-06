@@ -252,6 +252,35 @@ void Game::Run()
 
 		//Gegnerphase / Bauphase unterscheidung hier!
 		//manches muss immer dargestellt werden, anderes nur in der entsprechenden phase
+		sf::Vector2i localPosition = sf::Mouse::getPosition(App);
+		sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
+
+		if (soundOnButton.getSprite().getGlobalBounds().contains(mousePosF))
+		{
+			soundOnButton.setColor(hoverColer);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				sound.setVolume(100);
+			}
+		}
+		else
+		{
+			soundOnButton.setColor(color.White);
+		}
+
+		if (soundOffButton.getSprite().getGlobalBounds().contains(mousePosF))
+		{
+			soundOffButton.setColor(hoverColer);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				sound.setVolume(0);
+			}
+		}
+		else
+		{
+			soundOffButton.setColor(color.White);
+		}
+
 
 		if (buildingphase) {
 			SelectetTower selectetTower;
@@ -285,8 +314,7 @@ void Game::Run()
 
 
 
-			sf::Vector2i localPosition = sf::Mouse::getPosition(App);
-			sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
+
 			BasicTower * BasicTowerRef;
 			CannonTower * CannonTowerRef;
 			FlameTower * FlameTowerRef;
@@ -466,31 +494,7 @@ void Game::Run()
 				}
 			}
 
-			if (soundOnButton.getSprite().getGlobalBounds().contains(mousePosF))
-			{
-				soundOnButton.setColor(hoverColer);
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-				{
-					sound.setVolume(100);
-				}
-			}
-			else
-			{
-				soundOnButton.setColor(color.White);
-			}
 
-			if (soundOffButton.getSprite().getGlobalBounds().contains(mousePosF))
-			{
-				soundOffButton.setColor(hoverColer);
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-				{
-					sound.setVolume(0);
-				}
-			}
-			else
-			{
-				soundOffButton.setColor(color.White);
-			}
 
 			if (gold == 0)
 			{
@@ -829,7 +833,15 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 		}
 		if (!enemyActiveVector->empty())
 		{
-			enemyActiveVector->at(i)->eSetPosition();
+			try
+			{
+				enemyActiveVector->at(i)->eSetPosition();
+			}
+			catch (const std::exception&)
+			{
+				
+			}
+			
 		}
 	}					
 }
