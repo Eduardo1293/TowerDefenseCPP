@@ -80,7 +80,7 @@ void Game::Run()
 	}
 
 	sound.setBuffer(soundBuffer);
-	sound.setVolume(100);
+	sound.setVolume(0);
 
 	//Testturm und Testgegner
 	sf::Sprite testTurmSprite;
