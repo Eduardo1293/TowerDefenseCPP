@@ -45,42 +45,42 @@ void BasicEnemy::eSetNavigationHelper(int navi)
 	e_navigationHelper = navi;
 }
 
-double BasicEnemy::getMaxLife()
+double BasicEnemy::eGetMaxLife()
 {
 	return e_MaxLife;
 }
 
-double BasicEnemy::getCurrentLife()
+double BasicEnemy::eGetCurrentLife()
 {
 	return e_CurrentLife;
 }
 
-float BasicEnemy::getXCoord()
+float BasicEnemy::eGetXCoord()
 {
 	return e_XCoord;
 }
 
-float BasicEnemy::getYCoord()
+float BasicEnemy::eGetYCoord()
 {
 	return e_YCoord;
 }
 
-int BasicEnemy::getGlobalLocation()
+int BasicEnemy::eGetGlobalLocation()
 {
 	return e_globalLocation;
 }
 
-int BasicEnemy::getNavigationHelper()
+int BasicEnemy::eGetNavigationHelper()
 {
 	return e_navigationHelper;
 }
 
-int BasicEnemy::getMovementSpeed()
+int BasicEnemy::eGetMovementSpeed()
 {
 	return e_movementSpeed;
 }
 
-sf::Sprite BasicEnemy::getSprite()
+sf::Sprite BasicEnemy::eGetSprite()
 {
 	return BasicEnemySprite;
 }

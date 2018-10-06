@@ -71,7 +71,7 @@ void Game::Run()
 
 	vector<BasicEnemy*> *enemyVector = new vector<BasicEnemy*>();
 	vector<BasicEnemy*> *enemyActiveVector = new vector<BasicEnemy*>();
-	
+
 
 	//Hintergrundmusik
 	sf::SoundBuffer soundBuffer;
@@ -191,8 +191,9 @@ void Game::Run()
 	GameMap *GameMapRef = new GameMap;
 	GameMapRef->setGameMap();
 	vector<GameArea*> GameAreaVector = GameMapRef->getGameMap();
-	
-	vector<int> path;
+
+	vector<int> path, pathXCoord, pathYCoord, pathDirection;
+
 	PathFinding pathFindingRef;
 
 	vector<BasicTower*> *TowerVector = new vector<BasicTower*>();
@@ -284,19 +285,43 @@ void Game::Run()
 				buildingphase = false;
 				TimerText.setFillColor(hoverColer);
 				buildphaseElapsedTimeBuffer = 0;
-				path = pathFindingRef.aStar(GameAreaVector);						
-				map<int, int, int> navigation;
-					
-				for (int i = 0; i < path.size(); i++) {
-					for (int j = 0; j < GameAreaVector.size(); j++) 
+				//wegfindung, hilfsvertoren für gegnernavigation
+				path = pathFindingRef.aStar(GameAreaVector);
+				pathXCoord.clear(), pathYCoord.clear(), pathDirection.clear();
+
+				for (int i = 0; i < path.size(); i++)
+				{
+					for (int j = 0; j < GameAreaVector.size(); j++)
 					{
 						if (path.at(i) == GameAreaVector.at(i)->getID) {
-							navigation[path.at(i)] = GameAreaVector.at(i)->getAreaXCoord, GameAreaVector.at(i)->getAreaYCoord;
-						}						
-					}				
+							pathXCoord.at(i) = GameAreaVector.at(i)->getAreaXCoord;
+							pathYCoord.at(i) = GameAreaVector.at(i)->getAreaYCoord;
+						}
+					}
 				}
-				
-				
+
+				//Path directions 1=rechts, 2=unten, 3=links, 4=oben
+				for (int i = 0; i < path.size(); i++)
+				{
+					if (pathXCoord.at(i) < pathXCoord.at(x + 1))
+					{
+						pathDirection.at(i) = 1;
+					}
+					else if (pathYCoord.at(i) < pathYCoord.at(x + 1))
+					{
+						pathDirection.at(i) = 2;
+					}
+					else if (pathXCoord.at(i) > pathXCoord.at(x + 1))
+					{
+						pathDirection.at(i) = 3;
+					}
+					else if (pathXCoord.at(i) > pathXCoord.at(x + 1))
+					{
+						pathDirection.at(i) = 4;
+					}
+				}
+
+
 				enemyClock.restart();
 			}
 
@@ -334,7 +359,7 @@ void Game::Run()
 						switch (selectetTower)
 						{
 						case basicTower:
-							BasicTowerRef = new BasicTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
+							BasicTowerRef = new BasicTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord(), GameAreaVector.at(i)->getID());
 							if (GameAreaVector.at(i)->getEmpty())
 							{
 								if (gold >= BasicTowerRef->getCost())
@@ -347,7 +372,7 @@ void Game::Run()
 							break;
 
 						case cannonTower:
-							CannonTowerRef = new CannonTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
+							CannonTowerRef = new CannonTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord(), GameAreaVector.at(i)->getID());
 
 							if (GameAreaVector.at(i)->getEmpty())
 							{
@@ -360,7 +385,7 @@ void Game::Run()
 							}
 							break;
 						case flameTower:
-							FlameTowerRef = new FlameTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
+							FlameTowerRef = new FlameTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord(), GameAreaVector.at(i)->getID());
 							if (GameAreaVector.at(i)->getEmpty())
 							{
 								if (gold >= FlameTowerRef->getCost())
@@ -483,6 +508,8 @@ void Game::Run()
 			}
 
 		}
+
+		//gegnerphase
 		else {
 
 			*enemyVector = enemyWaves(1);
@@ -537,42 +564,186 @@ void Game::Run()
 		sf::Time enemyMovementElapsed = enemyMovementClock.getElapsedTime();
 		int movementElapsed = enemyMovementElapsed.asMilliseconds();
 
-		
 
-			//Hier Knallt es wenn alle Gegner im Ziel sind!!!
+		//Gegnermovement
+
+		//new movement
 		if (!enemyActiveVector->empty())
 		{
-			for (unsigned int i = 0; i < enemyActiveVector->size(); i++) 
+			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
 			{
-				UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
-					y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
-					sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
-					tenLifeTexture, punktZahlText);
-
-				UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
-					enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText,
-					GameAreaVector, path);
-			
-				if (!enemyActiveVector->empty())
+				for (unsigned int j = 0; j < enemyActiveVector->at(i)->eGetMovementSpeed; j++)
 				{
-					App.draw(enemyActiveVector->at(i)->getSprite());
-					App.draw(lifeEnemySprite);
+					UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
+						y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
+						sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
+						tenLifeTexture, punktZahlText);
+
+					int iNavigationhelper = enemyActiveVector->at(i)->eGetNavigationHelper();
+					int enemyX = enemyActiveVector->at(i)->eGetXCoord();
+					int enemyY = enemyActiveVector->at(i)->eGetYCoord();
+					int mSpeed = enemyActiveVector->at(i)->eGetMovementSpeed();
+
+					//Navigation vom Start aufs erste Feld
+					if (iNavigationhelper == -1)
+					{
+						lifeEnemySprite.setPosition(x, (y - 25));
+						(enemyActiveVector->at(i)->eSetYCoord(y + 1));
+						if (enemyY > 159 && enemyActiveVector->at(i)->eGetGlobalLocation() != 0)
+						{
+							enemyActiveVector->at(i)->eSetGlobalLocation(0);
+						}
+						if (enemyY >= 191)
+						{
+							enemyActiveVector->at(i)->eSetYCoord(191);
+							enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
+						}
+					}
+
+					//Navigation über die Felder
+					if (iNavigationhelper >= 0 && iNavigationhelper < path.size())
+					{
+						int iSwitch = pathDirection.at(iNavigationhelper);
+
+						switch (iSwitch) {
+
+							//movement nach rechts
+						case 1:
+							enemyActiveVector->at(i)->eSetXCoord(enemyX + 1);
+							//enemy globallocation updaten, wenn in neuem feld
+							if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
+								&& (enemyActiveVector->at(i)->eGetXCoord() >= (pathXCoord.at(iNavigationhelper + 1) - 32)))
+							{
+								enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
+							}
+							//richtung ändern
+							if (enemyActiveVector->at(i)->eGetXCoord() <= pathXCoord.at(iNavigationhelper + 1))
+							{
+								enemyActiveVector->at(i)->eSetXCoord(pathXCoord.at(iNavigationhelper + 1));
+								enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
+							};
+							break;;
+
+							//movement nach unten
+						case 2:
+							enemyActiveVector->at(i)->eSetYCoord(enemyY + 1);
+							//enemy globallocation updaten, wenn in neuem feld
+							if (enemyActiveVector->at(i)->eGetGlobalLocation != path.at(iNavigationhelper + 1)
+								&& (enemyActiveVector->at(i)->eGetYCoord() > (pathXCoord.at(iNavigationhelper + 1) - 32)))
+							{
+								enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
+							}
+							//richtung ändern
+							if (enemyActiveVector->at(i)->eGetYCoord() <= pathYCoord.at(iNavigationhelper + 1))
+							{
+								enemyActiveVector->at(i)->eSetYCoord(pathYCoord.at(iNavigationhelper + 1));
+								enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
+							};
+							break;
+
+							//movement nach links
+						case 3:
+							enemyActiveVector->at(i)->eSetXCoord(enemyX - 1);
+							//enemy globallocation updaten, wenn in neuem feld
+							if (enemyActiveVector->at(i)->eGetGlobalLocation != path.at(iNavigationhelper + 1)
+								&& (enemyActiveVector->at(i)->eGetXCoord() <= (pathXCoord.at(iNavigationhelper + 1) + 32)))
+							{
+								enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
+							}
+							//richtung ändern
+							if (enemyActiveVector->at(i)->eGetXCoord() <= pathXCoord.at(iNavigationhelper + 1))
+							{
+								enemyActiveVector->at(i)->eSetXCoord(pathXCoord.at(iNavigationhelper + 1));
+								enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
+							};
+							break;
+
+							//movement nach oben
+						case 4:
+							enemyActiveVector->at(i)->eSetXCoord(enemyX - 1);
+							//enemy globallocation updaten, wenn in neuem feld
+							if (enemyActiveVector->at(i)->eGetGlobalLocation != path.at(iNavigationhelper + 1)
+								&& (enemyActiveVector->at(i)->eGetYCoord() <= (pathYCoord.at(iNavigationhelper + 1) + 32)))
+							{
+								enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
+							}
+							//richtung ändern
+							if (enemyActiveVector->at(i)->eGetXCoord() <= pathXCoord.at(iNavigationhelper + 1))
+							{
+								enemyActiveVector->at(i)->eSetXCoord(pathXCoord.at(iNavigationhelper + 1));
+								enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
+							};
+							break;
+
+						default: break;
+
+						}
+					}
+
+					//Navigation vom letzten Feld zum Ausgang
+					if (iNavigationhelper == path.size())
+					{
+						lifeEnemySprite.setPosition(x, (y - 25));
+						(enemyActiveVector->at(i)->eSetYCoord(y + 1));
+						if (enemyY > 734 && enemyActiveVector->at(i)->eGetGlobalLocation() != 62)
+						{
+							enemyActiveVector->at(i)->eSetGlobalLocation(999);
+						}
+						if (enemyY >= 800)
+						{
+							enemyActiveVector->erase((enemyActiveVector->begin() + i));
+						}
+					}
+
+					if (!enemyActiveVector->empty())
+					{
+						enemyActiveVector->at(i)->eSetPosition();
+					}
+
+					if (!enemyActiveVector->empty())
+					{
+						App.draw(enemyActiveVector->at(i)->eGetSprite());
+						App.draw(lifeEnemySprite);
+					}
 				}
-			}												
+			}
 		}
-
-
-		if (playerLife <= 0)
-		{
-			ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite, playerInput, playerText);
-		}
-
-		
-		// end the current frame
-		App.display();
-
 	}
+
+
+	/*if (!enemyActiveVector->empty())
+	{
+		for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
+		{
+			UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
+				y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
+				sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
+				tenLifeTexture, punktZahlText);
+
+			UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
+				enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText,
+				GameAreaVector, path);
+
+			if (!enemyActiveVector->empty())
+			{
+				App.draw(enemyActiveVector->at(i)->getSprite());
+				App.draw(lifeEnemySprite);
+			}
+		}
+	}
+	*/
+
+	if (playerLife <= 0)
+	{
+		ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite, playerInput, playerText);
+	}
+
+
+	// end the current frame
+	App.display();
+
 }
+
 
 void Game::DrawGameTextures(sf::Sprite &hudSprite, sf::Sprite &statusSprite, sf::Text &rundenText, sf::Text &goldText, sf::Text &lebenText, sf::Sprite &basicTurmImage, sf::Sprite &cannonTurmImage, sf::Sprite &frostTurmImage, sf::Sprite &feuerTurmImage, sf::Sprite &lightningTowerImage, sf::Text &TimerText, sf::Text &punktZahlText, sf::Text &descriptionText, sf::Text &punktText)
 {
@@ -613,14 +784,14 @@ void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector,
 				{
 					int k = targets.at(j);
 					enemyActiveVector->at(k)->takeDamage(BasicTowerVector->at(i)->getDamage());
-					explosionSprite.setPosition(enemyActiveVector->at(k)->getXCoord(), enemyActiveVector->at(k)->getYCoord());
+					explosionSprite.setPosition(enemyActiveVector->at(k)->eGetXCoord(), enemyActiveVector->at(k)->eGetYCoord());
 					App.draw(explosionSprite);
 				}
 				targets.clear();
 			}
 		}
 	}
-	
+
 }
 
 void Game::LoadExplosionTextures(sf::Texture &explosionTexture, sf::Sprite &explosionSprite)
@@ -766,7 +937,7 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 	*/
 
 	if (!enemyActiveVector->empty())
-	{		
+	{
 		if (y < 191) {
 			lifeEnemySprite.setPosition(x, (y - 25));
 			(enemyActiveVector->at(i)->eSetYCoord((y + 1)));
@@ -817,7 +988,7 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 		{
 			enemyActiveVector->at(i)->eSetPosition();
 		}
-	}					
+	}
 }
 
 void Game::UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector,
@@ -825,15 +996,15 @@ void Game::UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector,
 	sf::Texture &hundredLifeTexture, sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture,
 	sf::Texture &fortyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Text &punktZahlText)
 {
-	if (enemyActiveVector->at(i)->getCurrentLife() == 0) {
+	if (enemyActiveVector->at(i)->eGetCurrentLife() == 0) {
 		enemyActiveVector->erase((enemyActiveVector->begin() + i));
 		punkteZahl += 100;
 		gold += 100;
 	}
 	else {
-		x = enemyActiveVector->at(i)->getXCoord();
-		y = enemyActiveVector->at(i)->getYCoord();
-		double lifePercent = (((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife())) * 100);
+		x = enemyActiveVector->at(i)->eGetXCoord();
+		y = enemyActiveVector->at(i)->eGetYCoord();
+		double lifePercent = (((enemyActiveVector->at(i)->eGetCurrentLife() / enemyActiveVector->at(i)->eGetMaxLife())) * 100);
 		if (lifePercent > 90) {
 			lifeEnemySprite.setTexture(hundredLifeTexture);
 		}

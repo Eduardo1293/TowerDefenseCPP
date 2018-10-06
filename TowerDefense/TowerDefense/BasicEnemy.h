@@ -37,16 +37,16 @@ public:
 	void eSetNavigationHelper(int navi);
 	void eSetFrozen();
 
-	//Getter
-	double getMaxLife(); 
-	double getCurrentLife(); 
-	float getXCoord();
-	float getYCoord();						
-	int getGlobalLocation();
-	int getNavigationHelper();
-	int getMovementSpeed();
-	bool get_frozen;
-	sf::Sprite getSprite();
+	//getter
+	double eGetMaxLife(); 
+	double eGetCurrentLife(); 
+	float eGetXCoord();
+	float eGetYCoord();						
+	int eGetGlobalLocation();
+	int eGetNavigationHelper();
+	int eGetMovementSpeed();
+	bool eGetFrozen;
+	sf::Sprite eGetSprite();
 
 	void takeDamage(int damage);
 

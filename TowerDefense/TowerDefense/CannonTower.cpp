@@ -1,94 +1,118 @@
 #include "BasicTower.h"
 
-CannonTower::CannonTower(float XCoord, float YCoord)
-	: BasicTower(XCoord, YCoord, "ArtAssets/Tower/tank_green.png", "Cannontower",
+CannonTower::CannonTower(float XCoord, float YCoord, int areaID)
+	: BasicTower(XCoord, YCoord, areaID, "ArtAssets/Tower/tank_green.png", "Cannontower",
 		"Kanonenturm mit größerer Reichweite", 40, 0, 30)
 {
 }
 
-int CannonTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
+vector<int> CannonTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 {
-	if (t_attackCooldown == 0) {
+	if (tAttackCooldown == 0)
+	{
+
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
-			float enemyXCoord = enemyActiveVector->at(i)->getXCoord();
-			float enemyYCoord = enemyActiveVector->at(i)->getYCoord();
+			vector<int> enemies;
+			enemies.clear();
+			enemies.push_back(999);
+			int enemyLocation = enemyActiveVector->at(i)->eGetGlobalLocation();
+
 			//rechts unten
-			if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
-				&& (enemyYCoord > (t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
-				t_BasicTurmSprite.setRotation(315);
-				t_attackCooldown = 10;
-				return i;
+			if (enemyLocation == tGlobalLocation + 8)
+			{
+				tBasicTurmSprite.setRotation(315);
+				tAttackCooldown = 10;
+				enemies.push_back(i);
+				return enemies;
 				break;
-				//rechts 
 			}
-			else if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
-				&& (enemyYCoord > (t_YCoord - 32)) && (enemyYCoord < (t_YCoord + 33))) {
-				t_BasicTurmSprite.setRotation(270);
-				t_attackCooldown = 10;
+
+			//rechts 
+			else if (enemyLocation == tGlobalLocation + 1)
+			{
+				tBasicTurmSprite.setRotation(270);
+				tAttackCooldown = 10;
 				//deal damage
-				return i;
+				enemies.push_back(i);
+				return enemies;
 				break;
-				//unten
 			}
-			else if ((enemyXCoord > (t_XCoord + -32)) && (enemyXCoord < (t_XCoord + 33))
-				&& (enemyYCoord > (t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
-				t_BasicTurmSprite.setRotation(0);
-				t_attackCooldown = 10;
+
+			//unten
+			else if (enemyLocation == tGlobalLocation + 7)
+			{
+				tBasicTurmSprite.setRotation(0);
+				tAttackCooldown = 10;
 				//deal damage
-				return i;
+				enemies.push_back(i);
+				return enemies;
 				break;
-				//links unten 
 			}
-			else if ((enemyXCoord > (t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
-				&& (enemyYCoord > (t_YCoord + 32)) && (enemyYCoord < (t_YCoord + 97))) {
-				t_BasicTurmSprite.setRotation(45);
-				t_attackCooldown = 10;
+
+			//links unten 
+			else if (enemyLocation == tGlobalLocation + 6)
+			{
+				tBasicTurmSprite.setRotation(45);
+				tAttackCooldown = 10;
 				//deal damage
-				return i;
+				enemies.push_back(i);
+				return enemies;
 				break;
-				//rechts oben
 			}
-			else if ((enemyXCoord > (t_XCoord + 32)) && (enemyXCoord < (t_XCoord + 97))
-				&& (enemyYCoord > (t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
-				t_BasicTurmSprite.setRotation(225);
-				t_attackCooldown = 10;
+
+			//rechts oben
+			else if (enemyLocation == tGlobalLocation - 6)
+			{
+				tBasicTurmSprite.setRotation(225);
+				tAttackCooldown = 10;
 				//deal damage
-				return i;
+				enemies.push_back(i);
+				return enemies;
 				break;
-				//links
 			}
-			else if ((enemyXCoord > (t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
-				&& (enemyYCoord > (t_YCoord - 32)) && (enemyYCoord < (t_YCoord + 33))) {
-				t_BasicTurmSprite.setRotation(90);
-				t_attackCooldown = 10;
+
+			//links
+			else if (enemyLocation == tGlobalLocation - 1)
+			{
+				tBasicTurmSprite.setRotation(90);
+				tAttackCooldown = 10;
 				//deal damage
-				return i;
-				break;;
-				//oben
-			}
-			else if ((enemyXCoord > (t_XCoord - 32)) && (enemyXCoord < (t_XCoord + 33))
-				&& (enemyYCoord > (t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
-				t_BasicTurmSprite.setRotation(180);
-				t_attackCooldown = 10;
-				return i;
+				enemies.push_back(i);
+				return enemies;
 				break;
-				//deal damage
-				//links oben
 			}
-			else if ((enemyXCoord > (t_XCoord - 96)) && (enemyXCoord < (t_XCoord - 32))
-				&& (enemyYCoord > (t_YCoord - 96)) && (enemyYCoord < (t_YCoord - 32))) {
-				t_BasicTurmSprite.setRotation(135);
-				t_attackCooldown = 10;
-				return i;
+
+			//oben
+			else if (enemyLocation == tGlobalLocation - 7)
+			{
+				tBasicTurmSprite.setRotation(180);
+				tAttackCooldown = 10;
+				enemies.push_back(i);
+				return enemies;
 				break;
-				//deal damage	
+			}
+
+			//links oben
+			else if (enemyLocation == tGlobalLocation - 8)
+			{
+				tBasicTurmSprite.setRotation(135);
+				tAttackCooldown = 10;
+				enemies.push_back(i);
+				return enemies;
+				break;
+			}
+
+			else
+			{
+				return enemies;
 			}
 		}
 	}
-	else {
-		t_attackCooldown -= 1;
+	else
+	{
+		tAttackCooldown -= 1;
 	}
-	return 999;
+
 }
 
 void CannonTower::dealDamage()
