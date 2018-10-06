@@ -120,6 +120,8 @@ void Game::Run()
 	BasicButton frostTowerButton = BasicButton(224, 779, "", "ArtAssets/Tower/tank_blue.png", color.White, 0, 0, 0);
 	BasicButton fireTowerButton = BasicButton(297, 779, "", "ArtAssets/Tower/tank_red.png", color.White, 0, 0, 0);
 	BasicButton lightningTowerButton = BasicButton(368, 779, "", "ArtAssets/Tower/tank_sand.png", color.White, 0, 0, 0);
+	BasicButton soundOnButton = BasicButton(450, 779, "", "ArtAssets/musicOn.png", color.White, 0, 0, 0);
+	BasicButton soundOffButton = BasicButton(450, 820, "", "ArtAssets/musicOff.png", color.White, 0, 0, 0);
 
 	sf::Text rundenText;
 	SetRoundTextProperties(rundenText, font, color);
@@ -219,7 +221,7 @@ void Game::Run()
 		SetInfoText(goldText, gold, rundenText, runde, TimerText, timerText, lebenText, playerLife);
 		DrawGameTextures(hudSprite, statusSprite, rundenText,
 			goldText, lebenText, basicTowerButton.getSprite(), cannonTowerButton.getSprite(),
-			frostTowerButton.getSprite(), fireTowerButton.getSprite(), lightningTowerButton.getSprite(),
+			frostTowerButton.getSprite(), fireTowerButton.getSprite(), lightningTowerButton.getSprite(),soundOnButton.getSprite(),soundOffButton.getSprite(),
 			TimerText, punktZahlText, descriptionText, punktText);
 
 		// check all the window's events that were triggered since the last iteration of the loop
@@ -453,6 +455,7 @@ void Game::Run()
 
 					buildTowerSprite.setTexture(lightningTowerButton.getButtonTexture());
 					buildTowerSprite.setTexture(lightningTowerButton.getButtonTexture());
+
 				}
 			}
 			else
@@ -461,6 +464,38 @@ void Game::Run()
 				{
 					lightningTowerButton.setColor(color.White);
 				}
+			}
+
+			if (soundOnButton.getSprite().getGlobalBounds().contains(mousePosF))
+			{
+				soundOnButton.setColor(hoverColer);
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					sound.setVolume(100);
+				}
+			}
+			else
+			{
+				soundOnButton.setColor(color.White);
+			}
+
+			if (soundOffButton.getSprite().getGlobalBounds().contains(mousePosF))
+			{
+				soundOffButton.setColor(hoverColer);
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					sound.setVolume(0);
+				}
+			}
+			else
+			{
+				soundOffButton.setColor(color.White);
+			}
+
+			if (gold == 0)
+			{
+				buildingphaseCountdown = 0;
+				buildingphase = false;
 			}
 
 			if (enemyVector->empty()) {
@@ -561,7 +596,10 @@ void Game::Run()
 	}
 }
 
-void Game::DrawGameTextures(sf::Sprite &hudSprite, sf::Sprite &statusSprite, sf::Text &rundenText, sf::Text &goldText, sf::Text &lebenText, sf::Sprite &basicTurmImage, sf::Sprite &cannonTurmImage, sf::Sprite &frostTurmImage, sf::Sprite &feuerTurmImage, sf::Sprite &lightningTowerImage, sf::Text &TimerText, sf::Text &punktZahlText, sf::Text &descriptionText, sf::Text &punktText)
+void Game::DrawGameTextures(sf::Sprite &hudSprite, sf::Sprite &statusSprite,
+	sf::Text &rundenText, sf::Text &goldText, sf::Text &lebenText,
+	sf::Sprite &basicTurmImage, sf::Sprite &cannonTurmImage, sf::Sprite &frostTurmImage,
+	sf::Sprite &feuerTurmImage, sf::Sprite &lightningTowerImage, sf::Sprite &soundOnButton, sf::Sprite &soundOffButton, sf::Text &TimerText, sf::Text &punktZahlText, sf::Text &descriptionText, sf::Text &punktText)
 {
 	App.draw(hudSprite);
 	App.draw(statusSprite);
@@ -573,6 +611,8 @@ void Game::DrawGameTextures(sf::Sprite &hudSprite, sf::Sprite &statusSprite, sf:
 	App.draw(frostTurmImage);
 	App.draw(feuerTurmImage);
 	App.draw(lightningTowerImage);
+	App.draw(soundOnButton);
+	App.draw(soundOffButton);
 	App.draw(TimerText);
 	App.draw(punktZahlText);
 	App.draw(descriptionText);
