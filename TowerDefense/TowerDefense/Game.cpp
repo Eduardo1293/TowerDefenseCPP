@@ -863,14 +863,15 @@ void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int r
 void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector,
 	std::vector<BasicEnemy *> * enemyActiveVector, sf::Sprite &explosionSprite)
 {
+	vector<int> targets;
 	if (!enemyActiveVector->empty())
 	{
 		for (int i = 0; i < BasicTowerVector->size(); i++)
-		{
-			vector<int> targets;
+		{			
 			//targets.clear();
 			targets = BasicTowerVector->at(i)->checkForEnemies(enemyActiveVector);
-			if (!targets.empty()) {
+			if (!targets.empty()) 
+			{
 				for (int j = 0; j < targets.size(); j++)
 				{
 					int k = targets.at(j);
@@ -880,9 +881,8 @@ void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector,
 					explosionSprite.setPosition(enemyActiveVector->at(k)->eGetXCoord(), enemyActiveVector->at(k)->eGetYCoord());
 					App.draw(explosionSprite);
 					}
-				}
-				targets.clear();
-			}
+				}				
+			}			
 		}
 	}
 

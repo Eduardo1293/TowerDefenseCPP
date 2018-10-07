@@ -121,7 +121,7 @@ vector<int> BasicTower::checkForEnemies(vector<BasicEnemy*> *enemyActiveVector)
 			}
 
 			//oben
-			else if (enemyLocation == tGlobalLocation -7) 
+			else if (enemyLocation == (tGlobalLocation -7)) 
 			{
 				tBasicTurmSprite.setRotation(180);
 				tAttackCooldown = 10;
