@@ -6,6 +6,15 @@ FrostTower::FrostTower(float XCoord, float YCoord, int areaID)
 {
 }
 
+//wip
+/*
+Attacken-Cooldown auf 0:
+Sucht auf den benachbarten Feldern nach Gegner. Priorisiert Gegner, die sich rechts unterhalb und damit
+wahrscheinlich näher am Ziel befinden. Gibt die Position dieser Gegner im Gegner-Array als int-Vector
+zurück. Setzt dann den Attacken-Cooldown
+Attacken-Cooldown nicht auf 0:
+Zählt den Cooldown um 1 runter.
+*/
 vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 {
 	if (tAttackCooldown == 0)

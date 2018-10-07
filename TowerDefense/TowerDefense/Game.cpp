@@ -300,7 +300,14 @@ void Game::Run()
 				TimerText.setFillColor(color.Red);
 
 			}
+			
+			BasicTower * BasicTowerRef;
+			CannonTower * CannonTowerRef;
+			FlameTower * FlameTowerRef;
+
+
 			//beende die building-phase
+			//falls a* keinen weg findet, zerstöre alle tower aus der gesonderten liste
 			if (buildingphaseCountdown == 0)
 			{
 				buildingphase = false;
@@ -348,13 +355,6 @@ void Game::Run()
 				*enemyVector = enemyWaves(1);
 				enemyClock.restart();
 			}
-
-
-
-
-			BasicTower * BasicTowerRef;
-			CannonTower * CannonTowerRef;
-			FlameTower * FlameTowerRef;
 
 			//freie und belegte felder markieren			
 			for (int i = 0; i < GameAreaVector.size(); i++) {
@@ -531,7 +531,6 @@ void Game::Run()
 			}
 
 
-
 			if (gold == 0)
 			{
 				buildingphaseCountdown = 0;
@@ -545,7 +544,7 @@ void Game::Run()
 			
 		}
 
-		//gegnerphase
+		//Gegnerphase
 		else {
 
 			
@@ -553,7 +552,7 @@ void Game::Run()
 			descriptionText.setString("");
 			//enemyphasenkram
 			//berechne weg mit a* hier
-			//falls a* keinen weg findet, zerstöre alle tower aus der gesonderten liste
+			
 
 			//towermenu durch gegnerwave-anzeige ersetzen fragezeichen?
 			//spawne enemies hier	
@@ -592,8 +591,10 @@ void Game::Run()
 			sf::Time enemyMovementElapsed = enemyMovementClock.getElapsedTime();
 			int movementElapsed = enemyMovementElapsed.asMilliseconds();
 
-
-			//new Gegnermovement		
+			/*
+			Gegnermovement
+			*/
+				
 			if (!enemyActiveVector->empty())
 			{
 				for (unsigned int i = 0; i < enemyActiveVector->size(); i++)

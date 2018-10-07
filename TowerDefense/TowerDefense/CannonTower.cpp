@@ -117,6 +117,3 @@ vector<int> CannonTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 
 }
 
-void CannonTower::dealDamage()
-{
-}

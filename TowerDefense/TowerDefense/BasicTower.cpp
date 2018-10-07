@@ -42,6 +42,14 @@ BasicTower::BasicTower()
 	tDescription = "Der Basisturm, er macht 10 Schaden";
 }
 
+/*
+Attacken-Cooldown auf 0:
+Sucht auf den benachbarten Feldern nach Gegner. Priorisiert Gegner, die sich rechts unterhalb und damit
+wahrscheinlich näher am Ziel befinden. Gibt die Position dieser Gegner im Gegner-Array als int-Vector 
+zurück. Setzt dann den Attacken-Cooldown
+Attacken-Cooldown nicht auf 0:
+Zählt den Cooldown um 1 runter.
+*/
 vector<int> BasicTower::checkForEnemies(vector<BasicEnemy*> *enemyActiveVector) 
 {
 	if (tAttackCooldown == 0) 
@@ -250,7 +258,6 @@ for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
 }
 */
 
-void BasicTower::dealDamage() {
-}
+
 
 
