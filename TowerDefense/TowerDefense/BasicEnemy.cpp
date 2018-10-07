@@ -7,6 +7,10 @@ BasicEnemy::BasicEnemy(float XCoord, float YCoord, int maxLife, int CurrentLife,
 	e_CurrentLife = CurrentLife;
 	e_XCoord = XCoord;
 	e_YCoord = YCoord;
+	e_globalLocation = 999;
+	e_movementSpeed = 3;
+	e_navigationHelper = -1;
+	e_frozenTimer = 0;
 	BasicEnemyTexture.loadFromFile(textureLocation);
 	BasicEnemySprite.setTexture(BasicEnemyTexture);
 	BasicEnemySprite.setOrigin(32, 32);
@@ -33,27 +37,52 @@ void BasicEnemy::eSetYCoord(float YCoord) {
 	e_YCoord = YCoord;
 }
 
-double BasicEnemy::getMaxLife()
+void BasicEnemy::eSetGlobalLocation(int location)
+{
+	e_globalLocation = location;
+}
+
+void BasicEnemy::eSetNavigationHelper(int navi)
+{
+	e_navigationHelper = navi;
+}
+
+double BasicEnemy::eGetMaxLife()
 {
 	return e_MaxLife;
 }
 
-double BasicEnemy::getCurrentLife()
+double BasicEnemy::eGetCurrentLife()
 {
 	return e_CurrentLife;
 }
 
-float BasicEnemy::getXCoord()
+float BasicEnemy::eGetXCoord()
 {
 	return e_XCoord;
 }
 
-float BasicEnemy::getYCoord()
+float BasicEnemy::eGetYCoord()
 {
 	return e_YCoord;
 }
 
-sf::Sprite BasicEnemy::getSprite()
+int BasicEnemy::eGetGlobalLocation()
+{
+	return e_globalLocation;
+}
+
+int BasicEnemy::eGetNavigationHelper()
+{
+	return e_navigationHelper;
+}
+
+int BasicEnemy::eGetMovementSpeed()
+{
+	return e_movementSpeed;
+}
+
+sf::Sprite BasicEnemy::eGetSprite()
 {
 	return BasicEnemySprite;
 }

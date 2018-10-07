@@ -4,6 +4,8 @@ Hier Sachen reinschrieben, die noch gemacht werden müssen!
 -gucken ob clock verwendet wird X
 -update movement ist momentan komisch, timer außerhalb der methode überprüfen
 -wir benutzen nicht alle life%, life% aufräumen
+-eine der distanzen in gamearea ist unnütz, beizeiten aufräumen :D und die namen sind komisch
+-sollte bei den neuen türmen der tower nicht innerhalb der if-abfrage erstellt werden?
 */
 
 
@@ -18,6 +20,7 @@ Hier Sachen reinschrieben, die noch gemacht werden müssen!
 #include "BasicButton.h"
 #include "PathFinding.cpp"
 #include <iostream>
+#include <map>
 
 Game::Game()
 {
@@ -41,8 +44,8 @@ void Game::Run()
 {
 
 	App.setFramerateLimit(24);
-	float x;
-	float y;
+	//float x;
+	//float y;
 
 	float gameTime = 0;
 	int gold = 100;
@@ -120,6 +123,8 @@ void Game::Run()
 	BasicButton frostTowerButton = BasicButton(224, 779, "", "ArtAssets/Tower/tank_blue.png", color.White, 0, 0, 0);
 	BasicButton fireTowerButton = BasicButton(297, 779, "", "ArtAssets/Tower/tank_red.png", color.White, 0, 0, 0);
 	BasicButton lightningTowerButton = BasicButton(368, 779, "", "ArtAssets/Tower/tank_sand.png", color.White, 0, 0, 0);
+	BasicButton soundOnButton = BasicButton(450, 779, "", "ArtAssets/musicOn.png", color.White, 0, 0, 0);
+	BasicButton soundOffButton = BasicButton(450, 820, "", "ArtAssets/musicOff.png", color.White, 0, 0, 0);
 
 	sf::Text rundenText;
 	SetRoundTextProperties(rundenText, font, color);
@@ -173,19 +178,13 @@ void Game::Run()
 
 	testEnemySprite.setOrigin(32, 32);
 
-	/*for each (PropertyInfo prop in typeof(PlayingField))
-	{
-		this.playingFieldList.Add(prop)
-	}*/
 
-	//irgendwas löst nicht auf... :(
-	//Nachtrag 02:05Uhr:
-	//FUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCCCCCCCCCCCCKKKKKKKKKKKKK
 	GameMap *GameMapRef = new GameMap;
 	GameMapRef->setGameMap();
 	vector<GameArea*> GameAreaVector = GameMapRef->getGameMap();
-	
-	vector<int> path;
+
+	vector<int> path, pathXCoord, pathYCoord, pathDirection;
+
 	PathFinding pathFindingRef;
 
 	vector<BasicTower*> *TowerVector = new vector<BasicTower*>();
@@ -219,7 +218,7 @@ void Game::Run()
 		SetInfoText(goldText, gold, rundenText, runde, TimerText, timerText, lebenText, playerLife);
 		DrawGameTextures(hudSprite, statusSprite, rundenText,
 			goldText, lebenText, basicTowerButton.getSprite(), cannonTowerButton.getSprite(),
-			frostTowerButton.getSprite(), fireTowerButton.getSprite(), lightningTowerButton.getSprite(),
+			frostTowerButton.getSprite(), fireTowerButton.getSprite(), lightningTowerButton.getSprite(),soundOnButton.getSprite(),soundOffButton.getSprite(),
 			TimerText, punktZahlText, descriptionText, punktText);
 
 		// check all the window's events that were triggered since the last iteration of the loop
@@ -250,6 +249,35 @@ void Game::Run()
 
 		//Gegnerphase / Bauphase unterscheidung hier!
 		//manches muss immer dargestellt werden, anderes nur in der entsprechenden phase
+		sf::Vector2i localPosition = sf::Mouse::getPosition(App);
+		sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
+
+		if (soundOnButton.getSprite().getGlobalBounds().contains(mousePosF))
+		{
+			soundOnButton.setColor(hoverColer);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				sound.setVolume(100);
+			}
+		}
+		else
+		{
+			soundOnButton.setColor(color.White);
+		}
+
+		if (soundOffButton.getSprite().getGlobalBounds().contains(mousePosF))
+		{
+			soundOffButton.setColor(hoverColer);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				sound.setVolume(0);
+			}
+		}
+		else
+		{
+			soundOffButton.setColor(color.White);
+		}
+
 
 		if (buildingphase) {
 			SelectetTower selectetTower;
@@ -272,25 +300,63 @@ void Game::Run()
 				TimerText.setFillColor(color.Red);
 
 			}
+			
+			BasicTower * BasicTowerRef;
+			CannonTower * CannonTowerRef;
+			FlameTower * FlameTowerRef;
+
+
+			//beende die building-phase
+			//falls a* keinen weg findet, zerstöre alle tower aus der gesonderten liste
 			if (buildingphaseCountdown == 0)
 			{
 				buildingphase = false;
 				TimerText.setFillColor(hoverColer);
 				buildphaseElapsedTimeBuffer = 0;
-				path = pathFindingRef.aStar(GameAreaVector);				
+
+				//wegfindung, hilfsvectoren für gegnernavigation
+				path = pathFindingRef.aStar(GameAreaVector);
+				pathXCoord.clear(), pathYCoord.clear(), pathDirection.clear();
+
+				for (int i = 0; i < path.size(); i++)
+				{
+					for (int j = 0; j < GameAreaVector.size(); j++)
+					{
+						if (path.at(i) == GameAreaVector.at(j)->getID()) {
+							pathXCoord.push_back(GameAreaVector.at(j)->getAreaXCoord());
+							pathYCoord.push_back(GameAreaVector.at(j)->getAreaYCoord());
+						}
+					}
+				}
+
+				//Path directions 1=rechts, 2=unten, 3=links, 4=oben
+				for (int i = 0; i < (path.size() - 1); i++)
+				{
+					if (pathXCoord.at(i) < pathXCoord.at(i + 1))
+					{
+						pathDirection.push_back(1);
+					}
+					else if (pathYCoord.at(i) < pathYCoord.at(i + 1))
+					{
+						pathDirection.push_back(2);
+					}
+					else if (pathXCoord.at(i) > pathXCoord.at(i + 1))
+					{
+						pathDirection.push_back(3);
+					}
+					else if (pathYCoord.at(i) > pathYCoord.at(i + 1))
+					{
+						pathDirection.push_back(4);
+					}
+				}
+				pathDirection.push_back(2);
+
+				//fülle den enemy-vector für die nächste gegner-wave
+				*enemyVector = enemyWaves(1);
 				enemyClock.restart();
 			}
 
-
-
-			sf::Vector2i localPosition = sf::Mouse::getPosition(App);
-			sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
-			BasicTower * BasicTowerRef;
-			CannonTower * CannonTowerRef;
-			FlameTower * FlameTowerRef;
-
-			//freie und belegte felder markieren
-			////// hier verbuggt, benutzt noch listen-iterator ist jetzt aber ein vector
+			//freie und belegte felder markieren			
 			for (int i = 0; i < GameAreaVector.size(); i++) {
 				if (GameAreaVector.at(i)->getEmpty()) {
 					emptySpaceSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
@@ -315,7 +381,7 @@ void Game::Run()
 						switch (selectetTower)
 						{
 						case basicTower:
-							BasicTowerRef = new BasicTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
+							BasicTowerRef = new BasicTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord(), GameAreaVector.at(i)->getID());
 							if (GameAreaVector.at(i)->getEmpty())
 							{
 								if (gold >= BasicTowerRef->getCost())
@@ -328,7 +394,7 @@ void Game::Run()
 							break;
 
 						case cannonTower:
-							CannonTowerRef = new CannonTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
+							CannonTowerRef = new CannonTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord(), GameAreaVector.at(i)->getID());
 
 							if (GameAreaVector.at(i)->getEmpty())
 							{
@@ -341,7 +407,7 @@ void Game::Run()
 							}
 							break;
 						case flameTower:
-							FlameTowerRef = new FlameTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord());
+							FlameTowerRef = new FlameTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord(), GameAreaVector.at(i)->getID());
 							if (GameAreaVector.at(i)->getEmpty())
 							{
 								if (gold >= FlameTowerRef->getCost())
@@ -453,6 +519,7 @@ void Game::Run()
 
 					buildTowerSprite.setTexture(lightningTowerButton.getButtonTexture());
 					buildTowerSprite.setTexture(lightningTowerButton.getButtonTexture());
+
 				}
 			}
 			else
@@ -463,12 +530,21 @@ void Game::Run()
 				}
 			}
 
+
+			if (gold == 0)
+			{
+				buildingphaseCountdown = 0;
+				buildingphase = false;
+			}
+
 			if (enemyVector->empty()) {
 				*enemyVector = enemyWaves(runde);
 				runde++;
 			}
 			
 		}
+
+		//Gegnerphase
 		else {
 
 			
@@ -476,7 +552,7 @@ void Game::Run()
 			descriptionText.setString("");
 			//enemyphasenkram
 			//berechne weg mit a* hier
-			//falls a* keinen weg findet, zerstöre alle tower aus der gesonderten liste
+			
 
 			//towermenu durch gegnerwave-anzeige ersetzen fragezeichen?
 			//spawne enemies hier	
@@ -505,6 +581,239 @@ void Game::Run()
 
 			TimerText.setFillColor(color.Black);
 			//buildingphase = true;
+			if (enemyActiveVector->empty() && enemyVector->empty()) {
+				buildingphase = true;
+				buildingphaseCountdown = 30;
+			}
+
+			//testgegner bewegungskram
+			enemyMovementClock.getElapsedTime();
+			sf::Time enemyMovementElapsed = enemyMovementClock.getElapsedTime();
+			int movementElapsed = enemyMovementElapsed.asMilliseconds();
+
+			/*
+			Gegnermovement
+			*/
+				
+			if (!enemyActiveVector->empty())
+			{
+				for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
+				{
+					int mSpeed = enemyActiveVector->at(i)->eGetMovementSpeed();
+					int enemyX = enemyActiveVector->at(i)->eGetXCoord();
+					int enemyY = enemyActiveVector->at(i)->eGetYCoord();
+					int iNavigationhelper = enemyActiveVector->at(i)->eGetNavigationHelper();
+
+					for (unsigned int j = 0; j < mSpeed; j++)
+					{
+						UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, enemyX, enemyY,
+							lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
+							sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
+							tenLifeTexture, punktZahlText);
+
+						//Navigation vom Start aufs erste Feld
+						if (iNavigationhelper == -1)
+						{
+							lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
+							(enemyActiveVector->at(i)->eSetYCoord(enemyY + 1));
+							if (enemyY > 159 && enemyActiveVector->at(i)->eGetGlobalLocation() != 0)
+							{
+								enemyActiveVector->at(i)->eSetGlobalLocation(0);
+							}
+							if (enemyY >= 191)
+							{
+								enemyActiveVector->at(i)->eSetYCoord(191);
+								enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
+								if (pathDirection.at(1) = 1)
+								{
+									enemyActiveVector->at(i)->eSetRotation(270);
+								}
+								else
+								{
+									enemyActiveVector->at(i)->eSetRotation(0);
+								}
+							}
+						}
+
+						//Navigation über die Felder
+						if (iNavigationhelper >= 0 && iNavigationhelper < (path.size() - 1))
+						{
+							int iSwitch = pathDirection.at(iNavigationhelper);
+							int iSwitchPlusOne = pathDirection.at(iNavigationhelper + 1);
+
+							switch (iSwitch) {
+
+								//movement nach rechts
+							case 1:
+								lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
+								enemyActiveVector->at(i)->eSetXCoord(enemyX + 1);
+								//enemy globallocation updaten, wenn in neuem feld
+								if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
+									&& (enemyActiveVector->at(i)->eGetXCoord() >= (pathXCoord.at(iNavigationhelper + 1) - 32)))
+								{
+									enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
+								}
+								//richtung ändern
+								if (enemyActiveVector->at(i)->eGetXCoord() >= pathXCoord.at(iNavigationhelper + 1))
+								{
+									enemyActiveVector->at(i)->eSetXCoord(pathXCoord.at(iNavigationhelper + 1));
+									enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
+									switch (iSwitchPlusOne)
+									{
+									case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
+									case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
+									case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
+									case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
+									}
+								};
+								break;;
+
+								//movement nach unten
+							case 2:
+								lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
+								enemyActiveVector->at(i)->eSetYCoord(enemyY + 1);
+								//enemy globallocation updaten, wenn in neuem feld
+								if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
+									&& (enemyActiveVector->at(i)->eGetYCoord() > (pathXCoord.at(iNavigationhelper + 1) - 32)))
+								{
+									enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
+								}
+								//richtung ändern
+								if (enemyActiveVector->at(i)->eGetYCoord() >= pathYCoord.at(iNavigationhelper + 1))
+								{
+									enemyActiveVector->at(i)->eSetYCoord(pathYCoord.at(iNavigationhelper + 1));
+									enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
+									switch (iSwitchPlusOne)
+									{
+									case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
+									case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
+									case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
+									case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
+									}
+								};
+								break;
+
+								//movement nach links
+							case 3:
+								lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
+								enemyActiveVector->at(i)->eSetXCoord(enemyX - 1);
+								//enemy globallocation updaten, wenn in neuem feld
+								if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
+									&& (enemyActiveVector->at(i)->eGetXCoord() <= (pathXCoord.at(iNavigationhelper + 1) + 32)))
+								{
+									enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
+								}
+								//richtung ändern
+								if (enemyActiveVector->at(i)->eGetXCoord() <= pathXCoord.at(iNavigationhelper + 1))
+								{
+									enemyActiveVector->at(i)->eSetXCoord(pathXCoord.at(iNavigationhelper + 1));
+									enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
+									switch (iSwitchPlusOne)
+									{
+									case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
+									case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
+									case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
+									case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
+									}
+								};
+								break;
+
+								//movement nach oben
+							case 4:
+								lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
+								enemyActiveVector->at(i)->eSetYCoord(enemyY - 1);
+								//enemy globallocation updaten, wenn in neuem feld
+								if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
+									&& (enemyActiveVector->at(i)->eGetYCoord() <= (pathYCoord.at(iNavigationhelper + 1) + 32)))
+								{
+									enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
+								}
+								//richtung ändern
+								if (enemyActiveVector->at(i)->eGetYCoord() <= pathYCoord.at(iNavigationhelper + 1))
+								{
+									enemyActiveVector->at(i)->eSetYCoord(pathYCoord.at(iNavigationhelper + 1));
+									enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
+									switch (iSwitchPlusOne)
+									{
+									case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
+									case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
+									case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
+									case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
+									}
+								};
+								break;
+
+							default: break;
+
+							}
+						}
+
+						//Navigation vom letzten Feld zum Ausgang
+						if (iNavigationhelper == (path.size() - 1))
+						{
+							lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
+							(enemyActiveVector->at(i)->eSetYCoord(enemyY + 1));
+							if (enemyY > 734 && enemyActiveVector->at(i)->eGetGlobalLocation() == 62)
+							{
+								enemyActiveVector->at(i)->eSetGlobalLocation(999);
+							}
+							if (enemyY >= 750)
+							{
+								enemyActiveVector->erase((enemyActiveVector->begin() + i));
+							}
+						}
+
+						if (!enemyActiveVector->empty())
+						{
+							enemyActiveVector->at(i)->eSetPosition();
+							App.draw(enemyActiveVector->at(i)->eGetSprite());
+							App.draw(lifeEnemySprite);
+						}
+						else
+						{
+							break;
+						}
+					}
+				}
+			}
+
+
+
+			/*if (!enemyActiveVector->empty())
+			{
+				for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
+				{
+					UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
+						y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
+						sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
+						tenLifeTexture, punktZahlText);
+
+					UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
+						enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText,
+						GameAreaVector, path);
+
+					if (!enemyActiveVector->empty())
+					{
+						App.draw(enemyActiveVector->at(i)->getSprite());
+						App.draw(lifeEnemySprite);
+					}
+				}
+			}
+			*/
+			if (enemyActiveVector->empty() && enemyVector->empty())
+			{
+				TimerText.setFillColor(color.Black);
+				if (enemyActiveVector->empty() && enemyVector->empty())
+				{
+					buildingphase = true;
+					buildingphaseCountdown = 30;
+				}
+			}
+
+			if (playerLife <= 0)
+			{
+				ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite, playerInput, playerText);
+			}
 
 		}
 
@@ -513,55 +822,15 @@ void Game::Run()
 		DrawTower(TowerVector);
 
 
-
-
-		//testgegner bewegungskram
-		enemyMovementClock.getElapsedTime();
-		sf::Time enemyMovementElapsed = enemyMovementClock.getElapsedTime();
-		int movementElapsed = enemyMovementElapsed.asMilliseconds();
-
-		
-
-			//Hier Knallt es wenn alle Gegner im Ziel sind!!!
-		if (!enemyActiveVector->empty())
-		{
-			for (unsigned int i = 0; i < enemyActiveVector->size(); i++) 
-			{
-				UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
-					y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
-					sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
-					tenLifeTexture, punktZahlText);
-				
-				UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
-					enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText,
-					GameAreaVector, path);
-
-				if (!enemyActiveVector->empty())
-				{
-					App.draw(enemyActiveVector->at(i)->getSprite());
-					App.draw(lifeEnemySprite);
-				}
-			}												
-		}
-		if (enemyActiveVector->empty() && enemyVector->empty()) {
-			buildingphase = true;
-			buildingphaseCountdown = 30;
-		}
-
-
-		if (playerLife <= 0)
-		{
-			ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite, playerInput, playerText);
-		}
-
-		
 		// end the current frame
 		App.display();
-
 	}
 }
 
-void Game::DrawGameTextures(sf::Sprite &hudSprite, sf::Sprite &statusSprite, sf::Text &rundenText, sf::Text &goldText, sf::Text &lebenText, sf::Sprite &basicTurmImage, sf::Sprite &cannonTurmImage, sf::Sprite &frostTurmImage, sf::Sprite &feuerTurmImage, sf::Sprite &lightningTowerImage, sf::Text &TimerText, sf::Text &punktZahlText, sf::Text &descriptionText, sf::Text &punktText)
+void Game::DrawGameTextures(sf::Sprite &hudSprite, sf::Sprite &statusSprite,
+	sf::Text &rundenText, sf::Text &goldText, sf::Text &lebenText,
+	sf::Sprite &basicTurmImage, sf::Sprite &cannonTurmImage, sf::Sprite &frostTurmImage,
+	sf::Sprite &feuerTurmImage, sf::Sprite &lightningTowerImage, sf::Sprite &soundOnButton, sf::Sprite &soundOffButton, sf::Text &TimerText, sf::Text &punktZahlText, sf::Text &descriptionText, sf::Text &punktText)
 {
 	App.draw(hudSprite);
 	App.draw(statusSprite);
@@ -573,6 +842,8 @@ void Game::DrawGameTextures(sf::Sprite &hudSprite, sf::Sprite &statusSprite, sf:
 	App.draw(frostTurmImage);
 	App.draw(feuerTurmImage);
 	App.draw(lightningTowerImage);
+	App.draw(soundOnButton);
+	App.draw(soundOffButton);
 	App.draw(TimerText);
 	App.draw(punktZahlText);
 	App.draw(descriptionText);
@@ -587,17 +858,34 @@ void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int r
 	lebenText.setString(to_string(playerLife));
 }
 
+//irgendwas funktioniert hier nicht, stehe übelst auf dem schlauch
+//FUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK
 void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector,
 	std::vector<BasicEnemy *> * enemyActiveVector, sf::Sprite &explosionSprite)
 {
-	for (unsigned int i = 0; i < BasicTowerVector->size(); i++) {
-		int target = BasicTowerVector->at(i)->checkForEnemies(enemyActiveVector);
-		if (target >= 0 && target <= 9 && enemyActiveVector->at(target)->getCurrentLife() > 0) {
-			enemyActiveVector->at(target)->takeDamage(BasicTowerVector->at(i)->getDamage());
-			explosionSprite.setPosition(enemyActiveVector->at(target)->getXCoord(), enemyActiveVector->at(target)->getYCoord());
-			App.draw(explosionSprite);
+	vector<int> targets;
+	if (!enemyActiveVector->empty())
+	{
+		for (int i = 0; i < BasicTowerVector->size(); i++)
+		{			
+			//targets.clear();
+			targets = BasicTowerVector->at(i)->checkForEnemies(enemyActiveVector);
+			if (!targets.empty()) 
+			{
+				for (int j = 0; j < targets.size(); j++)
+				{
+					int k = targets.at(j);
+					if(k != 999)
+					{ 
+					enemyActiveVector->at(k)->takeDamage(BasicTowerVector->at(i)->getDamage());
+					explosionSprite.setPosition(enemyActiveVector->at(k)->eGetXCoord(), enemyActiveVector->at(k)->eGetYCoord());
+					App.draw(explosionSprite);
+					}
+				}				
+			}			
 		}
 	}
+
 }
 
 void Game::LoadExplosionTextures(sf::Texture &explosionTexture, sf::Sprite &explosionSprite)
@@ -735,8 +1023,9 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 	enemyMovementClock.restart();
 	enemyActiveVector->at(i)->eSetPosition();
 	*/
+
 	if (!enemyActiveVector->empty())
-	{		
+	{
 		if (y < 191) {
 			lifeEnemySprite.setPosition(x, (y - 25));
 			(enemyActiveVector->at(i)->eSetYCoord((y + 1)));
@@ -789,25 +1078,33 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 		}
 		if (!enemyActiveVector->empty())
 		{
-			enemyActiveVector->at(i)->eSetPosition();
+			try
+			{
+				enemyActiveVector->at(i)->eSetPosition();
+			}
+			catch (const std::exception&)
+			{
+				
+			}
+			
 		}
 	}					
 }
 
 void Game::UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector,
-	int i, int &punkteZahl, int &gold, float &x, float &y, sf::Sprite &lifeEnemySprite,
+	int i, int &punkteZahl, int &gold, int &x, int &y, sf::Sprite &lifeEnemySprite,
 	sf::Texture &hundredLifeTexture, sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture,
 	sf::Texture &fortyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Text &punktZahlText)
 {
-	if (enemyActiveVector->at(i)->getCurrentLife() == 0) {
+	if (enemyActiveVector->at(i)->eGetCurrentLife() == 0) {
 		enemyActiveVector->erase((enemyActiveVector->begin() + i));
 		punkteZahl += 100;
 		gold += 100;
 	}
 	else {
-		x = enemyActiveVector->at(i)->getXCoord();
-		y = enemyActiveVector->at(i)->getYCoord();
-		double lifePercent = (((enemyActiveVector->at(i)->getCurrentLife() / enemyActiveVector->at(i)->getMaxLife())) * 100);
+		x = enemyActiveVector->at(i)->eGetXCoord();
+		y = enemyActiveVector->at(i)->eGetYCoord();
+		double lifePercent = (((enemyActiveVector->at(i)->eGetCurrentLife() / enemyActiveVector->at(i)->eGetMaxLife())) * 100);
 		if (lifePercent > 90) {
 			lifeEnemySprite.setTexture(hundredLifeTexture);
 		}

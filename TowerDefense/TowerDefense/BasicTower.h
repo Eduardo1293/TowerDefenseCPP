@@ -9,80 +9,108 @@
 
 using namespace std;
 
+/*
+Der Basisturm. Fungiert gleichzeitig als Basisklasse für alle Türme
+*/
+
 class BasicTower {
 
 private:
-	sf::Texture t_BasicTurmTexture;
-	string t_Name;
-	string t_Description;
-	int t_Cost;
-	
+	sf::Texture tBasicTurmTexture;
+	string tName;
+	string tDescription;
+	int tCost;
+	bool tFrosttower;
+
 protected:
-	int t_attackCooldown;
-	int t_damage;
-	float t_XCoord;
-	float t_YCoord;
-	sf::Sprite t_BasicTurmSprite;
-	
+	int tAttackCooldown;
+	int tDamage;
+	int tGlobalLocation;
+	float tXCoord;
+	float tYCoord;
+	sf::Sprite tBasicTurmSprite;
+
 public:
 
-	//Konstruktor
-	BasicTower(float XCoord, float YCoord);
-	BasicTower(float XCoord, float YCoord, string t_TextureLocation, string t_Name,
+	//Konstruktoren
+	BasicTower();
+	BasicTower(float XCoord, float YCoord, int areaID);
+	BasicTower(float XCoord, float YCoord, int areaID, string t_TextureLocation, string t_Name,
 		string t_Description, int t_Cost, int attackCooldown, int damage);
 
 	//Destruktor
 	~BasicTower();
 
 	//Getter
-	inline int getCost() const { return t_Cost; }
-	inline float getXCoord() const { return t_XCoord; }
-	inline float getYCoord() const { return t_YCoord; }
-	inline int getAttackCooldown() const { return t_attackCooldown; }
-	inline int getDamage() const { return t_damage; }
-	inline string getDescription() const { return t_Description; }
-	inline sf::Sprite getSprite() const { return t_BasicTurmSprite; };
+	inline int getCost() const { return tCost; }
+	inline float getXCoord() const { return tXCoord; }
+	inline float getYCoord() const { return tYCoord; }
+	inline int getAttackCooldown() const { return tAttackCooldown; }
+	inline int getDamage() const { return tDamage; }
+	inline string getDescription() const { return tDescription; }
+	inline sf::Sprite getSprite() const { return tBasicTurmSprite; }
+	inline bool getFrostTower() const { return tFrosttower; }
 	
-	BasicTower();
-
-	int checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
-	void dealDamage();
+	//Funktionen
+	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
+	
 
 };
+
+/*
+Kanonenturm, langsamer aber starker Angriff
+*/
 
 class CannonTower : public BasicTower {
 
 public:
-	CannonTower(float XCoord, float YCoord);
+	CannonTower(float XCoord, float YCoord, int areaID);
 
-	int checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
-	void dealDamage();
+	//Funktionen
+	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
+	
 };
+
+/*
+Flamenturm mit Flächenangriff
+*/
 
 class FlameTower : public BasicTower {
 
 public:
-	FlameTower(float XCoord, float YCoord);
+	FlameTower(float XCoord, float YCoord, int areaID);
 
-	int checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
-	void dealDamage();
+	//Funktionen
+	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
+	
 };
+
+/*
+Frostturm, der Gegner verlangsamen kann
+*/
 
 class FrostTower : public BasicTower {
 
 public:
-	FrostTower(float XCoord, float YCoord);
+	FrostTower(float XCoord, float YCoord, int areaID);
 
-	int checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
-	void dealDamage();
+	//Funktionen
+	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
+	
 };
+
+/*
+Blitzturm, greift einen zufälligen Gegner auf der Karte an
+*/
+
 
 class LightningTower : public BasicTower {
 
 public:
-	LightningTower(float XCoord, float YCoord);
+	LightningTower(float XCoord, float YCoord, int areaID);
 
-	int checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
-	void dealDamage();
+	//Funktionen
+	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
+	
 };
 #endif

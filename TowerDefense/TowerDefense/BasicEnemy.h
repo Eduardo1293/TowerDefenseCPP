@@ -17,6 +17,12 @@ private:
 	double e_CurrentLife;
 	float e_XCoord;
 	float e_YCoord;
+	int e_globalLocation;
+	int e_navigationHelper;
+	int e_movementSpeed;
+	bool e_frozen;
+	int e_frozenTimer;
+
 
 public:
 	BasicEnemy(float XCoord, float YCoord);
@@ -27,13 +33,20 @@ public:
 	void eSetPosition();
 	void eSetXCoord(float XCoord);
 	void eSetYCoord(float YCoord);
+	void eSetGlobalLocation(int location);
+	void eSetNavigationHelper(int navi);
+	void eSetFrozen();
 
-	//Getter
-	double getMaxLife(); 
-	double getCurrentLife(); 
-	float getXCoord();
-	float getYCoord();
-	sf::Sprite getSprite();
+	//getter
+	double eGetMaxLife(); 
+	double eGetCurrentLife(); 
+	float eGetXCoord();
+	float eGetYCoord();						
+	int eGetGlobalLocation();
+	int eGetNavigationHelper();
+	int eGetMovementSpeed();
+	bool eGetFrozen;
+	sf::Sprite eGetSprite();
 
 	void takeDamage(int damage);
 
