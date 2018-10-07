@@ -320,14 +320,14 @@ void Game::Run()
 				buildphaseElapsedTimeBuffer = 0;
 
 				
-				/*try 
+				try 
 				{
 					path = pathFindingRef.aStar(GameAreaVector);
 				}
-				catch (SpecialException se) 
+				catch (CustomException se) 
 				{
-					cout << se.getErrorMessage() << endl;
-				}*/
+					cout << se.getFehlermeldung() << endl;
+				}
 				
 				/*
 				Hilfsvektoren für die Gegnernavigation
