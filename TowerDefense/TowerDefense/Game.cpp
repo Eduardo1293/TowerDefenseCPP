@@ -73,7 +73,6 @@ void Game::Run()
 	vector<BasicEnemy*> *enemyVector = new vector<BasicEnemy*>();
 	vector<BasicEnemy*> *enemyActiveVector = new vector<BasicEnemy*>();
 
-
 	//Hintergrundmusik
 	sf::SoundBuffer soundBuffer;
 	sf::Sound sound;
@@ -99,13 +98,9 @@ void Game::Run()
 
 	//lifebar
 	sf::Texture hundredLifeTexture;
-	sf::Texture ninetyLifeTexture;
 	sf::Texture eightyLifeTexture;
-	sf::Texture seventyLifeTexture;
 	sf::Texture sixtyLifeTexture;
-	sf::Texture fiftyLifeTexture;
 	sf::Texture fortyLifeTexture;
-	sf::Texture thirtyLifeTexture;
 	sf::Texture twentyLifeTexture;
 	sf::Texture tenLifeTexture;
 	sf::Sprite lifeEnemySprite;
@@ -114,9 +109,9 @@ void Game::Run()
 
 	sf::Color hoverColer = sf::Color(255, 255, 255, 140);
 
-	LoadLifeBarTextures(hundredLifeTexture, ninetyLifeTexture, eightyLifeTexture,
-		seventyLifeTexture, sixtyLifeTexture, fiftyLifeTexture, fortyLifeTexture,
-		thirtyLifeTexture, twentyLifeTexture, tenLifeTexture, lifeEnemySprite);
+	LoadLifeBarTextures(hundredLifeTexture, eightyLifeTexture,
+		sixtyLifeTexture, fortyLifeTexture,
+		twentyLifeTexture, tenLifeTexture,lifeEnemySprite);
 
 
 
@@ -128,6 +123,8 @@ void Game::Run()
 	BasicButton frostTowerButton = BasicButton(224, 779, "", "ArtAssets/Tower/tank_blue.png", color.White, 0, 0, 0);
 	BasicButton fireTowerButton = BasicButton(297, 779, "", "ArtAssets/Tower/tank_red.png", color.White, 0, 0, 0);
 	BasicButton lightningTowerButton = BasicButton(368, 779, "", "ArtAssets/Tower/tank_sand.png", color.White, 0, 0, 0);
+	BasicButton soundOnButton = BasicButton(450, 779, "", "ArtAssets/musicOn.png", color.White, 0, 0, 0);
+	BasicButton soundOffButton = BasicButton(450, 820, "", "ArtAssets/musicOff.png", color.White, 0, 0, 0);
 
 	sf::Text rundenText;
 	SetRoundTextProperties(rundenText, font, color);
@@ -218,10 +215,10 @@ void Game::Run()
 	{
 		App.clear(sf::Color::Black);
 		App.draw(backgroundSprite);
-		SetInfoText(goldText, gold, rundenText, runde, TimerText, timerText);
+		SetInfoText(goldText, gold, rundenText, runde, TimerText, timerText, lebenText, playerLife);
 		DrawGameTextures(hudSprite, statusSprite, rundenText,
 			goldText, lebenText, basicTowerButton.getSprite(), cannonTowerButton.getSprite(),
-			frostTowerButton.getSprite(), fireTowerButton.getSprite(), lightningTowerButton.getSprite(),
+			frostTowerButton.getSprite(), fireTowerButton.getSprite(), lightningTowerButton.getSprite(),soundOnButton.getSprite(),soundOffButton.getSprite(),
 			TimerText, punktZahlText, descriptionText, punktText);
 
 		// check all the window's events that were triggered since the last iteration of the loop
@@ -252,6 +249,35 @@ void Game::Run()
 
 		//Gegnerphase / Bauphase unterscheidung hier!
 		//manches muss immer dargestellt werden, anderes nur in der entsprechenden phase
+		sf::Vector2i localPosition = sf::Mouse::getPosition(App);
+		sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
+
+		if (soundOnButton.getSprite().getGlobalBounds().contains(mousePosF))
+		{
+			soundOnButton.setColor(hoverColer);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				sound.setVolume(100);
+			}
+		}
+		else
+		{
+			soundOnButton.setColor(color.White);
+		}
+
+		if (soundOffButton.getSprite().getGlobalBounds().contains(mousePosF))
+		{
+			soundOffButton.setColor(hoverColer);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				sound.setVolume(0);
+			}
+		}
+		else
+		{
+			soundOffButton.setColor(color.White);
+		}
+
 
 		if (buildingphase) {
 			SelectetTower selectetTower;
@@ -325,8 +351,7 @@ void Game::Run()
 
 
 
-			sf::Vector2i localPosition = sf::Mouse::getPosition(App);
-			sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
+
 			BasicTower * BasicTowerRef;
 			CannonTower * CannonTowerRef;
 			FlameTower * FlameTowerRef;
@@ -494,6 +519,7 @@ void Game::Run()
 
 					buildTowerSprite.setTexture(lightningTowerButton.getButtonTexture());
 					buildTowerSprite.setTexture(lightningTowerButton.getButtonTexture());
+
 				}
 			}
 			else
@@ -504,10 +530,26 @@ void Game::Run()
 				}
 			}
 
+
+
+			if (gold == 0)
+			{
+				buildingphaseCountdown = 0;
+				buildingphase = false;
+			}
+
+			if (enemyVector->empty()) {
+				*enemyVector = enemyWaves(runde);
+				runde++;
+			}
+			
 		}
 
 		//gegnerphase
 		else {
+
+			
+
 			descriptionText.setString("");
 			//enemyphasenkram
 			//berechne weg mit a* hier
@@ -784,8 +826,10 @@ void Game::Run()
 	}
 }
 
-
-void Game::DrawGameTextures(sf::Sprite &hudSprite, sf::Sprite &statusSprite, sf::Text &rundenText, sf::Text &goldText, sf::Text &lebenText, sf::Sprite &basicTurmImage, sf::Sprite &cannonTurmImage, sf::Sprite &frostTurmImage, sf::Sprite &feuerTurmImage, sf::Sprite &lightningTowerImage, sf::Text &TimerText, sf::Text &punktZahlText, sf::Text &descriptionText, sf::Text &punktText)
+void Game::DrawGameTextures(sf::Sprite &hudSprite, sf::Sprite &statusSprite,
+	sf::Text &rundenText, sf::Text &goldText, sf::Text &lebenText,
+	sf::Sprite &basicTurmImage, sf::Sprite &cannonTurmImage, sf::Sprite &frostTurmImage,
+	sf::Sprite &feuerTurmImage, sf::Sprite &lightningTowerImage, sf::Sprite &soundOnButton, sf::Sprite &soundOffButton, sf::Text &TimerText, sf::Text &punktZahlText, sf::Text &descriptionText, sf::Text &punktText)
 {
 	App.draw(hudSprite);
 	App.draw(statusSprite);
@@ -797,17 +841,20 @@ void Game::DrawGameTextures(sf::Sprite &hudSprite, sf::Sprite &statusSprite, sf:
 	App.draw(frostTurmImage);
 	App.draw(feuerTurmImage);
 	App.draw(lightningTowerImage);
+	App.draw(soundOnButton);
+	App.draw(soundOffButton);
 	App.draw(TimerText);
 	App.draw(punktZahlText);
 	App.draw(descriptionText);
 	App.draw(punktText);
 }
 
-void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int runde, sf::Text &TimerText, int timerText)
+void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int runde, sf::Text &TimerText, int timerText, sf::Text &lebenText, int playerLife)
 {
 	goldText.setString(to_string(gold));
 	rundenText.setString(to_string(runde));
 	TimerText.setString(to_string(timerText));
+	lebenText.setString(to_string(playerLife));
 }
 
 //irgendwas funktioniert hier nicht, stehe übelst auf dem schlauch
@@ -936,23 +983,17 @@ void Game::LoadGameFont(sf::Font &font)
 	}
 }
 
-void Game::LoadLifeBarTextures(sf::Texture &hundredLifeTexture, sf::Texture &ninetyLifeTexture,
-	sf::Texture &eightyLifeTexture, sf::Texture &seventyLifeTexture, sf::Texture &sixtyLifeTexture,
-	sf::Texture &fiftyLifeTexture, sf::Texture &fortyLifeTexture, sf::Texture &thirtyLifeTexture,
-	sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Sprite &lifeEnemySprite)
+void Game::LoadLifeBarTextures(sf::Texture &hundredLifeTexture,
+	sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture,
+	sf::Texture &fortyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Sprite &lifeEnemySprite)
 {
 	hundredLifeTexture.loadFromFile("ArtAssets/Lifebar/100percent.png");
-	ninetyLifeTexture.loadFromFile("ArtAssets/Lifebar/90percent.png");
+	
 	eightyLifeTexture.loadFromFile("ArtAssets/Lifebar/80percent.png");
-	seventyLifeTexture.loadFromFile("ArtAssets/Lifebar/70percent.png");
 	sixtyLifeTexture.loadFromFile("ArtAssets/Lifebar/60percent.png");
-	fiftyLifeTexture.loadFromFile("ArtAssets/Lifebar/50percent.png");
 	fortyLifeTexture.loadFromFile("ArtAssets/Lifebar/40percent.png");
-	thirtyLifeTexture.loadFromFile("ArtAssets/Lifebar/30percent.png");
 	twentyLifeTexture.loadFromFile("ArtAssets/Lifebar/20percent.png");
 	tenLifeTexture.loadFromFile("ArtAssets/Lifebar/10percent.png");
-
-	lifeEnemySprite.setTexture(fiftyLifeTexture);
 	lifeEnemySprite.setOrigin(20, 2);
 }
 
@@ -983,6 +1024,10 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 		if (y < 191) {
 			lifeEnemySprite.setPosition(x, (y - 25));
 			(enemyActiveVector->at(i)->eSetYCoord((y + 1)));
+		}
+		if (y >= 703) {
+			enemyActiveVector->erase((enemyActiveVector->begin() + i));
+			playerLife -= 1;
 		}
 		if (y >= 191) {
 			for (int j = 0; j < (path.size() - 1); j++) {
@@ -1028,9 +1073,17 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 		}
 		if (!enemyActiveVector->empty())
 		{
-			enemyActiveVector->at(i)->eSetPosition();
+			try
+			{
+				enemyActiveVector->at(i)->eSetPosition();
+			}
+			catch (const std::exception&)
+			{
+				
+			}
+			
 		}
-	}
+	}					
 }
 
 void Game::UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector,
