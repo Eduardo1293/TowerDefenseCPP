@@ -469,6 +469,8 @@ void Game::Run()
 
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
+					BasicTower test = BasicTower();
+					descriptionText.setString(test.getDescription());
 					selectetTower = basicTower;
 					buildTowerSprite.setTexture(basicTowerButton.getButtonTexture());
 					basicTowerButton.setColor(hoverColer);
@@ -487,7 +489,7 @@ void Game::Run()
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
 					selectetTower = cannonTower;
-
+					descriptionText.setString(CannonTowerRef->getDescription());
 					buildTowerSprite.setTexture(cannonTowerButton.getButtonTexture());
 					cannonTowerButton.setColor(hoverColer);
 				}
@@ -958,8 +960,8 @@ void Game::SetDescriptionTextProperties(sf::Text &descriptionText, sf::Font &fon
 {
 	descriptionText.setFont(font);
 	descriptionText.setFillColor(color.Black);
-	descriptionText.setCharacterSize(13);
-	descriptionText.setPosition(5, 870);
+	descriptionText.setCharacterSize(25);
+	descriptionText.setPosition(80, 850);
 }
 
 void Game::SetPointNumberProperties(sf::Text &punktZahlText, sf::Font &font, sf::Color &color, int punkteZahl)
@@ -992,8 +994,8 @@ void Game::SetLifeTextProperties(sf::Text &lebenText, sf::Font &font, int player
 void Game::SetTimerTextProperties(sf::Text &TimerText, sf::Font &font, sf::Color &color)
 {
 	TimerText.setFont(font);
-	TimerText.setCharacterSize(30);
-	TimerText.setPosition(250, 850);
+	TimerText.setCharacterSize(40);
+	TimerText.setPosition(25, 780);
 	TimerText.setFillColor(color.Black);
 }
 
