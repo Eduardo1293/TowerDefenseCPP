@@ -859,6 +859,7 @@ void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int r
 }
 
 //irgendwas funktioniert hier nicht, stehe übelst auf dem schlauch
+//FUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK
 void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector,
 	std::vector<BasicEnemy *> * enemyActiveVector, sf::Sprite &explosionSprite)
 {
@@ -873,9 +874,12 @@ void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector,
 				for (int j = 0; j < targets.size(); j++)
 				{
 					int k = targets.at(j);
+					if(k != 999)
+					{ 
 					enemyActiveVector->at(k)->takeDamage(BasicTowerVector->at(i)->getDamage());
 					explosionSprite.setPosition(enemyActiveVector->at(k)->eGetXCoord(), enemyActiveVector->at(k)->eGetYCoord());
 					App.draw(explosionSprite);
+					}
 				}
 				targets.clear();
 			}
