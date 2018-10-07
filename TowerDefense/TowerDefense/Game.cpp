@@ -252,6 +252,9 @@ void Game::Run()
 		sf::Vector2i localPosition = sf::Mouse::getPosition(App);
 		sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
 
+		/*
+		Button für Sound On/Off
+		*/
 		if (soundOnButton.getSprite().getGlobalBounds().contains(mousePosF))
 		{
 			soundOnButton.setColor(hoverColer);
@@ -281,12 +284,10 @@ void Game::Run()
 
 		if (buildingphase) {
 			SelectetTower selectetTower;
-			//buildingkram
-
-			//füge alle tower aus einer phase in eine gesonderte liste
-
-			//nach 30sec ende, deaktiviere alle baufunktionen, 
-
+			
+			/*
+			Buildingphasen-Countdown
+			*/
 			sf::Time buildphaseElapsedTime = buildingphaseClock.getElapsedTime();
 			if ((buildphaseElapsedTime.asMilliseconds() + buildphaseElapsedTimeBuffer) >= 1000) {
 				(buildphaseElapsedTimeBuffer = buildphaseElapsedTime.asMilliseconds() - 1000);
@@ -306,16 +307,29 @@ void Game::Run()
 			FlameTower * FlameTowerRef;
 
 
-			//beende die building-phase
-			//falls a* keinen weg findet, zerstöre alle tower aus der gesonderten liste
+			/*
+			Beende die Buildingphase. Falls kein Weg gefunden wird, lösche den letzten Tower im Tower-Vector
+			bis ein Weg gefunden wurde.
+			*/
 			if (buildingphaseCountdown == 0)
 			{
 				buildingphase = false;
 				TimerText.setFillColor(hoverColer);
 				buildphaseElapsedTimeBuffer = 0;
 
-				//wegfindung, hilfsvectoren für gegnernavigation
-				path = pathFindingRef.aStar(GameAreaVector);
+				
+				/*try 
+				{
+					path = pathFindingRef.aStar(GameAreaVector);
+				}
+				catch (SpecialException se) 
+				{
+					cout << se.getErrorMessage() << endl;
+				}*/
+				
+				/*
+				Hilfsvektoren für die Gegnernavigation
+				*/
 				pathXCoord.clear(), pathYCoord.clear(), pathDirection.clear();
 
 				for (int i = 0; i < path.size(); i++)
@@ -329,7 +343,10 @@ void Game::Run()
 					}
 				}
 
-				//Path directions 1=rechts, 2=unten, 3=links, 4=oben
+				/*
+				Hilfsvektoren für die Gegnernavigation, beinhaltet Richtungsinformationen:
+				1=rechts, 2=unten, 3=links, 4=oben
+				*/				
 				for (int i = 0; i < (path.size() - 1); i++)
 				{
 					if (pathXCoord.at(i) < pathXCoord.at(i + 1))
@@ -351,12 +368,16 @@ void Game::Run()
 				}
 				pathDirection.push_back(2);
 
-				//fülle den enemy-vector für die nächste gegner-wave
+				/*
+				Fülle den Gegnervektor mit den Gegnern der nächsten Wave
+				*/				
 				*enemyVector = enemyWaves(1);
 				enemyClock.restart();
 			}
 
-			//freie und belegte felder markieren			
+			/*
+			Markiert freie und belegte Felder mit grün bzw. rot.
+			*/						
 			for (int i = 0; i < GameAreaVector.size(); i++) {
 				if (GameAreaVector.at(i)->getEmpty()) {
 					emptySpaceSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
@@ -367,12 +388,18 @@ void Game::Run()
 					App.draw(blockedSpaceSprite);
 				}
 
-				//mouse-movement auslesen
+				/*
+				Funktion um Mausbewegungen auszulesen und eine "Tower-Vorschau" anzuzeigen. 
+				*/
 				if (localPosition.x <= (GameAreaVector.at(i)->getAreaXCoord() + 32) && (localPosition.x >= (GameAreaVector.at(i)->getAreaXCoord() - 31))
 					&& (localPosition.y <= (GameAreaVector.at(i)->getAreaYCoord() + 32)) && (localPosition.y >= (GameAreaVector.at(i)->getAreaYCoord() - 31))) {
 					buildTowerSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
 					App.draw(buildTowerSprite);
 				}
+
+				/*
+				Baut beim Mausklick den ausgewählten Tower an der markierten Stelle.
+				*/
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
 					if (localPosition.x <= (GameAreaVector.at(i)->getAreaXCoord() + 32) && (localPosition.x >= (GameAreaVector.at(i)->getAreaXCoord() - 31))
@@ -432,7 +459,8 @@ void Game::Run()
 				}
 			}
 
-			//buttons interface
+			
+
 			if (basicTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
 			{
 				basicTowerButton.setColor(hoverColer);
@@ -530,6 +558,9 @@ void Game::Run()
 				}
 			}
 
+			/*
+			Beendet die Bauphase sobald der Spieler kein Gold mehr hat.
+			*/
 
 			if (gold == 0)
 			{

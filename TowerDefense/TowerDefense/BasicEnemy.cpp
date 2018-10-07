@@ -47,6 +47,7 @@ void BasicEnemy::eSetNavigationHelper(int navi)
 	e_navigationHelper = navi;
 }
 
+//Getter
 double BasicEnemy::eGetMaxLife()
 {
 	return e_MaxLife;

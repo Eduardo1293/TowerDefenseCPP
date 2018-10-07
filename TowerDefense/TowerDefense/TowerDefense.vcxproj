@@ -26,6 +26,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AttackTower.cpp" />
     <ClCompile Include="BasicButton.cpp" />
     <ClCompile Include="BasicEnemy.cpp" />
     <ClCompile Include="CustomException.cpp" />
@@ -42,6 +43,7 @@
     <ClCompile Include="EnemyWaves.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="PathFinding.cpp" />
+    <ClCompile Include="StrongEnemy.cpp" />
     <ClCompile Include="TowerDefense.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -58,10 +58,25 @@ public:
 };
 
 /*
-Kanonenturm, langsamer aber starker Angriff
+Grundlegender Turm, greift einen einzelnen Gegner an
 */
 
-class CannonTower : public BasicTower {
+class AttackTower : public BasicTower 
+{
+
+public:
+	AttackTower(float XCoord, float YCoord, int areaID);
+
+	//Funktionen
+	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
+
+};
+
+/*
+Kanonenturm, langsamer aber starker Angriff
+*/
+class CannonTower : public BasicTower 
+{
 
 public:
 	CannonTower(float XCoord, float YCoord, int areaID);
@@ -74,8 +89,8 @@ public:
 /*
 Flamenturm mit Flächenangriff
 */
-
-class FlameTower : public BasicTower {
+class FlameTower : public BasicTower 
+{
 
 public:
 	FlameTower(float XCoord, float YCoord, int areaID);
@@ -88,7 +103,6 @@ public:
 /*
 Frostturm, der Gegner verlangsamen kann
 */
-
 class FrostTower : public BasicTower {
 
 public:
@@ -102,8 +116,6 @@ public:
 /*
 Blitzturm, greift einen zufälligen Gegner auf der Karte an
 */
-
-
 class LightningTower : public BasicTower {
 
 public:

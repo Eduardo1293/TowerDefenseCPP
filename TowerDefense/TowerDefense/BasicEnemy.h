@@ -55,11 +55,60 @@ public:
 	~BasicEnemy();
 };
 
-class FastEnemy : public BasicEnemy {
+class FastEnemy : public BasicEnemy 
+{
 public:
-	FastEnemy(float XCoord, float YCoord,string textureLocation);
+	FastEnemy(float XCoord, float YCoord, string textureLocation);
 };
 
+
+class WeakestEnemy : public BasicEnemy 
+{
+public:
+	WeakestEnemy(float XCoord, float YCoord, string textureLocation);
+};
+
+
+class WeakerEnemy : public BasicEnemy
+{
+public:
+	WeakerEnemy(float XCoord, float YCoord, string textureLocation);
+};
+
+
+class WeakEnemy : public BasicEnemy
+{
+public:
+	WeakEnemy(float XCoord, float YCoord, string textureLocation);
+};
+
+
+class StrongEnemy : public BasicEnemy 
+{
+public:
+	StrongEnemy(float XCoord, float YCoord, string textureLocation);
+};
+
+
+class StrongerEnemy : public BasicEnemy
+{
+public:
+	StrongerEnemy(float XCoord, float YCoord, string textureLocation);
+};
+
+
+class StrongestEnemy : public BasicEnemy
+{
+public:
+	StrongestEnemy(float XCoord, float YCoord, string textureLocation);
+};
+
+
+class BossEnemy : public BasicEnemy
+{
+public:
+	BossEnemy(float XCoord, float YCoord, string textureLocation);
+};
 
 #endif
 

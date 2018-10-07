@@ -87,6 +87,12 @@
     <ClCompile Include="CustomException.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
+    <ClCompile Include="AttackTower.cpp">
+      <Filter>Quelldateien\Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="StrongEnemy.cpp">
+      <Filter>Quelldateien\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicTower.h">
