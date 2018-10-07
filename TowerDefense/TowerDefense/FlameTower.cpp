@@ -165,7 +165,9 @@ vector<int> FlameTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 
 			else
 			{
+				enemies.push_back(999);
 				return enemies;
+				break;
 			}
 		}
 	}

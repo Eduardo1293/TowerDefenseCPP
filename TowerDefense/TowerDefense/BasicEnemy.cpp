@@ -8,7 +8,9 @@ BasicEnemy::BasicEnemy(float XCoord, float YCoord, int maxLife, int CurrentLife,
 	e_XCoord = XCoord;
 	e_YCoord = YCoord;
 	e_globalLocation = 999;
+	e_movementSpeed = 3;
 	e_navigationHelper = -1;
+	e_frozenTimer = 0;
 	BasicEnemyTexture.loadFromFile(textureLocation);
 	BasicEnemySprite.setTexture(BasicEnemyTexture);
 	BasicEnemySprite.setOrigin(32, 32);

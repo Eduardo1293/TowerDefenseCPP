@@ -106,7 +106,9 @@ vector<int> LightningTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVect
 
 			else
 			{
+				enemies.push_back(999);
 				return enemies;
+				break;
 			}
 		}
 	}
