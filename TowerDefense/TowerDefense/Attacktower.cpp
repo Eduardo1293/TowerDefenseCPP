@@ -6,7 +6,7 @@ AttackTower::AttackTower(float XCoord, float YCoord, int areaID)
 {
 }
 
-vector<int> CannonTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
+vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 {
 	if (tAttackCooldown == 0)
 	{
