@@ -84,14 +84,14 @@
     <ClCompile Include="GameMap.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
-    <ClCompile Include="CustomException.cpp">
-      <Filter>Quelldateien\Core</Filter>
-    </ClCompile>
     <ClCompile Include="AttackTower.cpp">
       <Filter>Quelldateien\Tower</Filter>
     </ClCompile>
     <ClCompile Include="StrongEnemy.cpp">
       <Filter>Quelldateien\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomException.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +117,9 @@
       <Filter>Headerdateien\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="GameMap.h">
+      <Filter>Headerdateien\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomException.h">
       <Filter>Headerdateien\Core</Filter>
     </ClInclude>
   </ItemGroup>

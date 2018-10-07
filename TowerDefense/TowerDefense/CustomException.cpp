@@ -1,12 +1,17 @@
-#include <iostream>
-#include <exception>
+#include "CustomException.h"
 
-using namespace std;
-
-class myException : public exception 
+CustomException::CustomException(): m_Fehlermeldung("Nicht gefunden!")
 {
-	virtual const char* what() const throw()
+}
+
+CustomException::CustomException(string fehlermedlung)
+{
+	if (!fehlermedlung.empty())
 	{
-		return "Hier den Exceptiontext einfügen";
+		this->setFehlermeldung(fehlermedlung);
 	}
-} myex;
+}
+
+CustomException::~CustomException()
+{
+}

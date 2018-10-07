@@ -49,6 +49,7 @@
   <ItemGroup>
     <ClInclude Include="BasicButton.h" />
     <ClInclude Include="BasicEnemy.h" />
+    <ClInclude Include="CustomException.h" />
     <ClInclude Include="EnemyWaves.h" />
     <ClInclude Include="GameArea.h" />
     <ClInclude Include="BasicTower.h" />

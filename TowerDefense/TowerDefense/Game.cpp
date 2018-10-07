@@ -19,8 +19,10 @@ Hier Sachen reinschrieben, die noch gemacht werden müssen!
 #include "Menu.h"
 #include "BasicButton.h"
 #include "PathFinding.cpp"
+#include "CustomException.h"
 #include <iostream>
 #include <map>
+
 
 Game::Game()
 {
@@ -1113,9 +1115,9 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 			{
 				enemyActiveVector->at(i)->eSetPosition();
 			}
-			catch (const std::exception&)
-			{
-				
+			catch (CustomException e)
+			{				
+				cout << e.getFehlermeldung() << endl;
 			}
 			
 		}
