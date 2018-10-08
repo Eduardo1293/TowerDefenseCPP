@@ -353,7 +353,7 @@ void Game::Run()
 
 
 				//Fülle den Gegnervektor mit den Gegnern der nächsten Wave				
-				*enemyVector = enemyWaves(1);
+				*enemyVector = enemyWaves(runde);
 				enemyClock.restart();
 			}
 
@@ -577,6 +577,7 @@ void Game::Run()
 			if (enemyActiveVector->empty() && enemyVector->empty()) {
 				buildingphase = true;
 				buildingphaseCountdown = 30;
+				//runde++;
 			}
 
 
@@ -762,6 +763,7 @@ void Game::Run()
 							if (enemyY >= 750)
 							{
 								enemyActiveVector->erase((enemyActiveVector->begin() + i));
+								playerLife -= 1;
 							}
 						}
 					}
@@ -808,6 +810,7 @@ void Game::Run()
 				{
 					buildingphase = true;
 					buildingphaseCountdown = 30;
+					//runde++;
 				}
 			}
 
