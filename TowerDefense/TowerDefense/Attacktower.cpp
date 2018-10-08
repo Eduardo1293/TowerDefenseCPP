@@ -1,8 +1,12 @@
 #include "BasicTower.h"
 
+AttackTower::AttackTower()
+{
+}
+
 AttackTower::AttackTower(float XCoord, float YCoord, int areaID)
 	: BasicTower(XCoord, YCoord, areaID, "ArtAssets/Tower/tank_dark.png", "Attacktower",
-		"Einfacher Standard-Turm", 40, 0, 30, 1)
+		"Einfacher Standard-Turm", 10, 0, 10, 1)
 {
 }
 

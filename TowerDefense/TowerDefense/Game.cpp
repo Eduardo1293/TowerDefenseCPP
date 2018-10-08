@@ -18,7 +18,7 @@ Hier Sachen reinschrieben, die noch gemacht werden müssen!
 #include "EnemyWaves.h"
 #include "Menu.h"
 #include "BasicButton.h"
-#include "PathFinding.cpp"
+#include "PathFinding.h"
 #include "CustomException.h"
 #include <iostream>
 #include <map>
@@ -35,7 +35,7 @@ Game::Game()
 
 }
 
-//bool für gegnerphase oder bauphase
+//Bool für Gegnerphase oder Bauphase
 bool buildingphase = true;
 
 Game::~Game()
@@ -45,9 +45,8 @@ Game::~Game()
 void Game::Run()
 {
 
+	//Grundlegende Einstellungen zu Spielbeginn
 	App.setFramerateLimit(24);
-	//float x;
-	//float y;
 
 	float gameTime = 0;
 	int gold = 100;
@@ -59,7 +58,7 @@ void Game::Run()
 	int waveEnemyAddedCounter = 0;
 
 
-
+	//Mechanik für Tower-Auswahl
 	enum SelectetTower
 	{
 		noTower,
@@ -79,26 +78,22 @@ void Game::Run()
 	sf::SoundBuffer soundBuffer;
 	sf::Sound sound;
 
-	if (!soundBuffer.loadFromFile("ArtAssets/Audio/hintergrundmusik.ogg"))
-	{
-		cout << "Error" << endl;
-	}
+	soundBuffer.loadFromFile("ArtAssets/Audio/hintergrundmusik.ogg");
 
 	sound.setBuffer(soundBuffer);
 	sound.setVolume(0);
 
-	//Testturm und Testgegner
-	sf::Sprite testTurmSprite;
-	sf::Sprite testEnemySprite;
+	sound.play();
+
+	//Texturen für halbdurchsichtiger Tower zum Bauen
 	sf::Sprite buildTowerSprite;
 	sf::Texture basicTowerTexture;
-	basicTowerTexture.loadFromFile("ArtAssets/Tower/tank_dark.png");
-	//halbdurchsichtiger tower zum bauen	
+	basicTowerTexture.loadFromFile("ArtAssets/Tower/tank_dark.png");		
 	buildTowerSprite.setColor(sf::Color(255, 255, 255, 140));
 	buildTowerSprite.setOrigin(32, 32);
 
 
-	//lifebar
+	//Lade Lifebar-Texturen
 	sf::Texture hundredLifeTexture;
 	sf::Texture eightyLifeTexture;
 	sf::Texture sixtyLifeTexture;
@@ -109,14 +104,12 @@ void Game::Run()
 	sf::Color color;
 	sf::Font font;
 
-	sf::Color hoverColer = sf::Color(255, 255, 255, 140);
-
 	LoadLifeBarTextures(hundredLifeTexture, eightyLifeTexture,
 		sixtyLifeTexture, fortyLifeTexture,
 		twentyLifeTexture, tenLifeTexture, lifeEnemySprite);
 
-
-
+	//Lade diverse GUI-Texturen und Einstellungen
+	sf::Color hoverColer = sf::Color(255, 255, 255, 140);
 
 	LoadGameFont(font);
 
@@ -165,12 +158,13 @@ void Game::Run()
 		backgroundTexture, backgroundSprite, emptySpaceTexture, blockedSpaceTexture,
 		emptySpaceSprite, blockedSpaceSprite);
 
-	//explosion
+	
+	//Explosionen und Attacken-Effekte	
 	sf::Texture explosionTexture;
 	sf::Sprite explosionSprite;
 	LoadExplosionTextures(explosionTexture, explosionSprite);
 
-
+	//Text-Einstellungen
 	sf::Text playerText;
 	playerText.setFont(font);
 	playerText.setFillColor(color.White);
@@ -178,41 +172,33 @@ void Game::Run()
 	playerText.setPosition(120, 600);
 	sf::String playerInput;
 
-	testEnemySprite.setOrigin(32, 32);
 
-
+	//Initialisierung von Spielfeld, Pathfinding und Towermechaniken
 	GameMap *GameMapRef = new GameMap;
 	GameMapRef->setGameMap();
 	vector<GameArea*> GameAreaVector = GameMapRef->getGameMap();
-
 	vector<int> path, pathXCoord, pathYCoord, pathDirection;
-
 	PathFinding pathFindingRef;
 
 	vector<BasicTower*> *TowerVector = new vector<BasicTower*>();
 
-	sf::Clock timerClock;
-
-	//phasen-clock
+	
+	//Verschiedene Uhren für die Spielmechaniken	
 	sf::Clock buildingphaseClock;
 	int buildingphaseCountdown = 10;
 	int buildphaseElapsedTimeBuffer = 0;
 
-	//attackclock, brauchen wir für tower attacken;
 	sf::Clock enemyClock;
 	int enemyClockElapsedTimeBuffer = 0;
 
-	//attackclock, brauchen wir für tower attacken;
 	sf::Clock attackClock;
 	int attackClockElapsedTimeBuffer = 0;
 
-	//enemymovementtick
 	sf::Clock enemyMovementClock;
 	int movementElapsedBuffer = 0;
 
-	//Hintergrundmusik wird ausgeführt
-	sound.play();
-	// run the program as long as the window is open
+
+	//Game-Loop, läuft solange das Fenster geöffnet bleibt	
 	while (App.isOpen())
 	{
 		App.clear(sf::Color::Black);
@@ -243,20 +229,13 @@ void Game::Run()
 
 		// draw everything here...
 		// window.draw(...);
-		//Background
-
-		//male alles was immer dargestellt wird immer, unterer layer:
-
-
-
-		//Gegnerphase / Bauphase unterscheidung hier!
-		//manches muss immer dargestellt werden, anderes nur in der entsprechenden phase
+		
+		//Mechaniken für das Auslesen der Maus
 		sf::Vector2i localPosition = sf::Mouse::getPosition(App);
 		sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
 
-		/*
-		Button für Sound On/Off
-		*/
+		
+		//Button für Sound On/Off		
 		if (soundOnButton.getSprite().getGlobalBounds().contains(mousePosF))
 		{
 			soundOnButton.setColor(hoverColer);
@@ -324,14 +303,17 @@ void Game::Run()
 				{
 					path = pathFindingRef.aStar(GameAreaVector);
 				}
+				/*catch (System::NullReferenceException ex)
+				{ 
+					TowerVector->pop_back();
+				}*/
 				catch (CustomException se)
 				{
 					cout << se.getFehlermeldung() << endl;
 				}
 
-				/*
-				Hilfsvektoren für die Gegnernavigation
-				*/
+				
+				//Hilfsvektoren für die Gegnernavigation				
 				pathXCoord.clear(), pathYCoord.clear(), pathDirection.clear();
 
 				for (int i = 0; i < path.size(); i++)
@@ -345,10 +327,9 @@ void Game::Run()
 					}
 				}
 
-				/*
-				Hilfsvektoren für die Gegnernavigation, beinhaltet Richtungsinformationen:
-				1=rechts, 2=unten, 3=links, 4=oben
-				*/
+				
+				//Hilfsvektoren für die Gegnernavigation, beinhaltet Richtungsinformationen:
+				//1=rechts, 2=unten, 3=links, 4=oben				
 				for (int i = 0; i < (path.size() - 1); i++)
 				{
 					if (pathXCoord.at(i) < pathXCoord.at(i + 1))
@@ -370,16 +351,14 @@ void Game::Run()
 				}
 				pathDirection.push_back(2);
 
-				/*
-				Fülle den Gegnervektor mit den Gegnern der nächsten Wave
-				*/
+				
+				//Fülle den Gegnervektor mit den Gegnern der nächsten Wave				
 				*enemyVector = enemyWaves(1);
 				enemyClock.restart();
 			}
 
-			/*
-			Markiert freie und belegte Felder mit grün bzw. rot.
-			*/
+			
+			//Markiert freie und belegte Felder mit grün bzw. rot.			
 			for (int i = 0; i < GameAreaVector.size(); i++) {
 				if (GameAreaVector.at(i)->getEmpty()) {
 					emptySpaceSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
@@ -390,18 +369,16 @@ void Game::Run()
 					App.draw(blockedSpaceSprite);
 				}
 
-				/*
-				Funktion um Mausbewegungen auszulesen und eine "Tower-Vorschau" anzuzeigen.
-				*/
+				
+				//Funktion um Mausbewegungen auszulesen und eine "Tower-Vorschau" anzuzeigen.				
 				if (localPosition.x <= (GameAreaVector.at(i)->getAreaXCoord() + 32) && (localPosition.x >= (GameAreaVector.at(i)->getAreaXCoord() - 31))
 					&& (localPosition.y <= (GameAreaVector.at(i)->getAreaYCoord() + 32)) && (localPosition.y >= (GameAreaVector.at(i)->getAreaYCoord() - 31))) {
 					buildTowerSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
 					App.draw(buildTowerSprite);
 				}
 
-				/*
-				Baut beim Mausklick den ausgewählten Tower an der markierten Stelle.
-				*/
+				
+				//Baut beim Mausklick den ausgewählten Tower an der markierten Stelle.				
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
 					if (localPosition.x <= (GameAreaVector.at(i)->getAreaXCoord() + 32) && (localPosition.x >= (GameAreaVector.at(i)->getAreaXCoord() - 31))
@@ -410,7 +387,7 @@ void Game::Run()
 						switch (selectetTower)
 						{
 						case basicTower:
-							BasicTowerRef = new BasicTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord(), GameAreaVector.at(i)->getID());
+							BasicTowerRef = new AttackTower((GameAreaVector.at(i)->getAreaXCoord()), GameAreaVector.at(i)->getAreaYCoord(), GameAreaVector.at(i)->getID());
 							if (GameAreaVector.at(i)->getEmpty())
 							{
 								if (gold >= BasicTowerRef->getCost())
@@ -469,7 +446,7 @@ void Game::Run()
 
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
-					BasicTower test = BasicTower();
+					AttackTower test = AttackTower();
 					descriptionText.setString(test.getDescription());
 					selectetTower = basicTower;
 					buildTowerSprite.setTexture(basicTowerButton.getButtonTexture());
@@ -562,10 +539,8 @@ void Game::Run()
 				}
 			}
 
-			/*
-			Beendet die Bauphase sobald der Spieler kein Gold mehr hat.
-			*/
-
+			
+			//Beendet die Bauphase sobald der Spieler kein Gold mehr hat.			
 			if (gold == 0)
 			{
 				buildingphaseCountdown = 0;
@@ -580,36 +555,26 @@ void Game::Run()
 		}
 
 		//Gegnerphase
-		else {
-
-
-
+		else 
+		{
 			descriptionText.setString("");
-			//enemyphasenkram
-			//berechne weg mit a* hier
-
-
-			//towermenu durch gegnerwave-anzeige ersetzen fragezeichen?
-			//spawne enemies hier	
-
-			//*bumpaffpow ratatatapeng*
-
-			//alle gegner tot oder am ziel:
-
-			//schickt die gegner aus wave1 auf die reise
-			//hier ist noch was madig
+			
+			//Enemyclock, schickt jede Sekunde einen Gegner auf die Reise
 			sf::Time enemyTime = enemyClock.getElapsedTime();
-			if (!enemyVector->empty() && enemyTime.asSeconds() > 1) {
+			if (!enemyVector->empty() && enemyTime.asSeconds() > 1) 
+			{
 				enemyActiveVector->push_back(enemyVector->at(0));
 				enemyVector->erase(enemyVector->begin() + 0);
 				enemyClock.restart();
 			}
 
+			//Toweranimation
 			sf::Time attackCDTime = attackClock.getElapsedTime();
-			if ((attackCDTime.asMilliseconds() + attackClockElapsedTimeBuffer) >= 100) {
+			if ((attackCDTime.asMilliseconds() + attackClockElapsedTimeBuffer) >= 100) 
+			{
 				(attackClockElapsedTimeBuffer = attackCDTime.asMilliseconds() - 100);
 				attackClock.restart();
-				//Tower malen
+				//Tower zeichnen
 				TowerAnimation(TowerVector, enemyActiveVector, explosionSprite);
 			}
 
@@ -621,16 +586,14 @@ void Game::Run()
 				buildingphaseCountdown = 30;
 			}
 
-			/*
-			Movementclock
-			*/
+			
+			//Movementclock			
 			enemyMovementClock.getElapsedTime();
 			sf::Time enemyMovementElapsed = enemyMovementClock.getElapsedTime();
 			int movementElapsed = enemyMovementElapsed.asMilliseconds();
 
-			/*
-			Gegnermovement
-			*/
+			
+			//Gegnermovement			
 			if (!enemyActiveVector->empty())
 			{
 				for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
@@ -647,9 +610,8 @@ void Game::Run()
 							sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
 							tenLifeTexture, punktZahlText);
 
-						/*
-						Navigation vom Start auf das erste Spielfeld
-						*/
+						
+						//Navigation vom Start auf das erste Spielfeld						
 						if (iNavigationhelper == -1)
 						{
 							lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
@@ -673,9 +635,8 @@ void Game::Run()
 							}
 						}
 
-						/*
-						Navigation von Feld 0 auf Feld 62, dem Pathfinding folgend
-						*/
+						
+						//Navigation von Feld 0 auf Feld 62, dem Pathfinding folgend						
 						if (iNavigationhelper >= 0 && iNavigationhelper < (path.size() - 1))
 						{
 							int iSwitch = pathDirection.at(iNavigationhelper);
@@ -788,9 +749,8 @@ void Game::Run()
 							}
 						}
 
-						/*
-						Navigation vom letzten Spielfeld zum Ausgang
-						*/
+						
+						//Navigation vom letzten Spielfeld zum Ausgang						
 						if (iNavigationhelper == (path.size() - 1))
 						{
 							lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
@@ -805,9 +765,8 @@ void Game::Run()
 							}
 						}
 
-						/*
-						Zeichne die Gegner und ihre Lifebar an den aktuellen Positionen
-						*/
+						
+						//Zeichne die Gegner und ihre Lifebar an den aktuellen Positionen						
 						if (!enemyActiveVector->empty())
 						{
 							enemyActiveVector->at(i)->eSetPosition();
@@ -822,10 +781,9 @@ void Game::Run()
 				}
 			}
 
+
 			
-			/*
-			Starte die Buildingsphase falls alle Gegner zerstört oder im Ziel sind
-			*/
+			//Starte die Buildingsphase falls alle Gegner zerstört oder im Ziel sind			
 			if (enemyActiveVector->empty() && enemyVector->empty())
 			{
 				TimerText.setFillColor(color.Black);
@@ -836,9 +794,8 @@ void Game::Run()
 				}
 			}
 
-			/*
-			Beende das Spiel falls der Spieler keine Lebenspunkte mehr hat
-			*/
+			
+			//Beende das Spiel falls der Spieler keine Lebenspunkte mehr hat			
 			if (playerLife <= 0)
 			{
 				ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite, playerInput, playerText);
@@ -846,15 +803,13 @@ void Game::Run()
 
 		}
 
-		/*
-		Zeichne alles, was immer dargestellt werden soll, oberer Layer.
-		*/
+		
+		//Zeichne alles, was immer dargestellt werden soll, oberer Layer.	
 		DrawTower(TowerVector);
 
 
-		/*
-		Beendet und zeichnet den aktuellen Frame
-		*/
+		
+		//Beendet und zeichnet den aktuellen Frame		
 		App.display();
 	}
 }
@@ -916,31 +871,31 @@ void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector,
 						int towerType = BasicTowerVector->at(i)->getType();
 						switch (towerType)
 						{
-						//Attacktower
+							//Attacktower
 						case 1:
 							explosionSprite.setPosition(enemyActiveVector->at(k)->eGetXCoord(), enemyActiveVector->at(k)->eGetYCoord());
 							App.draw(explosionSprite);
 							break;
 
-						//Cannontower
+							//Cannontower
 						case 2:
 							explosionSprite.setPosition(enemyActiveVector->at(k)->eGetXCoord(), enemyActiveVector->at(k)->eGetYCoord());
 							App.draw(explosionSprite);
 							break;
-						
-						//Frosttower
+
+							//Frosttower
 						case 3:
 
 							//hier noch slow einbauen?!
 							break;
 
-						//Flametower
+							//Flametower
 						case 4:
 
 
 							break;
 
-						//Lightningtower
+							//Lightningtower
 						case 5:
 
 

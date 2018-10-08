@@ -48,12 +48,12 @@ BasicTower::BasicTower()
 Attacken-Cooldown auf 0:
 Sucht auf den benachbarten Feldern nach Gegnern. Priorisiert Gegner, die sich rechts unterhalb und damit
 wahrscheinlich näher am Ziel befinden. Gibt die Position dieser Gegner im Gegner-Array als int-Vector 
-zurück. Setzt dann den Attacken-Cooldown
+zurück. Setzt dann den Attacken-Cooldown auf 10.
 
 Attacken-Cooldown nicht auf 0:
 Zählt den Cooldown um 1 runter.
 */
-vector<int> BasicTower::checkForEnemies(vector<BasicEnemy*> *enemyActiveVector) 
+/*vector<int> BasicTower::checkForEnemies(vector<BasicEnemy*> *enemyActiveVector) = 0;
 {
 	if (tAttackCooldown == 0) 
 	{
@@ -156,6 +156,6 @@ vector<int> BasicTower::checkForEnemies(vector<BasicEnemy*> *enemyActiveVector)
 	}
 	
 }
-
+*/
 
 

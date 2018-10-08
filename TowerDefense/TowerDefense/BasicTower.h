@@ -54,7 +54,7 @@ public:
 	inline bool getFrostTower() const { return tFrosttower; }
 	
 	//Funktionen
-	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
+	virtual vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector) = 0;
 	
 
 };
@@ -67,6 +67,8 @@ class AttackTower : public BasicTower
 {
 
 public:
+
+	AttackTower();
 	AttackTower(float XCoord, float YCoord, int areaID);
 
 	//Funktionen
