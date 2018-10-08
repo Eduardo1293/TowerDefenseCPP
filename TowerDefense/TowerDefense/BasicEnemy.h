@@ -13,20 +13,20 @@ private:
 	sf::Sprite BasicEnemySprite;
 	sf::Texture lifeBarTexture;
 	sf::Sprite lifeBarSprite;
-	double e_MaxLife;
-	double e_CurrentLife;
-	float e_XCoord;
-	float e_YCoord;
-	int e_globalLocation;
-	int e_navigationHelper;
-	int e_movementSpeed;
-	bool e_frozen;
-	int e_frozenTimer;
+	double eMaxLife;
+	double eCurrentLife;
+	float eXCoord;
+	float eYCoord;
+	int eGlobalLocation;
+	int eNavigationHelper;
+	int eMovementSpeed;
+	bool eBoolFrozen;
+	int eFrozenTimer;
 
 
 public:
-	BasicEnemy(float XCoord, float YCoord);
-	BasicEnemy(float XCoord, float YCoord, int maxLife, int CurrentLife, string textureLocation);
+	BasicEnemy();
+	BasicEnemy(int maxLife, int movSpeed, string textureLocation);
 
 	//Setter
 	void eSetRotation(float rotation);
@@ -50,64 +50,62 @@ public:
 
 	void takeDamage(int damage);
 
-	BasicEnemy();
-
 	~BasicEnemy();
 };
 
 class FastEnemy : public BasicEnemy 
 {
 public:
-	FastEnemy(float XCoord, float YCoord, string textureLocation);
+	FastEnemy();
 };
 
 
 class WeakestEnemy : public BasicEnemy 
 {
 public:
-	WeakestEnemy(float XCoord, float YCoord, string textureLocation);
+	WeakestEnemy();
 };
 
 
 class WeakerEnemy : public BasicEnemy
 {
 public:
-	WeakerEnemy(float XCoord, float YCoord, string textureLocation);
+	WeakerEnemy();
 };
 
 
 class WeakEnemy : public BasicEnemy
 {
 public:
-	WeakEnemy(float XCoord, float YCoord, string textureLocation);
+	WeakEnemy();
 };
 
 
 class StrongEnemy : public BasicEnemy 
 {
 public:
-	StrongEnemy(float XCoord, float YCoord, string textureLocation);
+	StrongEnemy();
 };
 
 
 class StrongerEnemy : public BasicEnemy
 {
 public:
-	StrongerEnemy(float XCoord, float YCoord, string textureLocation);
+	StrongerEnemy();
 };
 
 
 class StrongestEnemy : public BasicEnemy
 {
 public:
-	StrongestEnemy(float XCoord, float YCoord, string textureLocation);
+	StrongestEnemy();
 };
 
 
 class BossEnemy : public BasicEnemy
 {
 public:
-	BossEnemy(float XCoord, float YCoord, string textureLocation);
+	BossEnemy();
 };
 
 #endif

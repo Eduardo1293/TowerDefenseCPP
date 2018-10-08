@@ -17,7 +17,7 @@ BasicTower::BasicTower(float XCoord, float YCoord, int areaID) {
 	tBasicTurmSprite.setPosition(tXCoord, tYCoord);
 }
 
-BasicTower::BasicTower(float xCoord, float yCoord, int areaID, string textureLocation, string name, string description, int cost, int attackCooldown, int damage)
+BasicTower::BasicTower(float xCoord, float yCoord, int areaID, string textureLocation, string name, string description, int cost, int attackCooldown, int damage, int type)
 {
 	tName = textureLocation;
 	tDescription = description;
@@ -27,10 +27,12 @@ BasicTower::BasicTower(float xCoord, float yCoord, int areaID, string textureLoc
 	tGlobalLocation = areaID;
 	tAttackCooldown = attackCooldown;
 	tDamage = damage;
+	tTowerType = type;
 	tBasicTurmTexture.loadFromFile(textureLocation);
 	tBasicTurmSprite.setTexture(tBasicTurmTexture);
 	tBasicTurmSprite.setOrigin(32, 32);
 	tBasicTurmSprite.setPosition(tXCoord, tYCoord);
+
 }
 
 BasicTower::~BasicTower()
@@ -44,9 +46,10 @@ BasicTower::BasicTower()
 
 /*
 Attacken-Cooldown auf 0:
-Sucht auf den benachbarten Feldern nach Gegner. Priorisiert Gegner, die sich rechts unterhalb und damit
+Sucht auf den benachbarten Feldern nach Gegnern. Priorisiert Gegner, die sich rechts unterhalb und damit
 wahrscheinlich näher am Ziel befinden. Gibt die Position dieser Gegner im Gegner-Array als int-Vector 
 zurück. Setzt dann den Attacken-Cooldown
+
 Attacken-Cooldown nicht auf 0:
 Zählt den Cooldown um 1 runter.
 */

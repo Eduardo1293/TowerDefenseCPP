@@ -1,6 +1,6 @@
 #include "BasicEnemy.h"
 
-FastEnemy::FastEnemy() :
+StrongestEnemy::StrongestEnemy() :
 	BasicEnemy(200, 4, "texturelocation")
-{	
+{
 }

@@ -1,6 +1,6 @@
 #include "BasicEnemy.h"
 
-StrongEnemy::StrongEnemy(float XCoord, float YCoord, string textureLocation) :
-	BasicEnemy(XCoord, YCoord, 200, 200, textureLocation)
+StrongEnemy::StrongEnemy() :
+	BasicEnemy(300, 3, "xxx")
 {
 }

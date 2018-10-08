@@ -2,7 +2,7 @@
 
 CannonTower::CannonTower(float XCoord, float YCoord, int areaID)
 	: BasicTower(XCoord, YCoord, areaID, "ArtAssets/Tower/tank_green.png", "Cannontower",
-		"Kanonenturm mit größerer Reichweite", 40, 0, 30)
+		"Kanonenturm mit größerer Reichweite", 40, 0, 30, 2)
 {
 }
 

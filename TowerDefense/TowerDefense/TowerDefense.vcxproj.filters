@@ -34,6 +34,9 @@
     <Filter Include="Headerdateien\Gui">
       <UniqueIdentifier>{9e28731b-9a34-4af6-be1a-4ebbb9e79f66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\GUI">
+      <UniqueIdentifier>{353a1cdd-48cb-4385-ab85-2c742ce2d881}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicTower.cpp">
@@ -72,9 +75,6 @@
     <ClCompile Include="TowerDefense.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
-    <ClCompile Include="BasicButton.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="BasicEnemy.cpp">
       <Filter>Quelldateien\Enemies</Filter>
     </ClCompile>
@@ -90,8 +90,29 @@
     <ClCompile Include="StrongEnemy.cpp">
       <Filter>Quelldateien\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="WeakestEnemy.cpp">
+      <Filter>Quelldateien\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="WeakerEnemy.cpp">
+      <Filter>Quelldateien\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="WeakEnemy.cpp">
+      <Filter>Quelldateien\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="StrongerEnemy.cpp">
+      <Filter>Quelldateien\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="StrongestEnemy.cpp">
+      <Filter>Quelldateien\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemy.cpp">
+      <Filter>Quelldateien\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicButton.cpp">
+      <Filter>Quelldateien\GUI</Filter>
+    </ClCompile>
     <ClCompile Include="CustomException.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

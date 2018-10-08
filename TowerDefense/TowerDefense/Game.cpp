@@ -113,7 +113,7 @@ void Game::Run()
 
 	LoadLifeBarTextures(hundredLifeTexture, eightyLifeTexture,
 		sixtyLifeTexture, fortyLifeTexture,
-		twentyLifeTexture, tenLifeTexture,lifeEnemySprite);
+		twentyLifeTexture, tenLifeTexture, lifeEnemySprite);
 
 
 
@@ -220,7 +220,7 @@ void Game::Run()
 		SetInfoText(goldText, gold, rundenText, runde, TimerText, timerText, lebenText, playerLife);
 		DrawGameTextures(hudSprite, statusSprite, rundenText,
 			goldText, lebenText, basicTowerButton.getSprite(), cannonTowerButton.getSprite(),
-			frostTowerButton.getSprite(), fireTowerButton.getSprite(), lightningTowerButton.getSprite(),soundOnButton.getSprite(),soundOffButton.getSprite(),
+			frostTowerButton.getSprite(), fireTowerButton.getSprite(), lightningTowerButton.getSprite(), soundOnButton.getSprite(), soundOffButton.getSprite(),
 			TimerText, punktZahlText, descriptionText, punktText);
 
 		// check all the window's events that were triggered since the last iteration of the loop
@@ -286,7 +286,7 @@ void Game::Run()
 
 		if (buildingphase) {
 			SelectetTower selectetTower;
-			
+
 			/*
 			Buildingphasen-Countdown
 			*/
@@ -303,7 +303,7 @@ void Game::Run()
 				TimerText.setFillColor(color.Red);
 
 			}
-			
+
 			BasicTower * BasicTowerRef;
 			CannonTower * CannonTowerRef;
 			FlameTower * FlameTowerRef;
@@ -319,16 +319,16 @@ void Game::Run()
 				TimerText.setFillColor(hoverColer);
 				buildphaseElapsedTimeBuffer = 0;
 
-				
-				try 
+
+				try
 				{
 					path = pathFindingRef.aStar(GameAreaVector);
 				}
-				catch (CustomException se) 
+				catch (CustomException se)
 				{
 					cout << se.getFehlermeldung() << endl;
 				}
-				
+
 				/*
 				Hilfsvektoren für die Gegnernavigation
 				*/
@@ -348,7 +348,7 @@ void Game::Run()
 				/*
 				Hilfsvektoren für die Gegnernavigation, beinhaltet Richtungsinformationen:
 				1=rechts, 2=unten, 3=links, 4=oben
-				*/				
+				*/
 				for (int i = 0; i < (path.size() - 1); i++)
 				{
 					if (pathXCoord.at(i) < pathXCoord.at(i + 1))
@@ -372,14 +372,14 @@ void Game::Run()
 
 				/*
 				Fülle den Gegnervektor mit den Gegnern der nächsten Wave
-				*/				
+				*/
 				*enemyVector = enemyWaves(1);
 				enemyClock.restart();
 			}
 
 			/*
 			Markiert freie und belegte Felder mit grün bzw. rot.
-			*/						
+			*/
 			for (int i = 0; i < GameAreaVector.size(); i++) {
 				if (GameAreaVector.at(i)->getEmpty()) {
 					emptySpaceSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
@@ -391,7 +391,7 @@ void Game::Run()
 				}
 
 				/*
-				Funktion um Mausbewegungen auszulesen und eine "Tower-Vorschau" anzuzeigen. 
+				Funktion um Mausbewegungen auszulesen und eine "Tower-Vorschau" anzuzeigen.
 				*/
 				if (localPosition.x <= (GameAreaVector.at(i)->getAreaXCoord() + 32) && (localPosition.x >= (GameAreaVector.at(i)->getAreaXCoord() - 31))
 					&& (localPosition.y <= (GameAreaVector.at(i)->getAreaYCoord() + 32)) && (localPosition.y >= (GameAreaVector.at(i)->getAreaYCoord() - 31))) {
@@ -461,7 +461,7 @@ void Game::Run()
 				}
 			}
 
-			
+
 
 			if (basicTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
 			{
@@ -576,18 +576,18 @@ void Game::Run()
 				*enemyVector = enemyWaves(runde);
 				runde++;
 			}
-			
+
 		}
 
 		//Gegnerphase
 		else {
 
-			
+
 
 			descriptionText.setString("");
 			//enemyphasenkram
 			//berechne weg mit a* hier
-			
+
 
 			//towermenu durch gegnerwave-anzeige ersetzen fragezeichen?
 			//spawne enemies hier	
@@ -621,7 +621,9 @@ void Game::Run()
 				buildingphaseCountdown = 30;
 			}
 
-			//testgegner bewegungskram
+			/*
+			Movementclock
+			*/
 			enemyMovementClock.getElapsedTime();
 			sf::Time enemyMovementElapsed = enemyMovementClock.getElapsedTime();
 			int movementElapsed = enemyMovementElapsed.asMilliseconds();
@@ -629,7 +631,6 @@ void Game::Run()
 			/*
 			Gegnermovement
 			*/
-				
 			if (!enemyActiveVector->empty())
 			{
 				for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
@@ -646,7 +647,9 @@ void Game::Run()
 							sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
 							tenLifeTexture, punktZahlText);
 
-						//Navigation vom Start aufs erste Feld
+						/*
+						Navigation vom Start auf das erste Spielfeld
+						*/
 						if (iNavigationhelper == -1)
 						{
 							lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
@@ -670,7 +673,9 @@ void Game::Run()
 							}
 						}
 
-						//Navigation über die Felder
+						/*
+						Navigation von Feld 0 auf Feld 62, dem Pathfinding folgend
+						*/
 						if (iNavigationhelper >= 0 && iNavigationhelper < (path.size() - 1))
 						{
 							int iSwitch = pathDirection.at(iNavigationhelper);
@@ -783,7 +788,9 @@ void Game::Run()
 							}
 						}
 
-						//Navigation vom letzten Feld zum Ausgang
+						/*
+						Navigation vom letzten Spielfeld zum Ausgang
+						*/
 						if (iNavigationhelper == (path.size() - 1))
 						{
 							lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
@@ -798,6 +805,9 @@ void Game::Run()
 							}
 						}
 
+						/*
+						Zeichne die Gegner und ihre Lifebar an den aktuellen Positionen
+						*/
 						if (!enemyActiveVector->empty())
 						{
 							enemyActiveVector->at(i)->eSetPosition();
@@ -812,28 +822,9 @@ void Game::Run()
 				}
 			}
 
-
-
-			/*if (!enemyActiveVector->empty())
-			{
-				for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
-				{
-					UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, x,
-						y, lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
-						sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
-						tenLifeTexture, punktZahlText);
-
-					UpdateEnemyMovement(movementElapsed, movementElapsedBuffer,
-						enemyMovementClock, enemyActiveVector, i, y, x, lifeEnemySprite, playerLife, lebenText,
-						GameAreaVector, path);
-
-					if (!enemyActiveVector->empty())
-					{
-						App.draw(enemyActiveVector->at(i)->getSprite());
-						App.draw(lifeEnemySprite);
-					}
-				}
-			}
+			
+			/*
+			Starte die Buildingsphase falls alle Gegner zerstört oder im Ziel sind
 			*/
 			if (enemyActiveVector->empty() && enemyVector->empty())
 			{
@@ -845,6 +836,9 @@ void Game::Run()
 				}
 			}
 
+			/*
+			Beende das Spiel falls der Spieler keine Lebenspunkte mehr hat
+			*/
 			if (playerLife <= 0)
 			{
 				ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite, playerInput, playerText);
@@ -852,12 +846,15 @@ void Game::Run()
 
 		}
 
-		//male alles was immer dargestellt wird immer, oberer layer:
-
+		/*
+		Zeichne alles, was immer dargestellt werden soll, oberer Layer.
+		*/
 		DrawTower(TowerVector);
 
 
-		// end the current frame
+		/*
+		Beendet und zeichnet den aktuellen Frame
+		*/
 		App.display();
 	}
 }
@@ -902,22 +899,56 @@ void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector,
 	if (!enemyActiveVector->empty())
 	{
 		for (int i = 0; i < BasicTowerVector->size(); i++)
-		{			
+		{
 			//targets.clear();
 			targets = BasicTowerVector->at(i)->checkForEnemies(enemyActiveVector);
-			if (!targets.empty()) 
+			if (!targets.empty())
 			{
 				for (int j = 0; j < targets.size(); j++)
 				{
 					int k = targets.at(j);
-					if(k != 999)
-					{ 
-					enemyActiveVector->at(k)->takeDamage(BasicTowerVector->at(i)->getDamage());
-					explosionSprite.setPosition(enemyActiveVector->at(k)->eGetXCoord(), enemyActiveVector->at(k)->eGetYCoord());
-					App.draw(explosionSprite);
+					if (k != 999)
+					{
+						//Schaden zufügen
+						enemyActiveVector->at(k)->takeDamage(BasicTowerVector->at(i)->getDamage());
+
+						//Angriffs-"SFX"
+						int towerType = BasicTowerVector->at(i)->getType();
+						switch (towerType)
+						{
+						//Attacktower
+						case 1:
+							explosionSprite.setPosition(enemyActiveVector->at(k)->eGetXCoord(), enemyActiveVector->at(k)->eGetYCoord());
+							App.draw(explosionSprite);
+							break;
+
+						//Cannontower
+						case 2:
+							explosionSprite.setPosition(enemyActiveVector->at(k)->eGetXCoord(), enemyActiveVector->at(k)->eGetYCoord());
+							App.draw(explosionSprite);
+							break;
+						
+						//Frosttower
+						case 3:
+
+							//hier noch slow einbauen?!
+							break;
+
+						//Flametower
+						case 4:
+
+
+							break;
+
+						//Lightningtower
+						case 5:
+
+
+							break;
+						}
 					}
-				}				
-			}			
+				}
+			}
 		}
 	}
 
@@ -1028,7 +1059,7 @@ void Game::LoadLifeBarTextures(sf::Texture &hundredLifeTexture,
 	sf::Texture &fortyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Sprite &lifeEnemySprite)
 {
 	hundredLifeTexture.loadFromFile("ArtAssets/Lifebar/100percent.png");
-	
+
 	eightyLifeTexture.loadFromFile("ArtAssets/Lifebar/80percent.png");
 	sixtyLifeTexture.loadFromFile("ArtAssets/Lifebar/60percent.png");
 	fortyLifeTexture.loadFromFile("ArtAssets/Lifebar/40percent.png");
@@ -1118,12 +1149,12 @@ void Game::UpdateEnemyMovement(int movementElapsed, int movementElapsedBuffer,
 				enemyActiveVector->at(i)->eSetPosition();
 			}
 			catch (CustomException e)
-			{				
+			{
 				cout << e.getFehlermeldung() << endl;
 			}
-			
+
 		}
-	}					
+	}
 }
 
 void Game::UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector,

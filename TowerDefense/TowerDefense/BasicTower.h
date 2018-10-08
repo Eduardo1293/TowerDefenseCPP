@@ -21,6 +21,7 @@ private:
 	string tDescription;
 	int tCost;
 	bool tFrosttower;
+	int tTowerType;
 
 protected:
 	int tAttackCooldown;
@@ -36,7 +37,7 @@ public:
 	BasicTower();
 	BasicTower(float XCoord, float YCoord, int areaID);
 	BasicTower(float XCoord, float YCoord, int areaID, string t_TextureLocation, string t_Name,
-		string t_Description, int t_Cost, int attackCooldown, int damage);
+		string t_Description, int t_Cost, int attackCooldown, int damage, int type);
 
 	//Destruktor
 	~BasicTower();
@@ -47,6 +48,7 @@ public:
 	inline float getYCoord() const { return tYCoord; }
 	inline int getAttackCooldown() const { return tAttackCooldown; }
 	inline int getDamage() const { return tDamage; }
+	inline int getType() const { return tTowerType; }
 	inline string getDescription() const { return tDescription; }
 	inline sf::Sprite getSprite() const { return tBasicTurmSprite; }
 	inline bool getFrostTower() const { return tFrosttower; }

@@ -2,7 +2,7 @@
 
 FrostTower::FrostTower(float XCoord, float YCoord, int areaID)
 	: BasicTower(XCoord, YCoord, areaID, "ArtAssets/Tower/tank_red.png", "Flametower",
-		"Flamenturm mit Area-Schaden", 30, 0, 10)
+		"Flamenturm mit Area-Schaden", 30, 0, 10, 3)
 {
 }
 

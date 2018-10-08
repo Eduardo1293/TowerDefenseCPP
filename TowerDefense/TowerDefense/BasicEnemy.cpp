@@ -2,15 +2,15 @@
 
 
 
-BasicEnemy::BasicEnemy(float XCoord, float YCoord, int maxLife, int CurrentLife, string textureLocation) {
-	e_MaxLife = maxLife;
-	e_CurrentLife = CurrentLife;
-	e_XCoord = XCoord;
-	e_YCoord = YCoord;
-	e_globalLocation = 999;
-	e_movementSpeed = 3;
-	e_navigationHelper = -1;
-	e_frozenTimer = 0;
+BasicEnemy::BasicEnemy(int maxLife, int movSpeed, string textureLocation) {
+	eMaxLife = maxLife;
+	eCurrentLife = maxLife;
+	eXCoord = 63;
+	eYCoord = 96;
+	eGlobalLocation = 999;
+	eMovementSpeed = movSpeed;
+	eNavigationHelper = -1;
+	eFrozenTimer = 0;
 	BasicEnemyTexture.loadFromFile(textureLocation);
 	BasicEnemySprite.setTexture(BasicEnemyTexture);
 	BasicEnemySprite.setOrigin(32, 32);
@@ -26,61 +26,61 @@ void BasicEnemy::eSetRotation(float rotation) {
 }
 
 void BasicEnemy::eSetPosition() {
-	BasicEnemySprite.setPosition(e_XCoord, e_YCoord);
+	BasicEnemySprite.setPosition(eXCoord, eYCoord);
 }
 
 void BasicEnemy::eSetXCoord(float XCoord) {
-	e_XCoord = XCoord;
+	eXCoord = XCoord;
 }
 
 void BasicEnemy::eSetYCoord(float YCoord) {
-	e_YCoord = YCoord;
+	eYCoord = YCoord;
 }
 
 void BasicEnemy::eSetGlobalLocation(int location)
 {
-	e_globalLocation = location;
+	eGlobalLocation = location;
 }
 
 void BasicEnemy::eSetNavigationHelper(int navi)
 {
-	e_navigationHelper = navi;
+	eNavigationHelper = navi;
 }
 
 //Getter
 double BasicEnemy::eGetMaxLife()
 {
-	return e_MaxLife;
+	return eMaxLife;
 }
 
 double BasicEnemy::eGetCurrentLife()
 {
-	return e_CurrentLife;
+	return eCurrentLife;
 }
 
 float BasicEnemy::eGetXCoord()
 {
-	return e_XCoord;
+	return eXCoord;
 }
 
 float BasicEnemy::eGetYCoord()
 {
-	return e_YCoord;
+	return eYCoord;
 }
 
 int BasicEnemy::eGetGlobalLocation()
 {
-	return e_globalLocation;
+	return eGlobalLocation;
 }
 
 int BasicEnemy::eGetNavigationHelper()
 {
-	return e_navigationHelper;
+	return eNavigationHelper;
 }
 
 int BasicEnemy::eGetMovementSpeed()
 {
-	return e_movementSpeed;
+	return eMovementSpeed;
 }
 
 sf::Sprite BasicEnemy::eGetSprite()
@@ -89,7 +89,7 @@ sf::Sprite BasicEnemy::eGetSprite()
 }
 
 void BasicEnemy::takeDamage(int damage) {
-	e_CurrentLife = (e_CurrentLife - damage);
+	eCurrentLife = (eCurrentLife - damage);
 }
 
 BasicEnemy::BasicEnemy()
