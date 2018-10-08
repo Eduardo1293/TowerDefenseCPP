@@ -49,6 +49,7 @@ public:
 	inline int getAttackCooldown() const { return tAttackCooldown; }
 	inline int getDamage() const { return tDamage; }
 	inline int getType() const { return tTowerType; }
+	inline int getLocation() const { return tGlobalLocation;; }
 	inline string getDescription() const { return tDescription; }
 	inline sf::Sprite getSprite() const { return tBasicTurmSprite; }
 	inline bool getFrostTower() const { return tFrosttower; }

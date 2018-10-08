@@ -303,13 +303,14 @@ void Game::Run()
 				{
 					path = pathFindingRef.aStar(GameAreaVector);
 				}
-				/*catch (System::NullReferenceException ex)
+				catch (CustomException e)
 				{
-					TowerVector->pop_back();
-				}*/
-				catch (CustomException se)
-				{
-					cout << se.getFehlermeldung() << endl;
+					// Tower löschen
+					int location = TowerVector->at(TowerVector->size() - 1)->getLocation();
+					GameAreaVector.at(location)->setAreaEmpty(true);
+					TowerVector->erase(TowerVector->begin() + TowerVector->size() - 1);
+
+					path = pathFindingRef.aStar(GameAreaVector);
 				}
 
 
@@ -589,7 +590,7 @@ void Game::Run()
 			{
 				int enemyLifebarX = enemyActiveVector->at(i)->eGetXCoord();
 				int enemyLifebarY = enemyActiveVector->at(i)->eGetYCoord();
-				
+
 				UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, enemyLifebarX, enemyLifebarY,
 					lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
 					sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
@@ -608,160 +609,163 @@ void Game::Run()
 
 					for (unsigned int j = 0; j < mSpeed; j++)
 					{
-						int enemyX = enemyActiveVector->at(i)->eGetXCoord();
-						int enemyY = enemyActiveVector->at(i)->eGetYCoord();
-						int iNavigationhelper = enemyActiveVector->at(i)->eGetNavigationHelper();
-						//Navigation vom Start auf das erste Spielfeld						
-						if (iNavigationhelper == -1)
+						if (!enemyActiveVector->empty())
 						{
-							//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
-							(enemyActiveVector->at(i)->eSetYCoord(enemyY + 1));
-							if (enemyY > 159 && enemyActiveVector->at(i)->eGetGlobalLocation() != 0)
+							int enemyX = enemyActiveVector->at(i)->eGetXCoord();
+							int enemyY = enemyActiveVector->at(i)->eGetYCoord();
+							int iNavigationhelper = enemyActiveVector->at(i)->eGetNavigationHelper();
+							//Navigation vom Start auf das erste Spielfeld						
+							if (iNavigationhelper == -1)
 							{
-								enemyActiveVector->at(i)->eSetGlobalLocation(0);
+								//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
+								(enemyActiveVector->at(i)->eSetYCoord(enemyY + 1));
+								if (enemyY > 159 && enemyActiveVector->at(i)->eGetGlobalLocation() != 0)
+								{
+									enemyActiveVector->at(i)->eSetGlobalLocation(0);
+								}
+								if (enemyY >= 191)
+								{
+									enemyActiveVector->at(i)->eSetYCoord(191);
+									enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
+									if (pathDirection.at(1) = 1)
+									{
+										enemyActiveVector->at(i)->eSetRotation(270);
+									}
+									else
+									{
+										enemyActiveVector->at(i)->eSetRotation(0);
+									}
+								}
 							}
-							if (enemyY >= 191)
+
+
+							//Navigation von Feld 0 auf Feld 62, dem Pathfinding folgend						
+							if (iNavigationhelper >= 0 && iNavigationhelper < (path.size() - 1))
 							{
-								enemyActiveVector->at(i)->eSetYCoord(191);
-								enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
-								if (pathDirection.at(1) = 1)
-								{
-									enemyActiveVector->at(i)->eSetRotation(270);
-								}
-								else
-								{
-									enemyActiveVector->at(i)->eSetRotation(0);
+								int iSwitch = pathDirection.at(iNavigationhelper);
+								int iSwitchPlusOne = pathDirection.at(iNavigationhelper + 1);
+
+								switch (iSwitch) {
+
+									//movement nach rechts
+								case 1:
+									//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
+									enemyActiveVector->at(i)->eSetXCoord(enemyX + 1);
+									//enemy globallocation updaten, wenn in neuem feld
+									if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
+										&& (enemyActiveVector->at(i)->eGetXCoord() >= (pathXCoord.at(iNavigationhelper + 1) - 32)))
+									{
+										enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
+									}
+									//richtung ändern
+									if (enemyActiveVector->at(i)->eGetXCoord() >= pathXCoord.at(iNavigationhelper + 1))
+									{
+										enemyActiveVector->at(i)->eSetXCoord(pathXCoord.at(iNavigationhelper + 1));
+										enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
+										switch (iSwitchPlusOne)
+										{
+										case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
+										case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
+										case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
+										case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
+										}
+									};
+									break;;
+
+									//movement nach unten
+								case 2:
+									//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
+									enemyActiveVector->at(i)->eSetYCoord(enemyY + 1);
+									//enemy globallocation updaten, wenn in neuem feld
+									if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
+										&& (enemyActiveVector->at(i)->eGetYCoord() > (pathYCoord.at(iNavigationhelper + 1) - 32)))
+									{
+										enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
+									}
+									//richtung ändern
+									if (enemyActiveVector->at(i)->eGetYCoord() >= pathYCoord.at(iNavigationhelper + 1))
+									{
+										enemyActiveVector->at(i)->eSetYCoord(pathYCoord.at(iNavigationhelper + 1));
+										enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
+										switch (iSwitchPlusOne)
+										{
+										case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
+										case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
+										case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
+										case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
+										}
+									};
+									break;
+
+									//movement nach links
+								case 3:
+									//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
+									enemyActiveVector->at(i)->eSetXCoord(enemyX - 1);
+									//enemy globallocation updaten, wenn in neuem feld
+									if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
+										&& (enemyActiveVector->at(i)->eGetXCoord() <= (pathXCoord.at(iNavigationhelper + 1) + 32)))
+									{
+										enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
+									}
+									//richtung ändern
+									if (enemyActiveVector->at(i)->eGetXCoord() <= pathXCoord.at(iNavigationhelper + 1))
+									{
+										enemyActiveVector->at(i)->eSetXCoord(pathXCoord.at(iNavigationhelper + 1));
+										enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
+										switch (iSwitchPlusOne)
+										{
+										case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
+										case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
+										case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
+										case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
+										}
+									};
+									break;
+
+									//movement nach oben
+								case 4:
+									//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
+									enemyActiveVector->at(i)->eSetYCoord(enemyY - 1);
+									//enemy globallocation updaten, wenn in neuem feld
+									if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
+										&& (enemyActiveVector->at(i)->eGetYCoord() <= (pathYCoord.at(iNavigationhelper + 1) + 32)))
+									{
+										enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
+									}
+									//richtung ändern
+									if (enemyActiveVector->at(i)->eGetYCoord() <= pathYCoord.at(iNavigationhelper + 1))
+									{
+										enemyActiveVector->at(i)->eSetYCoord(pathYCoord.at(iNavigationhelper + 1));
+										enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
+										switch (iSwitchPlusOne)
+										{
+										case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
+										case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
+										case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
+										case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
+										}
+									};
+									break;
+
+								default: break;
+
 								}
 							}
-						}
 
 
-						//Navigation von Feld 0 auf Feld 62, dem Pathfinding folgend						
-						if (iNavigationhelper >= 0 && iNavigationhelper < (path.size() - 1))
-						{
-							int iSwitch = pathDirection.at(iNavigationhelper);
-							int iSwitchPlusOne = pathDirection.at(iNavigationhelper + 1);
-
-							switch (iSwitch) {
-
-								//movement nach rechts
-							case 1:
-								//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
-								enemyActiveVector->at(i)->eSetXCoord(enemyX + 1);
-								//enemy globallocation updaten, wenn in neuem feld
-								if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
-									&& (enemyActiveVector->at(i)->eGetXCoord() >= (pathXCoord.at(iNavigationhelper + 1) - 32)))
-								{
-									enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
-								}
-								//richtung ändern
-								if (enemyActiveVector->at(i)->eGetXCoord() >= pathXCoord.at(iNavigationhelper + 1))
-								{
-									enemyActiveVector->at(i)->eSetXCoord(pathXCoord.at(iNavigationhelper + 1));
-									enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
-									switch (iSwitchPlusOne)
-									{
-									case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
-									case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
-									case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
-									case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
-									}
-								};
-								break;;
-
-								//movement nach unten
-							case 2:
-								//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
-								enemyActiveVector->at(i)->eSetYCoord(enemyY + 1);
-								//enemy globallocation updaten, wenn in neuem feld
-								if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
-									&& (enemyActiveVector->at(i)->eGetYCoord() > (pathYCoord.at(iNavigationhelper + 1) - 32)))
-								{
-									enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
-								}
-								//richtung ändern
-								if (enemyActiveVector->at(i)->eGetYCoord() >= pathYCoord.at(iNavigationhelper + 1))
-								{
-									enemyActiveVector->at(i)->eSetYCoord(pathYCoord.at(iNavigationhelper + 1));
-									enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
-									switch (iSwitchPlusOne)
-									{
-									case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
-									case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
-									case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
-									case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
-									}
-								};
-								break;
-
-								//movement nach links
-							case 3:
-								//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
-								enemyActiveVector->at(i)->eSetXCoord(enemyX - 1);
-								//enemy globallocation updaten, wenn in neuem feld
-								if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
-									&& (enemyActiveVector->at(i)->eGetXCoord() <= (pathXCoord.at(iNavigationhelper + 1) + 32)))
-								{
-									enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
-								}
-								//richtung ändern
-								if (enemyActiveVector->at(i)->eGetXCoord() <= pathXCoord.at(iNavigationhelper + 1))
-								{
-									enemyActiveVector->at(i)->eSetXCoord(pathXCoord.at(iNavigationhelper + 1));
-									enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
-									switch (iSwitchPlusOne)
-									{
-									case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
-									case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
-									case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
-									case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
-									}
-								};
-								break;
-
-								//movement nach oben
-							case 4:
-								//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
-								enemyActiveVector->at(i)->eSetYCoord(enemyY - 1);
-								//enemy globallocation updaten, wenn in neuem feld
-								if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
-									&& (enemyActiveVector->at(i)->eGetYCoord() <= (pathYCoord.at(iNavigationhelper + 1) + 32)))
-								{
-									enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
-								}
-								//richtung ändern
-								if (enemyActiveVector->at(i)->eGetYCoord() <= pathYCoord.at(iNavigationhelper + 1))
-								{
-									enemyActiveVector->at(i)->eSetYCoord(pathYCoord.at(iNavigationhelper + 1));
-									enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
-									switch (iSwitchPlusOne)
-									{
-									case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
-									case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
-									case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
-									case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
-									}
-								};
-								break;
-
-							default: break;
-
-							}
-						}
-
-
-						//Navigation vom letzten Spielfeld zum Ausgang						
-						if (iNavigationhelper == (path.size() - 1))
-						{
-							//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
-							(enemyActiveVector->at(i)->eSetYCoord(enemyY + 1));
-							if (enemyY > 734 && enemyActiveVector->at(i)->eGetGlobalLocation() == 62)
+							//Navigation vom letzten Spielfeld zum Ausgang						
+							if (iNavigationhelper == (path.size() - 1))
 							{
-								enemyActiveVector->at(i)->eSetGlobalLocation(999);
-							}
-							if (enemyY >= 750)
-							{
-								enemyActiveVector->erase((enemyActiveVector->begin() + i));
+								//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
+								(enemyActiveVector->at(i)->eSetYCoord(enemyY + 1));
+								if (enemyY > 734 && enemyActiveVector->at(i)->eGetGlobalLocation() == 62)
+								{
+									enemyActiveVector->at(i)->eSetGlobalLocation(999);
+								}
+								if (enemyY >= 750)
+								{
+									enemyActiveVector->erase((enemyActiveVector->begin() + i));
+								}
 							}
 						}
 					}

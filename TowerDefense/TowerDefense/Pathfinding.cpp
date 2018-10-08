@@ -4,6 +4,7 @@
 #include "GameMap.h"
 #include "GameArea.h"
 #include <list>
+#include "CustomException.h"
 
 using namespace std;
 
@@ -95,10 +96,17 @@ vector<int> PathFinding::aStar(vector<GameArea*> playingField)
 	vector<int> path;
 
 	int counter = 62;
-	while (counter != 0) {
-		path.insert(path.begin(), playingField.at(counter)->getID());
-		counter = playingField.at(counter)->getParent()->getID();
-	}
+
+		while (counter != 0) {
+			path.insert(path.begin(), playingField.at(counter)->getID());
+			if (playingField.at(counter)->getParent() == NULL)
+			{
+				throw CustomException("No parent for pathfinding...");
+			}
+			counter = playingField.at(counter)->getParent()->getID();
+		}
+	
+	
 	path.insert(path.begin(), 0);
 	return path;
 }
