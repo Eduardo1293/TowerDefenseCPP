@@ -589,14 +589,14 @@ void Game::Run()
 			{
 				int enemyLifebarX = enemyActiveVector->at(i)->eGetXCoord();
 				int enemyLifebarY = enemyActiveVector->at(i)->eGetYCoord();
-
-				lifeEnemySprite.setPosition(enemyLifebarX, (enemyLifebarY - 25));
-				App.draw(lifeEnemySprite);
-
+				
 				UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, enemyLifebarX, enemyLifebarY,
 					lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
 					sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
 					tenLifeTexture, punktZahlText);
+
+				lifeEnemySprite.setPosition(enemyLifebarX, (enemyLifebarY - 25));
+				App.draw(lifeEnemySprite);
 			}
 
 			//Gegnermovement			
