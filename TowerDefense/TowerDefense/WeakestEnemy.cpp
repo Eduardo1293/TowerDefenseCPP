@@ -2,6 +2,6 @@
 
 //maxlife, movementspeed, texturelocation
 WeakestEnemy::WeakestEnemy() :
-	BasicEnemy(300, 3, "ArtAssets/Enemies/enemyBlack2.png")
+	BasicEnemy(300, 3, "ArtAssets/Enemies/enemyBlack1.png")
 {
 }
