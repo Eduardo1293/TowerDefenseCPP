@@ -17,13 +17,13 @@ Zählt den Cooldown um 1 runter.
 */
 vector<int> FlameTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 {
+	vector<int> enemies;
 	if (tAttackCooldown == 0)
 	{
 
-		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
-			vector<int> enemies;
-			enemies.clear();
-			enemies.push_back(999);
+		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) 
+		{			
+
 			int enemyLocation = enemyActiveVector->at(i)->eGetGlobalLocation();
 
 			//rechts unten
@@ -180,6 +180,9 @@ vector<int> FlameTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 	}
 	else
 	{
+		enemies.clear();
+		tAttackCooldown -= 1;
+		return enemies;
 		tAttackCooldown -= 1;
 	}
 

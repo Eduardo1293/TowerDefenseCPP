@@ -17,13 +17,11 @@ Zählt den Cooldown um 1 runter.
 */
 vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 {
+	vector<int> enemies;
+
 	if (tAttackCooldown == 0)
 	{
-
 		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
-			vector<int> enemies;
-			enemies.clear();
-			enemies.push_back(999);
 			int enemyLocation = enemyActiveVector->at(i)->eGetGlobalLocation();
 
 			//rechts unten
@@ -33,7 +31,6 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				tAttackCooldown = 10;
 				enemies.push_back(i);
 				return enemies;
-				break;
 			}
 
 			//rechts 
@@ -44,7 +41,6 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				//deal damage
 				enemies.push_back(i);
 				return enemies;
-				break;
 			}
 
 			//unten
@@ -55,7 +51,6 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				//deal damage
 				enemies.push_back(i);
 				return enemies;
-				break;
 			}
 
 			//links unten 
@@ -66,7 +61,6 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				//deal damage
 				enemies.push_back(i);
 				return enemies;
-				break;
 			}
 
 			//rechts oben
@@ -77,7 +71,6 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				//deal damage
 				enemies.push_back(i);
 				return enemies;
-				break;
 			}
 
 			//links
@@ -88,7 +81,6 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				//deal damage
 				enemies.push_back(i);
 				return enemies;
-				break;
 			}
 
 			//oben
@@ -98,7 +90,6 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				tAttackCooldown = 10;
 				enemies.push_back(i);
 				return enemies;
-				break;
 			}
 
 			//links oben
@@ -108,21 +99,22 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				tAttackCooldown = 10;
 				enemies.push_back(i);
 				return enemies;
-				break;
 			}
 
 			else
 			{
-				enemies.push_back(999);
-				return enemies;
-				break;
+				return enemies;				
 			}
 		}
 	}
 	else
 	{
+		enemies.clear();
 		tAttackCooldown -= 1;
+		return enemies;
 	}
 
 }
+
+
 

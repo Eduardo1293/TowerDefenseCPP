@@ -6,19 +6,17 @@ AttackTower::AttackTower()
 
 AttackTower::AttackTower(float XCoord, float YCoord, int areaID)
 	: BasicTower(XCoord, YCoord, areaID, "ArtAssets/Tower/tank_dark.png", "Attacktower",
-		"Einfacher Standard-Turm", 10, 0, 10, 1)
+		"Einfacher Standard-Turm", 10, 0, 25, 1)
 {
 }
 
 vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 {
-	if (tAttackCooldown == 0)
-	{
+	vector<int> enemies;
 
-		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {
-			vector<int> enemies;
-			enemies.clear();
-			enemies.push_back(999);
+	if (tAttackCooldown == 0)
+	{	
+		for (unsigned int i = 0; i < enemyActiveVector->size(); i++) {						
 			int enemyLocation = enemyActiveVector->at(i)->eGetGlobalLocation();
 
 			//rechts unten
@@ -27,8 +25,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				tBasicTurmSprite.setRotation(315);
 				tAttackCooldown = 10;
 				enemies.push_back(i);
-				return enemies;
-				break;
+				return enemies;				
 			}
 
 			//rechts 
@@ -38,8 +35,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				tAttackCooldown = 10;
 				//deal damage
 				enemies.push_back(i);
-				return enemies;
-				break;
+				return enemies;				
 			}
 
 			//unten
@@ -49,8 +45,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				tAttackCooldown = 10;
 				//deal damage
 				enemies.push_back(i);
-				return enemies;
-				break;
+				return enemies;				
 			}
 
 			//links unten 
@@ -60,8 +55,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				tAttackCooldown = 10;
 				//deal damage
 				enemies.push_back(i);
-				return enemies;
-				break;
+				return enemies;				
 			}
 
 			//rechts oben
@@ -71,8 +65,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				tAttackCooldown = 10;
 				//deal damage
 				enemies.push_back(i);
-				return enemies;
-				break;
+				return enemies;				
 			}
 
 			//links
@@ -82,8 +75,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				tAttackCooldown = 10;
 				//deal damage
 				enemies.push_back(i);
-				return enemies;
-				break;
+				return enemies;			
 			}
 
 			//oben
@@ -92,8 +84,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				tBasicTurmSprite.setRotation(180);
 				tAttackCooldown = 10;
 				enemies.push_back(i);
-				return enemies;
-				break;
+				return enemies;			
 			}
 
 			//links oben
@@ -102,13 +93,11 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 				tBasicTurmSprite.setRotation(135);
 				tAttackCooldown = 10;
 				enemies.push_back(i);
-				return enemies;
-				break;
+				return enemies;			
 			}
 
 			else
 			{
-				enemies.push_back(999);
 				return enemies;
 				break;
 			}
@@ -116,7 +105,9 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 	}
 	else
 	{
+		enemies.clear();
 		tAttackCooldown -= 1;
+		return enemies;		
 	}
 
 }

@@ -568,15 +568,7 @@ void Game::Run()
 				enemyClock.restart();
 			}
 
-			//Toweranimation
-			sf::Time attackCDTime = attackClock.getElapsedTime();
-			if ((attackCDTime.asMilliseconds() + attackClockElapsedTimeBuffer) >= 100) 
-			{
-				(attackClockElapsedTimeBuffer = attackCDTime.asMilliseconds() - 100);
-				attackClock.restart();
-				//Tower zeichnen
-				TowerAnimation(TowerVector, enemyActiveVector, explosionSprite);
-			}
+			
 
 
 			TimerText.setFillColor(color.Black);
@@ -781,7 +773,15 @@ void Game::Run()
 				}
 			}
 
-
+			//Toweranimation
+			sf::Time attackCDTime = attackClock.getElapsedTime();
+			if ((attackCDTime.asMilliseconds() + attackClockElapsedTimeBuffer) >= 100)
+			{
+				(attackClockElapsedTimeBuffer = attackCDTime.asMilliseconds() - 100);
+				attackClock.restart();
+				//Tower zeichnen
+				TowerAnimation(TowerVector, enemyActiveVector, explosionSprite);
+			}
 			
 			//Starte die Buildingsphase falls alle Gegner zerstört oder im Ziel sind			
 			if (enemyActiveVector->empty() && enemyVector->empty())
@@ -862,7 +862,6 @@ void Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector,
 				for (int j = 0; j < targets.size(); j++)
 				{
 					int k = targets.at(j);
-					if (k != 999)
 					{
 						//Schaden zufügen
 						enemyActiveVector->at(k)->takeDamage(BasicTowerVector->at(i)->getDamage());
