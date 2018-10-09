@@ -77,7 +77,7 @@ void Game::Run()
 	App.setFramerateLimit(24);
 
 	float gameTime = 0;
-	int gold = 100000;
+	int gold = 100;
 	int runde = 0;
 	int timerText = 0;
 	int playerLife = 20;

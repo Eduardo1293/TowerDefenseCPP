@@ -1,6 +1,6 @@
 #include "BasicEnemy.h"
 
 StrongEnemy::StrongEnemy() :
-	BasicEnemy(800, 3, "ArtAssets/Enemies/StrongEnemy.png")
+	BasicEnemy(700, 3, "ArtAssets/Enemies/StrongEnemy.png")
 {
 }

@@ -7,29 +7,7 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 	vector<BasicEnemy*> *enemyWaveVector = new vector<BasicEnemy*>();
 
 	
-	if (waveNumber == 1)
-	{
-
-		BasicEnemy *numberOne = new WeakestEnemy();
-		BasicEnemy *numberTwo = new WeakestEnemy();
-		BasicEnemy *numberThree = new WeakestEnemy();
-		BasicEnemy *numberFour = new WeakestEnemy();
-		BasicEnemy *numberFive = new WeakestEnemy();
-		BasicEnemy *numberSix = new WeakestEnemy();
-		BasicEnemy *numberSeven = new WeakestEnemy();
-		BasicEnemy *numberEight = new StrongEnemy();
-
-		enemyWaveVector->push_back(numberOne);
-		enemyWaveVector->push_back(numberTwo);
-		enemyWaveVector->push_back(numberThree);
-		enemyWaveVector->push_back(numberFour);
-		enemyWaveVector->push_back(numberFive);
-		enemyWaveVector->push_back(numberSix);
-		enemyWaveVector->push_back(numberSeven);
-		enemyWaveVector->push_back(numberEight);
-	}
-
-	if (waveNumber == 2) 
+	if (waveNumber == 1) 
 	{
 
 		BasicEnemy *numberOne = new WeakestEnemy();
@@ -51,7 +29,7 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 		enemyWaveVector->push_back(numberEight);
 	}
 
-	if (waveNumber == 3)
+	if (waveNumber == 2)
 	{
 		BasicEnemy *numberOne = new WeakerEnemy();
 		BasicEnemy *numberTwo = new WeakerEnemy();
@@ -59,7 +37,7 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 		BasicEnemy *numberFour = new WeakerEnemy();
 		BasicEnemy *numberFive = new WeakerEnemy();
 		BasicEnemy *numberSix = new WeakerEnemy();
-		BasicEnemy *numberSeven = new WeakEnemy();
+		BasicEnemy *numberSeven = new WeakerEnemy();
 
 		enemyWaveVector->push_back(numberOne);
 		enemyWaveVector->push_back(numberTwo);
@@ -70,7 +48,7 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 		enemyWaveVector->push_back(numberSeven);
 	}
 		
-	if (waveNumber == 4)
+	if (waveNumber == 3)
 	{
 		BasicEnemy *numberOne = new FastEnemy();
 		BasicEnemy *numberTwo = new FastEnemy();
@@ -89,7 +67,7 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 		enemyWaveVector->push_back(numberSeven);
 	}
 
-	if (waveNumber == 5)
+	if (waveNumber == 4)
 	{
 
 		BasicEnemy *numberOne = new WeakEnemy();
@@ -111,7 +89,7 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 		enemyWaveVector->push_back(numberEight);
 	}
 
-	if (waveNumber == 6)
+	if (waveNumber == 5)
 	{
 
 		BasicEnemy *numberOne = new WeakEnemy();
@@ -133,7 +111,7 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 		enemyWaveVector->push_back(numberEight);
 	}
 
-	if (waveNumber == 7)
+	if (waveNumber == 6)
 	{
 
 		BasicEnemy *numberOne = new FastEnemy();
@@ -161,7 +139,7 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 		enemyWaveVector->push_back(numberEleven);
 	}
 
-	if (waveNumber == 8)
+	if (waveNumber == 7)
 	{
 
 		BasicEnemy *numberOne = new StrongEnemy();
@@ -189,7 +167,7 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 		enemyWaveVector->push_back(numberEleven);
 	}
 
-	if (waveNumber == 9)
+	if (waveNumber == 8)
 	{
 
 		BasicEnemy *numberOne = new StrongEnemy();
@@ -217,7 +195,7 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 		enemyWaveVector->push_back(numberEleven);
 	}
 
-	if (waveNumber == 10)
+	if (waveNumber == 9)
 	{
 
 		BasicEnemy *numberOne = new StrongestEnemy();
@@ -245,7 +223,7 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 		enemyWaveVector->push_back(numberEleven);
 	}
 
-	if (waveNumber == 11)
+	if (waveNumber == 10)
 	{
 
 		BasicEnemy *numberOne = new BossEnemy();
