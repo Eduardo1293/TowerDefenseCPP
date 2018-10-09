@@ -997,12 +997,11 @@ void Game::Run()
 		if (gameState == GameOver)
 		{
 			App.close();
-
+			running = false;
 			EndScreen screen;
 
 			while (screen.isRunning())
-			{
-				running = false;
+			{				
 				screen.Run(true);
 			}
 		}
@@ -1012,12 +1011,11 @@ void Game::Run()
 		if (gameState == Winning)
 		{
 			App.close();
-
+			running = false;
 			EndScreen screen;
 
 			while (screen.isRunning())
-			{
-				running = false;
+			{				
 				screen.Run(false);
 			}
 		}
