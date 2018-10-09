@@ -584,7 +584,7 @@ void Game::Run()
 
 
 			//Beendet die Bauphase sobald der Spieler kein Gold mehr hat.	
-			//buggt, möglicherweiße einfahc streichen?
+			//buggt, möglicherweise einfahc streichen?
 			/*if (gold == 0)
 			{
 				buildingphaseCountdown = 0;
