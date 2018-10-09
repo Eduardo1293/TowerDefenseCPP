@@ -121,7 +121,6 @@ void Game::Run()
 
 	//Lade diverse GUI-Texturen und Einstellungen
 	sf::Color hoverColer = sf::Color(255, 255, 255, 140);
-
 	LoadGameFont(font);
 
 	BasicButton basicTowerButton = BasicButton(78, 779, "", "ArtAssets/Tower/tank_dark.png", color.White, 0, 0, 0);
@@ -134,22 +133,16 @@ void Game::Run()
 
 	sf::Text rundenText;
 	SetRoundTextProperties(rundenText, font, color);
-
 	sf::Text goldText;
 	SetGoldTextProperties(goldText, font, color);
-
 	sf::Text TimerText;
 	SetTimerTextProperties(TimerText, font, color);
-
 	sf::Text lebenText;
 	SetLifeTextProperties(lebenText, font, playerLife, color);
-
 	sf::Text punktText;
 	SetPointTextProperties(punktText, font, color);
-
 	sf::Text punktZahlText;
 	SetPointNumberProperties(punktZahlText, font, color, punkteZahl);
-
 	sf::Text descriptionText;
 	SetDescriptionTextProperties(descriptionText, font, color);
 
@@ -163,7 +156,6 @@ void Game::Run()
 	sf::Texture blockedSpaceTexture;
 	sf::Sprite emptySpaceSprite;
 	sf::Sprite blockedSpaceSprite;
-
 
 	LoadGameFieldTextures(statusTexture, hudTexture, hudSprite, statusSprite,
 		backgroundTexture, backgroundSprite, emptySpaceTexture, blockedSpaceTexture,
@@ -1044,7 +1036,7 @@ vector<sf::Vector3i> Game::TowerAttack(std::vector<BasicTower *> * BasicTowerVec
 			}
 		}
 	}
-	//Gibt den Vector mit allen darzustellenden Angriffsanimationen zurück
+	//Gibt den Vector mit Informationen über die darzustellenden Angriffsanimationen zurück
 	return animations;
 }
 
