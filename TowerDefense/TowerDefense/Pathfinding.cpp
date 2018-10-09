@@ -8,6 +8,11 @@
 
 using namespace std;
 
+/*
+Der Pathfinding-Algorithmus orientiert sich an der Implementation von OneLoneCoder:
+https://github.com/OneLoneCoder/videos/blob/master/OneLoneCoder_PathFinding_AStar.cpp
+*/
+
 //Path berechnen
 vector<int> PathFinding::aStar(vector<GameArea*> playingField)
 {
@@ -15,8 +20,8 @@ vector<int> PathFinding::aStar(vector<GameArea*> playingField)
 	for (int i = 0; i <= 62; i++)
 	{
 		playingField.at(i)->setVisited(false);
-		playingField.at(i)->setDistanceFromStart(999.9f);
-		playingField.at(i)->setWholeDistance(999.9f);
+		playingField.at(i)->setDistanceFromStart(999);
+		playingField.at(i)->setDistanceToEnd(999);
 		playingField.at(i)->setParent(nullptr);
 	}
 
@@ -24,7 +29,7 @@ vector<int> PathFinding::aStar(vector<GameArea*> playingField)
 	GameArea *currentArea = playingField.at(0);
 
 	playingField.at(0)->setDistanceFromStart(0.0f);
-	playingField.at(0)->setWholeDistance(manhattan(playingField.at(0), playingField.at(62)));
+	playingField.at(0)->setDistanceToEnd(manhattan(playingField.at(0), playingField.at(62)));
 
 	//Liste aller Felder, die noch nicht besucht wurden
 	list<GameArea*> notVisited;
@@ -36,7 +41,7 @@ vector<int> PathFinding::aStar(vector<GameArea*> playingField)
 		//Nicht-besuchte Felder nach Distanz zum Ziel sortieren
 		notVisited.sort([](GameArea* const& a, GameArea* const& b)
 		{
-			return a->getWholeDistance() < b->getWholeDistance();
+			return a->getDistanceToEnd() < b->getDistanceToEnd();
 		});
 
 		//Wenn die vorderste Area besucht wurde, entferne sie aus der nicht-besucht Liste
@@ -71,7 +76,7 @@ vector<int> PathFinding::aStar(vector<GameArea*> playingField)
 			/*
 			Berechne den Weg zur Nachbararea über die aktuelle Area
 			*/
-			float lowerDQuestionMark = currentArea->getDistanceFromStart()
+			int lowerDQuestionMark = currentArea->getDistanceFromStart()
 				+ manhattan(currentArea, areaConnected);
 
 			/*
@@ -84,7 +89,7 @@ vector<int> PathFinding::aStar(vector<GameArea*> playingField)
 				areaConnected->setParent(currentArea);
 				areaConnected->setDistanceFromStart(lowerDQuestionMark);
 
-				areaConnected->setWholeDistance(areaConnected->getDistanceFromStart()
+				areaConnected->setDistanceToEnd(areaConnected->getDistanceFromStart()
 					+ manhattan(areaConnected, playingField.at(62)));
 			}
 		}
@@ -112,9 +117,9 @@ vector<int> PathFinding::aStar(vector<GameArea*> playingField)
 }
 
 //Distanz von Feld zu Feld
-float PathFinding::manhattan(GameArea * a, GameArea * b)
+int PathFinding::manhattan(GameArea * a, GameArea * b)
 {
-	float distance = (abs(a->getXID() - b->getXID())
+	int distance = (abs(a->getXID() - b->getXID())
 		+ (abs(a->getYID() - b->getYID())));
 	return distance;
 }

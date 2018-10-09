@@ -14,7 +14,7 @@ public:
 	vector<int> aStar(vector<GameArea*> playingField);
 
 private:
-	float manhattan(GameArea* a, GameArea* b);
+	int manhattan(GameArea* a, GameArea* b);
 
 
 };

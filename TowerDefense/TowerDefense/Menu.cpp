@@ -8,7 +8,7 @@ Menu::Menu()
 {
 	sf::Image GameIcon;
 	GameIcon.loadFromFile("ArtAssets/gameIcon.png");
-	name = "Tower Defense - Beats by Dad";
+	name = "Space Defender";
 	MenuWindow.create(sf::VideoMode(400, 400), name, sf::Style::Close);
 	MenuWindow.setIcon(GameIcon.getSize().x, GameIcon.getSize().y, GameIcon.getPixelsPtr());
 	running = true;

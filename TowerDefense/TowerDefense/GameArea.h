@@ -7,28 +7,22 @@ using namespace std;
 
 class GameArea {
 private :
-	bool areaEmpty;
-	float areaXCoord;				// PixelKoordinaten der Area
-	float areaYCoord;				// PixelKoordinaten der Area
+	bool areaEmpty;					// Area bebaut oder nicht?
+	int areaXCoord;					// PixelKoordinaten der Area
+	int areaYCoord;					// PixelKoordinaten der Area
 	int a_XID;						// Koordinaten der Area im areagrid
 	int	a_YID;						// Koordinaten der Area im areagrid
 	int a_ID;						// ID der Area
 	GameArea* aParent;				// Pointer zur Parent-Area	
-	float distanceFromStart;		// Lokaler Zielwert der Area
-	float distanceToGoal;			// Heuristischer Zielwert der Area
-	float wholeDistance;
+	int distanceFromStart;			// Lokaler Zielwert der Area
+	int distanceToEnd;				// Geschätzter Weg zum Ziel
 	bool aVisited;					// wurde die area vom a* schon besucht?
 
 public:
 	vector<GameArea*> a_Connected;	// benachbarte areas
 
 	//Kontruktor
-	GameArea(bool empty, float xCoord, float yCoord, int xID, int yID, int aID);
-
-	//setter
-	inline void setAreaEmpty(bool empty) {
-		areaEmpty = empty;
-	}
+	GameArea(bool empty, int xCoord, int yCoord, int xID, int yID, int aID);
 
 	//getter
 
@@ -36,23 +30,23 @@ public:
 		return areaEmpty;
 	}
 
-	inline float getAreaXCoord() {
+	inline int getAreaXCoord() {
 		return areaXCoord;
 	}
 
-	inline float getAreaYCoord() {
+	inline int getAreaYCoord() {
 		return areaYCoord;
 	}
 
-	int getID() {
+	inline int getID() {
 		return a_ID;
 	}
 
-	int getXID() {
+	inline int getXID() {
 		return a_XID;
 	}
 
-	int getYID() {
+	inline int getYID() {
 		return a_YID;
 	}
 
@@ -60,57 +54,45 @@ public:
 		return aParent;
 	}
 
-	int getDistanceFromStart() {
+	inline int getDistanceFromStart() {
 		return distanceFromStart;
 	}
 
-	int getDistanceToGoal() {
-		return distanceToGoal;
-	}
-
-	float getWholeDistance()
+	inline int getDistanceToEnd()
 	{
-		return wholeDistance;
+		return distanceToEnd;
 	}
 
-	bool getVisited() {
+	inline int getVisited() 
+	{
 		return aVisited;
 	}
 
 	//setter
 
-	void setDistanceFromStart(int newDistanceFromStart) {
+	inline void setDistanceFromStart(int newDistanceFromStart) {
 		distanceFromStart = newDistanceFromStart;
 	}
 
-	void setDistanceToGoal(int newDistanceToGoal) {
-		distanceToGoal = newDistanceToGoal;
-	}
-
-	void setVisited(bool visited) {
+	inline void setVisited(bool visited) {
 		aVisited = visited;
 	}
 
-	void setParent(GameArea *parent) {
+	inline void setParent(GameArea *parent) {
 		aParent = parent;
 	}
 
-	void setWholeDistance(float distance) {
-		wholeDistance = distance;
+	inline void setDistanceToEnd(float distance) {
+		distanceToEnd = distance;
 	}
 	
-	void addConnected(GameArea* connectedArea) {
+	inline void addConnected(GameArea* connectedArea) {
 		a_Connected.push_back(connectedArea);
 	}
 
-	// Distanz zwischen der aktuellen Zelle und der Zielzelle
-	float manhattanDistance(GameArea *nodeEnd)
-	{
-		float x = (float)(fabs((float)this->a_XID - nodeEnd->a_XID));
-		float y = (float)(fabs((float)this->a_YID - nodeEnd->a_YID));
-
-		return x + y;
-	}
+	inline void setAreaEmpty(bool empty) {
+		areaEmpty = empty;
+	}	
 };
 
 #endif

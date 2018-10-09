@@ -1,4 +1,16 @@
 /*
+-----SPACE DEFENDER-----
+
+Stefan Reso
+Johannes Schmidt 
+Andre Jelonek       259031
+
+Artassets von Kenney.nl und Itch.io
+Musik von 
+*/
+
+
+/*
 Hier Sachen reinschrieben, die noch gemacht werden müssen!
 -eine der distanzen in gamearea ist unnütz, beizeiten aufräumen :D und die namen sind komisch
 -sollte bei den neuen türmen der tower nicht innerhalb der if-abfrage erstellt werden?
@@ -29,7 +41,7 @@ Game::Game()
 {
 	sf::Image GameIcon;
 	GameIcon.loadFromFile("ArtAssets/gameIcon.png");
-	name = "Lennard is kacke.exe";
+	name = "Space Defender";
 	App.create(sf::VideoMode(512, 896), name, sf::Style::Close);
 	App.setIcon(GameIcon.getSize().x, GameIcon.getSize().y, GameIcon.getPixelsPtr());
 	running = true;

@@ -192,10 +192,10 @@
 			}
 		}
 
-		//distance zur zielzelle für alle zellen bestimmen.
+		//Distance zur zielzelle für alle zellen bestimmen.
 		for (int i = 0; i < 63; i++) 
 		{
-			GameAreaVector.at(i)->setWholeDistance((abs(GameAreaVector.at(i)->getXID() - GameAreaVector.at(62)->getXID()))
+			GameAreaVector.at(i)->setDistanceToEnd((abs(GameAreaVector.at(i)->getXID() - GameAreaVector.at(62)->getXID()))
 				+ (abs(GameAreaVector.at(i)->getYID() - GameAreaVector.at(62)->getYID())));
 		}
 	};
