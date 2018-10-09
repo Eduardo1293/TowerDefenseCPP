@@ -15,10 +15,12 @@ Hier Sachen reinschrieben, die noch gemacht werden müssen!
 -eine der distanzen in gamearea ist unnütz, beizeiten aufräumen :D und die namen sind komisch
 -sollte bei den neuen türmen der tower nicht innerhalb der if-abfrage erstellt werden?
 -musik stoppt nach einem durchlauf
+
 -spiel läuft im gameover screen weiter!!!!!!!!!!!!!!!
 WICHTIG IM GAMEOVER SCREEN DREHT CPU DURCH
 
 -tower desriptions funktionieren nicht richtig!
+-gewinnscreen?!? game läuft momentan einfach weiter
 */
 
 
@@ -82,11 +84,6 @@ void Game::Run()
 		frostTower,
 		lightningTower
 	};
-
-
-
-	vector<BasicEnemy*> *enemyVector = new vector<BasicEnemy*>();
-	vector<BasicEnemy*> *enemyActiveVector = new vector<BasicEnemy*>();
 
 	//Hintergrundmusik
 	sf::SoundBuffer soundBuffer;
@@ -195,6 +192,9 @@ void Game::Run()
 
 
 	//Initialisierung von Spielfeld, Pathfinding und Towermechaniken
+	vector<BasicEnemy*> *enemyVector = new vector<BasicEnemy*>();
+	vector<BasicEnemy*> *enemyActiveVector = new vector<BasicEnemy*>();
+
 	GameMap *GameMapRef = new GameMap;
 	GameMapRef->setGameMap();
 	vector<GameArea*> GameAreaVector = GameMapRef->getGameMap();
@@ -204,12 +204,11 @@ void Game::Run()
 	vector<BasicTower*> *TowerVector = new vector<BasicTower*>();
 
 	vector<sf::Vector3i> towerAnimations;
-
 	vector<int> animationFrameTime;
 
 	//Verschiedene Uhren für die Spielmechaniken	
 	sf::Clock buildingphaseClock;
-	int buildingphaseCountdown = 10;
+	int buildingphaseCountdown = 20;
 	int buildphaseElapsedTimeBuffer = 0;
 
 	sf::Clock enemyClock;
@@ -286,7 +285,11 @@ void Game::Run()
 			soundOffButton.setColor(color.White);
 		}
 
-
+		/*
+		
+				BUILDINGPHASE
+		
+		*/
 		if (phaseCounter == 1) {
 			SelectetTower selectetTower;
 
@@ -307,12 +310,12 @@ void Game::Run()
 
 			}
 
+			//Können die aus dem Frame-Loop an den Anfang Stefan?
 			AttackTower * AttackTowerRef;
 			CannonTower * CannonTowerRef;
 			FlameTower * FlameTowerRef;
 			FrostTower * FrostTowerRef;
 			LightningTower * LightningTowerRef;
-
 			
 			//Beende die Buildingphase. Falls kein Weg gefunden wird, lösche die Tower der letzten Phase aus dem Towervector.		
 			if (buildingphaseCountdown == 0)
@@ -603,9 +606,14 @@ void Game::Run()
 
 		}
 
-		//Gegnerphase
+		/*
+
+				GEGNERPHASE
+
+		*/
 		else if (phaseCounter == 2)
 		{
+			// ??????????????????????????????????????????????????????????????
 			descriptionText.setString("");
 
 			//Enemyclock, schickt jede Sekunde einen Gegner auf die Reise
@@ -617,12 +625,12 @@ void Game::Run()
 				enemyClock.restart();
 			}
 
+			// ?????????????????????????????????????????????????????????????
 			TimerText.setFillColor(color.Black);
-			//buildingphase = true;
+			
 			if (enemyActiveVector->empty() && enemyVector->empty()) {
 				phaseCounter = 1;
-				buildingphaseCountdown = 20;
-				//runde++;
+				buildingphaseCountdown = 20;				
 			}
 
 
@@ -644,15 +652,22 @@ void Game::Run()
 					tenLifeTexture, punktZahlText);
 
 				lifeEnemySprite.setPosition(enemyLifebarX, (enemyLifebarY - 33));
+				//Gegner-Lifebar zeichnen
 				App.draw(lifeEnemySprite);
 			}
 
-			//Gegnermovement			
+			/*
+						Gegnermovement
+
+				Abhängig vom int iNavigationhelper, der Informationen über die aktuelle Postion des
+				Gegner im Pfad gibt, wird der Gegner anhand des Pfades weiterbewegt
+			*/
 			if (!enemyActiveVector->empty())
 			{
 				for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
 				{
-					//Überprüft, ob ein Gegner noch von einem Frosttower verlangsamt ist
+					//Überprüft, ob ein Gegner noch von einem Frosttower verlangsamt ist, nachdem der Gegner für
+					//24 Frames verlangsamt war "taut" er auf
 					int timer = enemyActiveVector->at(i)->eGetFrozenTimer();
 					if (timer > 0 && timer < 25)
 					{
@@ -664,8 +679,8 @@ void Game::Run()
 						enemyActiveVector->at(i)->eSetFrozenTimer(0);
 					}
 
+					//Abhängig vom Movementspeed wird der Gegner um mehrere Pixel pro Frame bewegt
 					int mSpeed = enemyActiveVector->at(i)->eGetMovementSpeed();
-
 					for (unsigned int j = 0; j < mSpeed; j++)
 					{
 						if (!enemyActiveVector->empty())
@@ -674,10 +689,11 @@ void Game::Run()
 							int enemyY = enemyActiveVector->at(i)->eGetYCoord();
 							int iNavigationhelper = enemyActiveVector->at(i)->eGetNavigationHelper();
 
-							//Navigation vom Start auf das erste Spielfeld						
+							/*
+										Navigation vom Start auf das erste Spielfeld (iNavigationhelper = -1)
+							*/
 							if (iNavigationhelper == -1)
 							{
-								//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
 								(enemyActiveVector->at(i)->eSetYCoord(enemyY + 1));
 								if (enemyY > 159 && enemyActiveVector->at(i)->eGetGlobalLocation() != 0)
 								{
@@ -698,27 +714,31 @@ void Game::Run()
 								}
 							}
 
-
-							//Navigation von Feld 0 auf Feld 62, dem Pathfinding folgend						
+							/*
+										Navigation von Feld 0 auf Feld 62, dem Pathfinding folgend (iNavigationhelper zwischen 0 und 61)				
+							*/									
 							if (iNavigationhelper >= 0 && iNavigationhelper < (path.size() - 1))
 							{
 								int iSwitch = pathDirection.at(iNavigationhelper);
 								int iSwitchPlusOne = pathDirection.at(iNavigationhelper + 1);
 
+								//Switchcase der anhand der im Vector Pathdirection gespeicherten Richtung, der Gegner in die richtige
+								//Richtung bewegt. Sobald der Gegner von einer Area (+/- 1pixel) in eine andere tritt wird außerdem die 
+								//GlobalLocation des Gegner für das Tower-Targetting geupdated.
+								//Ist der Gegner in der Mitte der nächsten Area angekommen wird außerdem mithilfe eines zweiten Switch-Cases
+								//das Gegner-Sprite gedreht.
 								switch (iSwitch)
 								{
-
-									//movement nach rechts
+								//Movement nach rechts
 								case 1:
-									//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
-									enemyActiveVector->at(i)->eSetXCoord(enemyX + 1);
-									//enemy globallocation updaten, wenn in neuem feld
+									enemyActiveVector->at(i)->eSetXCoord(enemyX + 1);	
+									//Enemy globallocation updaten, wenn in neuem Feld
 									if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
 										&& (enemyActiveVector->at(i)->eGetXCoord() >= (pathXCoord.at(iNavigationhelper + 1) - 32)))
 									{
 										enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
 									}
-									//richtung ändern
+									//Richtung ändern
 									if (enemyActiveVector->at(i)->eGetXCoord() >= pathXCoord.at(iNavigationhelper + 1))
 									{
 										enemyActiveVector->at(i)->eSetXCoord(pathXCoord.at(iNavigationhelper + 1));
@@ -733,17 +753,16 @@ void Game::Run()
 									};
 									break;;
 
-									//movement nach unten
+									//Movement nach unten
 								case 2:
-									//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
 									enemyActiveVector->at(i)->eSetYCoord(enemyY + 1);
-									//enemy globallocation updaten, wenn in neuem feld
+									//Enemy globallocation updaten, wenn in neuem Feld
 									if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
 										&& (enemyActiveVector->at(i)->eGetYCoord() > (pathYCoord.at(iNavigationhelper + 1) - 32)))
 									{
 										enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
 									}
-									//richtung ändern
+									//Richtung ändern
 									if (enemyActiveVector->at(i)->eGetYCoord() >= pathYCoord.at(iNavigationhelper + 1))
 									{
 										enemyActiveVector->at(i)->eSetYCoord(pathYCoord.at(iNavigationhelper + 1));
@@ -758,17 +777,16 @@ void Game::Run()
 									};
 									break;
 
-									//movement nach links
-								case 3:
-									//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
+									//Movement nach links
+								case 3:						
 									enemyActiveVector->at(i)->eSetXCoord(enemyX - 1);
-									//enemy globallocation updaten, wenn in neuem feld
+									//Enemy globallocation updaten, wenn in neuem Feld
 									if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
 										&& (enemyActiveVector->at(i)->eGetXCoord() <= (pathXCoord.at(iNavigationhelper + 1) + 32)))
 									{
 										enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
 									}
-									//richtung ändern
+									//Richtung ändern
 									if (enemyActiveVector->at(i)->eGetXCoord() <= pathXCoord.at(iNavigationhelper + 1))
 									{
 										enemyActiveVector->at(i)->eSetXCoord(pathXCoord.at(iNavigationhelper + 1));
@@ -783,17 +801,16 @@ void Game::Run()
 									};
 									break;
 
-									//movement nach oben
+									//Movement nach oben
 								case 4:
-									//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
 									enemyActiveVector->at(i)->eSetYCoord(enemyY - 1);
-									//enemy globallocation updaten, wenn in neuem feld
+									//Enemy globallocation updaten, wenn in neuem Feld
 									if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
 										&& (enemyActiveVector->at(i)->eGetYCoord() <= (pathYCoord.at(iNavigationhelper + 1) + 32)))
 									{
 										enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
 									}
-									//richtung ändern
+									//Richtung ändern
 									if (enemyActiveVector->at(i)->eGetYCoord() <= pathYCoord.at(iNavigationhelper + 1))
 									{
 										enemyActiveVector->at(i)->eSetYCoord(pathYCoord.at(iNavigationhelper + 1));
@@ -806,18 +823,15 @@ void Game::Run()
 										case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
 										}
 									};
-									break;
-
-								default: break;
-
+									break;							
 								}
 							}
 
-
-							//Navigation vom letzten Spielfeld zum Ausgang						
+							/*
+										Navigation vom letzten Spielfeld zum Ausgang (iNavigationhelper = 62)
+							*/
 							if (iNavigationhelper == (path.size() - 1))
 							{
-								//lifeEnemySprite.setPosition(enemyX, (enemyY - 25));
 								(enemyActiveVector->at(i)->eSetYCoord(enemyY + 1));
 								if (enemyY > 734 && enemyActiveVector->at(i)->eGetGlobalLocation() == 62)
 								{
@@ -833,27 +847,28 @@ void Game::Run()
 					}
 				}
 			}
+			//Ende Gegnermovement
 
+
+			//Zeichne die Gegner an den aktualisierten Positionen	
 			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
-			{
-				//Zeichne die Gegner und ihre Lifebar an den aktuellen Positionen						
+			{									
 				if (!enemyActiveVector->empty())
 				{
 					enemyActiveVector->at(i)->eSetPosition();
 					App.draw(enemyActiveVector->at(i)->eGetSprite());
-
 				}
 			}
 
 
-			//Toweranimation
+			//Ruft alle 100ms für alle Türme die TowerAnimation-Funktion auf.
 			sf::Time attackCDTime = attackClock.getElapsedTime();
 			if ((attackCDTime.asMilliseconds() + attackClockElapsedTimeBuffer) >= 100)
 			{
 				(attackClockElapsedTimeBuffer = attackCDTime.asMilliseconds() - 100);
 				attackClock.restart();
 				//Tower zeichnen
-				vector<sf::Vector3i> addTowerAnimations = TowerAnimation(TowerVector, enemyActiveVector, explosionSprite, lightningAttackSprite,
+				vector<sf::Vector3i> addTowerAnimations = TowerAttack(TowerVector, enemyActiveVector, explosionSprite, lightningAttackSprite,
 					fireAttackSprite, frostAttackSprite);
 				for (int i = 0; i < addTowerAnimations.size(); i++)
 				{
@@ -896,7 +911,6 @@ void Game::Run()
 						break;
 						break;
 					}
-
 				}
 			}
 			//Lösche die "abgelaufenen Animationen"
@@ -919,7 +933,6 @@ void Game::Run()
 				}
 			}
 
-
 			//Starte die Buildingsphase falls alle Gegner zerstört oder im Ziel sind			
 			if (enemyActiveVector->empty() && enemyVector->empty())
 			{
@@ -931,15 +944,19 @@ void Game::Run()
 				}
 			}
 
-			//Beende das Spiel falls der Spieler keine Lebenspunkte mehr hat			
+			//Beende das Spiel mit GameOver-Screen falls der Spieler keine Lebenspunkte mehr hat			
 			if (playerLife <= 0)
 			{
 				TowerVector->clear();
 				phaseCounter = 3;
 			}
-
 		}
 
+		/*
+
+					GAMEOVER
+
+		*/
 		if(phaseCounter == 3)
 		{
 			ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite, playerInput, playerText);
@@ -955,7 +972,6 @@ void Game::Run()
 
 		//Zeichne alles, was immer dargestellt werden soll, oberer Layer.	
 		DrawTower(TowerVector);
-
 
 		//Beendet und zeichnet den aktuellen Frame		
 		App.display();
@@ -985,16 +1001,11 @@ void Game::DrawGameTextures(sf::Sprite &hudSprite, sf::Sprite &statusSprite,
 	App.draw(punktText);
 }
 
-void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int runde, sf::Text &TimerText, int timerText, sf::Text &lebenText, int playerLife)
-{
-	goldText.setString(to_string(gold));
-	rundenText.setString(to_string(runde));
-	TimerText.setString(to_string(timerText));
-	lebenText.setString(to_string(playerLife));
-}
-
-//Tower-Animationen
-vector<sf::Vector3i> Game::TowerAnimation(std::vector<BasicTower *> * BasicTowerVector, std::vector<BasicEnemy *> * enemyActiveVector,
+// TowerAttack:
+// Ruft für alle Türme die checkForEnemies()-Funktion auf.
+// Werden angreifbare Gegner gefunden so wird diesen Schaden zugefügt und die Position für die Angriffsanimation
+// in den animations-vector geschrieben. Dieser wird am Ende zurückgegeben.
+vector<sf::Vector3i> Game::TowerAttack(std::vector<BasicTower *> * BasicTowerVector, std::vector<BasicEnemy *> * enemyActiveVector,
 	sf::Sprite &explosionSprite, sf::Sprite &lightningAttackSprite, sf::Sprite &fireAttackSprite, sf::Sprite &frostAttackSprite)
 {
 	vector<int> targets;
@@ -1003,6 +1014,7 @@ vector<sf::Vector3i> Game::TowerAnimation(std::vector<BasicTower *> * BasicTower
 	{
 		for (int i = 0; i < BasicTowerVector->size(); i++)
 		{
+			//Sucht nach angreifbaren Gegnern und schreibt diese in den targets-Vector
 			targets = BasicTowerVector->at(i)->checkForEnemies(enemyActiveVector);
 			if (!targets.empty())
 			{
@@ -1010,18 +1022,18 @@ vector<sf::Vector3i> Game::TowerAnimation(std::vector<BasicTower *> * BasicTower
 				{
 					int k = targets.at(j);
 					{
-						//Schaden zufügen
+						//Fügt den Gegner im targets-Vector Schaden zufügen
 						enemyActiveVector->at(k)->takeDamage(BasicTowerVector->at(i)->getDamage());
 
 						//Falls ein Frosttower angreift, verlangsame den Gegner
 						int type = BasicTowerVector->at(i)->getType();
-						if (type == 3)
+						if (type == 3 && enemyActiveVector->at(k)->eGetFrozenTimer == 0)
 						{
 							enemyActiveVector->at(k)->eSetMovementSpeed(enemyActiveVector->at(k)->eGetMovementSpeed() - 1);
 							enemyActiveVector->at(k)->eSetFrozenTimer(1);
 						}
 
-						//Animationen zu Animationsvektor hinzufügen
+						//Füge die Koordinaten und den Towertyp für die Animationen zum Animationsvector hinzufügen
 						sf::Vector3i v1;
 						v1.x = type;
 						v1.y = enemyActiveVector->at(k)->eGetXCoord();
@@ -1032,8 +1044,18 @@ vector<sf::Vector3i> Game::TowerAnimation(std::vector<BasicTower *> * BasicTower
 			}
 		}
 	}
+	//Gibt den Vector mit allen darzustellenden Angriffsanimationen zurück
 	return animations;
 }
+
+void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int runde, sf::Text &TimerText, int timerText, sf::Text &lebenText, int playerLife)
+{
+	goldText.setString(to_string(gold));
+	rundenText.setString(to_string(runde));
+	TimerText.setString(to_string(timerText));
+	lebenText.setString(to_string(playerLife));
+}
+	
 
 void Game::LoadExplosionTextures(sf::Texture &explosionTexture, sf::Sprite &explosionSprite, sf::Texture &frostAttackTexture, sf::Sprite &frostAttackSprite,
 	sf::Texture &fireAttackTexture, sf::Sprite &fireAttackSprite, sf::Texture &lightningAttackTexture, sf::Sprite &lightningAttackSprite)
@@ -1146,7 +1168,7 @@ void Game::LoadGameFont(sf::Font &font)
 {
 	if (!font.loadFromFile("ArtAssets/impact.ttf"))
 	{
-		std::cout << "Es konnte keine Fontdatei geunden werden!" << std::endl;
+		std::cout << "Es konnte keine Fontdatei gefunden werden!" << std::endl;
 	}
 }
 

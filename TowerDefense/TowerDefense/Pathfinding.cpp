@@ -8,11 +8,6 @@
 
 using namespace std;
 
-/*
-Der Pathfinding-Algorithmus orientiert sich an der Implementation von OneLoneCoder:
-https://github.com/OneLoneCoder/videos/blob/master/OneLoneCoder_PathFinding_AStar.cpp
-*/
-
 //Path berechnen
 vector<int> PathFinding::aStar(vector<GameArea*> playingField)
 {
