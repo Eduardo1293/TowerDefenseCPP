@@ -20,9 +20,7 @@ private:
 	int eGlobalLocation;
 	int eNavigationHelper;
 	int eMovementSpeed;
-	bool eBoolFrozen;
 	int eFrozenTimer;
-
 
 public:
 	BasicEnemy();
@@ -35,7 +33,8 @@ public:
 	void eSetYCoord(float YCoord);
 	void eSetGlobalLocation(int location);
 	void eSetNavigationHelper(int navi);
-	void eSetFrozen();
+	void eSetMovementSpeed(int speed);
+	void eSetFrozenTimer(int timer);
 
 	//getter
 	double eGetMaxLife(); 
@@ -45,7 +44,7 @@ public:
 	int eGetGlobalLocation();
 	int eGetNavigationHelper();
 	int eGetMovementSpeed();
-	bool eGetFrozen;
+	int eGetFrozenTimer();
 	sf::Sprite eGetSprite();
 
 	void takeDamage(int damage);

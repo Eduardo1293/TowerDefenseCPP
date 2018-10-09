@@ -595,9 +595,6 @@ void Game::Run()
 				enemyClock.restart();
 			}
 
-
-
-
 			TimerText.setFillColor(color.Black);
 			//buildingphase = true;
 			if (enemyActiveVector->empty() && enemyVector->empty()) {
@@ -633,6 +630,18 @@ void Game::Run()
 			{
 				for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
 				{
+					//Überprüft, ob ein Gegner noch von einem Frosttower verlangsamt ist
+					int timer = enemyActiveVector->at(i)->eGetFrozenTimer();					
+					if (timer > 0 && timer < 25)
+					{
+						enemyActiveVector->at(i)->eSetFrozenTimer(timer + 1);
+					}
+					if (timer == 25)
+					{
+						enemyActiveVector->at(i)->eSetMovementSpeed(enemyActiveVector->at(i)->eGetMovementSpeed() + 1);
+						enemyActiveVector->at(i)->eSetFrozenTimer(0);
+					}
+
 					int mSpeed = enemyActiveVector->at(i)->eGetMovementSpeed();
 
 					for (unsigned int j = 0; j < mSpeed; j++)
@@ -831,7 +840,7 @@ void Game::Run()
 				towerAnimations.insert(towerAnimations.end(), addTowerAnimations.begin(), addTowerAnimations.end());
 			}
 
-			//Zeichne die Attack-Animationen für 5 Frames
+			//Zeichne die Attack-Animationen für 7 Frames
 			for (int i = 0; i < animationFrameTime.size(); i++)
 			{
 				if (animationFrameTime.at(i) < 7)
@@ -973,9 +982,17 @@ vector<sf::Vector3i> Game::TowerAnimation(std::vector<BasicTower *> * BasicTower
 						//Schaden zufügen
 						enemyActiveVector->at(k)->takeDamage(BasicTowerVector->at(i)->getDamage());
 
+						//Falls ein Frosttower angreift, verlangsame den Gegner
+						int type = BasicTowerVector->at(i)->getType();
+						if (type == 3) 
+						{
+							enemyActiveVector->at(k)->eSetMovementSpeed(enemyActiveVector->at(k)->eGetMovementSpeed() - 1);
+							enemyActiveVector->at(k)->eSetFrozenTimer(1);
+						}
+
 						//Animationen zu Animationsvektor hinzufügen
 						sf::Vector3i v1;
-						v1.x = BasicTowerVector->at(i)->getType();
+						v1.x = type;
 						v1.y = enemyActiveVector->at(k)->eGetXCoord();
 						v1.z = enemyActiveVector->at(k)->eGetYCoord();
 						animations.push_back(v1);											
@@ -1006,6 +1023,7 @@ void Game::LoadExplosionTextures(sf::Texture &explosionTexture, sf::Sprite &expl
 
 	frostAttackTexture.loadFromFile("ArtAssets/SFX/ice.png");
 	frostAttackSprite.setTexture(frostAttackTexture);
+	frostAttackSprite.setScale(0.6, 0.6);
 	frostAttackSprite.setOrigin(35, 35);
 }
 

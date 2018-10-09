@@ -14,7 +14,6 @@ BasicEnemy::BasicEnemy(int maxLife, int movSpeed, string textureLocation) {
 	BasicEnemyTexture.loadFromFile(textureLocation);
 	BasicEnemySprite.setTexture(BasicEnemyTexture);
 	BasicEnemySprite.setOrigin(32, 32);
-	//"ArtAssets/Enemies/enemyBlack1.png"
 }
 
 BasicEnemy::~BasicEnemy()
@@ -47,6 +46,16 @@ void BasicEnemy::eSetNavigationHelper(int navi)
 	eNavigationHelper = navi;
 }
 
+void BasicEnemy::eSetMovementSpeed(int speed)
+{
+	eMovementSpeed = speed;
+}
+
+void BasicEnemy::eSetFrozenTimer(int timer)
+{
+	eFrozenTimer = timer;
+}
+
 //Getter
 double BasicEnemy::eGetMaxLife()
 {
@@ -73,6 +82,11 @@ int BasicEnemy::eGetGlobalLocation()
 	return eGlobalLocation;
 }
 
+int BasicEnemy::eGetFrozenTimer()
+{
+	return eFrozenTimer;
+}
+
 int BasicEnemy::eGetNavigationHelper()
 {
 	return eNavigationHelper;
@@ -91,6 +105,8 @@ sf::Sprite BasicEnemy::eGetSprite()
 void BasicEnemy::takeDamage(int damage) {
 	eCurrentLife = (eCurrentLife - damage);
 }
+
+
 
 BasicEnemy::BasicEnemy()
 {
