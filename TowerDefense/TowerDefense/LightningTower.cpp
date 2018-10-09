@@ -3,6 +3,11 @@
 
 
 
+LightningTower::LightningTower()
+{
+	tDescription = "Lightning Turm : Gold XX";
+}
+
 LightningTower::LightningTower(float XCoord, float YCoord, int areaID)
 	: BasicTower(XCoord, YCoord, areaID, "ArtAssets/Tower/tank_sand.png", "Lightning Tower",
 		"Greift einen zufälligen Gegner auf dem Feld an", 30, 30, 10, 5)

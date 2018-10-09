@@ -503,8 +503,8 @@ void Game::Run()
 
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
-					AttackTower test = AttackTower();
-					descriptionText.setString(test.getDescription());
+					AttackTower AttackTowerNew = AttackTower();
+					descriptionText.setString(AttackTowerNew.getDescription());
 					selectetTower = basicTower;
 					buildTowerSprite.setTexture(basicTowerButton.getButtonTexture());
 					basicTowerButton.setColor(hoverColer);
@@ -523,7 +523,8 @@ void Game::Run()
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
 					selectetTower = cannonTower;
-					//descriptionText.setString(CannonTowerRef->getDescription());
+					CannonTower cannonTowerNew = CannonTower();
+					descriptionText.setString(cannonTowerNew.getDescription());
 					buildTowerSprite.setTexture(cannonTowerButton.getButtonTexture());
 					cannonTowerButton.setColor(hoverColer);
 				}
@@ -540,6 +541,8 @@ void Game::Run()
 				frostTowerButton.setColor(hoverColer);
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
+					FrostTower frostTowerNew = FrostTower();
+					descriptionText.setString(frostTowerNew.getDescription());
 					selectetTower = frostTower;
 
 					buildTowerSprite.setTexture(frostTowerButton.getButtonTexture());
@@ -560,6 +563,8 @@ void Game::Run()
 				fireTowerButton.setColor(hoverColer);
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
+					FlameTower flameTowerNew = FlameTower();
+					descriptionText.setString(flameTowerNew.getDescription());
 					selectetTower = flameTower;
 
 					buildTowerSprite.setTexture(fireTowerButton.getButtonTexture());
@@ -580,6 +585,8 @@ void Game::Run()
 				lightningTowerButton.setColor(hoverColer);
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
+					LightningTower lightningTowerNew = LightningTower();
+					descriptionText.setString(lightningTowerNew.getDescription());
 					lightningTowerButton.setColor(hoverColer);
 					selectetTower = lightningTower;
 

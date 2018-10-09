@@ -67,6 +67,8 @@ Grundlegender Turm, greift einen einzelnen Gegner an
 
 class AttackTower : public BasicTower 
 {
+private: 
+	string tDescription;
 
 public:
 
@@ -75,7 +77,7 @@ public:
 
 	//Funktionen
 	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
-
+	inline string getDescription() const { return tDescription; }
 };
 
 /*
@@ -83,13 +85,16 @@ Kanonenturm, langsamer aber starker Angriff
 */
 class CannonTower : public BasicTower 
 {
+private:
+	string tDescription;
 
 public:
+	CannonTower();
 	CannonTower(float XCoord, float YCoord, int areaID);
 
 	//Funktionen
 	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
-	
+	inline string getDescription() const { return tDescription; }
 };
 
 /*
@@ -97,38 +102,50 @@ Flamenturm mit Flächenangriff
 */
 class FlameTower : public BasicTower 
 {
+private:
+	string tDescription;
 
 public:
+	FlameTower();
 	FlameTower(float XCoord, float YCoord, int areaID);
+
 
 	//Funktionen
 	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
-	
+	inline string getDescription() const { return tDescription; }
 };
 
 /*
 Frostturm, der Gegner verlangsamen kann
 */
-class FrostTower : public BasicTower {
+class FrostTower : public BasicTower 
+{
 
+private:
+	string tDescription;
 public:
+	FrostTower();
 	FrostTower(float XCoord, float YCoord, int areaID);
 
 	//Funktionen
 	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
-	
+	inline string getDescription() const { return tDescription; }
 };
 
 /*
 Blitzturm, greift einen zufälligen Gegner auf der Karte an
 */
-class LightningTower : public BasicTower {
+class LightningTower : public BasicTower 
+{
 
+private:
+	string tDescription;
 public:
+	LightningTower();
 	LightningTower(float XCoord, float YCoord, int areaID);
 
 	//Funktionen
 	vector<int> checkForEnemies(vector<BasicEnemy*> *enemyActiveVector);
-	
+	inline string getDescription() const { return tDescription; }
 };
 #endif
