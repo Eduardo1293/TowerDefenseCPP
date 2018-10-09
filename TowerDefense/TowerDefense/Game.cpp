@@ -976,7 +976,7 @@ void Game::Run()
 					buildingphaseCountdown = 20;
 				}
 			}
-			if (runde == 11 && enemyActiveVector->empty() && enemyVector->empty())
+			if (runde == 10 && enemyActiveVector->empty() && enemyVector->empty())
 			{
 				gameState = Winning;
 			}
@@ -1002,6 +1002,7 @@ void Game::Run()
 
 			while (screen.isRunning())
 			{
+				running = false;
 				screen.Run(true);
 			}
 		}
@@ -1016,6 +1017,7 @@ void Game::Run()
 
 			while (screen.isRunning())
 			{
+				running = false;
 				screen.Run(false);
 			}
 		}
