@@ -37,6 +37,7 @@ WICHTIG IM GAMEOVER SCREEN DREHT CPU DURCH
 #include "BasicButton.h"
 #include "PathFinding.h"
 #include "CustomException.h"
+#include "EndScreen.h"
 #include <iostream>
 #include <map>
 
@@ -942,7 +943,14 @@ void Game::Run()
 		*/
 		if(phaseCounter == 3)
 		{
-			ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite, playerInput, playerText);
+			App.close();
+
+			EndScreen screen;
+
+			while (screen.isRunning())
+			{
+				screen.Run();
+			}
 		}
 
 		/*

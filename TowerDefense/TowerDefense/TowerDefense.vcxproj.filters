@@ -114,6 +114,9 @@
     <ClCompile Include="CustomException.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
+    <ClCompile Include="EndScreen.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicTower.h">
@@ -144,6 +147,9 @@
       <Filter>Headerdateien\Core</Filter>
     </ClInclude>
     <ClInclude Include="PathFinding.h">
+      <Filter>Headerdateien\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EndScreen.h">
       <Filter>Headerdateien\Core</Filter>
     </ClInclude>
   </ItemGroup>
