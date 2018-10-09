@@ -25,6 +25,7 @@ WICHTIG IM GAMEOVER SCREEN DREHT CPU DURCH  Erledigt X
 -gewinnscreen?!? game läuft momentan einfach weiter
 -Wenn WeakEnemy ins Ziel fährt, stürzt das Spiel ab
 Beim bauen von Türmen wird der Turm nicht durchsicht angezeigt
+- Wenn man nach einem Sieg, aus dem Endscreen ein neues Spiel starten möchte, kommt man direkt wieder in den Endscreen
 */
 
 
