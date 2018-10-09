@@ -24,7 +24,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			if (tXCoord != 447 && tYCoord != 703 && enemyLocation == tGlobalLocation + 8)
 			{
 				tBasicTurmSprite.setRotation(315);
-				tAttackCooldown = 12;
+				tAttackCooldown = tAttackSpeed;
 				enemies.push_back(i);
 				return enemies;				
 			}
@@ -33,7 +33,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tXCoord != 447 && enemyLocation == tGlobalLocation + 1)
 			{
 				tBasicTurmSprite.setRotation(270);
-				tAttackCooldown = 12;
+				tAttackCooldown = tAttackSpeed;
 				enemies.push_back(i);
 				return enemies;				
 			}
@@ -42,7 +42,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tYCoord != 703 && enemyLocation == tGlobalLocation + 7)
 			{
 				tBasicTurmSprite.setRotation(0);
-				tAttackCooldown = 12;
+				tAttackCooldown = tAttackSpeed;
 				enemies.push_back(i);
 				return enemies;				
 			}
@@ -51,7 +51,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tXCoord != 63 && tYCoord != 703 && enemyLocation == tGlobalLocation + 6)
 			{
 				tBasicTurmSprite.setRotation(45);
-				tAttackCooldown = 12;
+				tAttackCooldown = tAttackSpeed;
 				enemies.push_back(i);
 				return enemies;				
 			}
@@ -60,7 +60,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tXCoord != 448 && tYCoord != 191 && enemyLocation == tGlobalLocation - 6)
 			{
 				tBasicTurmSprite.setRotation(225);
-				tAttackCooldown = 12;
+				tAttackCooldown = tAttackSpeed;
 				enemies.push_back(i);
 				return enemies;				
 			}
@@ -69,7 +69,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tXCoord != 63 && enemyLocation == tGlobalLocation - 1)
 			{
 				tBasicTurmSprite.setRotation(90);
-				tAttackCooldown = 12;
+				tAttackCooldown = tAttackSpeed;
 				enemies.push_back(i);
 				return enemies;			
 			}
@@ -78,7 +78,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tYCoord != 191 && enemyLocation == tGlobalLocation - 7)
 			{
 				tBasicTurmSprite.setRotation(180);
-				tAttackCooldown = 12;
+				tAttackCooldown = tAttackSpeed;
 				enemies.push_back(i);
 				return enemies;			
 			}
@@ -87,7 +87,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tXCoord != 63 && tYCoord != 191 && enemyLocation == tGlobalLocation - 8)
 			{
 				tBasicTurmSprite.setRotation(135);
-				tAttackCooldown = 12;
+				tAttackCooldown = tAttackSpeed;
 				enemies.push_back(i);
 				return enemies;			
 			}			
