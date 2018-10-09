@@ -43,7 +43,6 @@ public:
 		int &gold, int &x, int &y, sf::Sprite &lifeEnemySprite, sf::Texture &hundredLifeTexture,
 		sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture, sf::Texture &fortyLifeTexture,
 		sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Text &punktZahlText);
-	void ShowGameOverScreen(sf::Font &font, sf::Color &color, sf::Texture &backgroundTexture, sf::Sprite &backgroundSprite, sf::String &playerInput, sf::Text &playerText);
 
 	bool isRunning();
 

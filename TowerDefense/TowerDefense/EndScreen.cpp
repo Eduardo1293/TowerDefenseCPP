@@ -1,6 +1,18 @@
+/*
+-----SPACE DEFENDER-----
+
+Stefan Reso
+Johannes Schmidt
+Andre Jelonek       259031
+
+Artassets von Kenney.nl und Itch.io
+Musik von
+*/
+
 #include "EndScreen.h"
 #include "BasicButton.h"
 #include "Menu.h"
+#include <iostream>
 
 EndScreen::EndScreen()
 {
@@ -16,17 +28,44 @@ EndScreen::~EndScreen()
 {
 }
 
-void EndScreen::Run()
+void EndScreen::LoadGameFont(sf::Font &font)
 {
+	if (!font.loadFromFile("ArtAssets/impact.ttf"))
+	{
+		std::cout << "Es konnte keine Fontdatei gefunden werden!" << std::endl;
+	}
+}
+
+void EndScreen::Run(bool gameOver)
+{
+	sf::Font font;
 	string TexturePath = "ArtAssets/Menu/MenuButton.png";
 	sf::Texture BackgroundTexture;
 	sf::Sprite BackgroundSprite;
 	sf::Color color;
 	sf::Color hoverColer = sf::Color(255, 255, 255, 140);
 	BasicButton ExitButton = BasicButton(150, 500, "EXIT", TexturePath, color.White, 38, -120, 475);
+	sf::Text EndScreenText;
+	LoadGameFont(font);
 
+	EndScreenText.setFont(font);
+	EndScreenText.setCharacterSize(130);
+	
+	if (gameOver)
+	{
+		BackgroundTexture.loadFromFile("ArtAssets/Nebula Red.png");
+		EndScreenText.setFillColor(color.Red);
+		EndScreenText.setString("GAME OVER");
+		EndScreenText.setPosition(15, 150);
+	}
+	else
+	{
+		BackgroundTexture.loadFromFile("ArtAssets/Nebula Blue.png");
+		EndScreenText.setFillColor(color.White);
+		EndScreenText.setString("YOU WIN");
+		EndScreenText.setPosition(80, 150);
+	}
 
-	BackgroundTexture.loadFromFile("ArtAssets/Nebula Red.png");
 	BackgroundSprite.setTexture(BackgroundTexture);
 	BackgroundSprite.setPosition(0, 0);
 
@@ -73,9 +112,11 @@ void EndScreen::Run()
 			ExitButton.setColor(color.White);
 		}
 
+		
 		Window.draw(BackgroundSprite);
 		Window.draw(ExitButton.getSprite());
 		Window.draw(ExitButton.getButtonText());
+		Window.draw(EndScreenText);
 		Window.display();
 	}
 }

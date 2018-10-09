@@ -9,7 +9,8 @@ public:
 	EndScreen();
 	~EndScreen();
 
-	void Run();
+	void Run(bool gameOver);
+	void LoadGameFont(sf::Font &font);
 	bool isRunning();
 
 private:
@@ -17,6 +18,7 @@ private:
 
 	bool running;
 	std::string name;
+
 
 };
 #endif
