@@ -16,6 +16,8 @@ Hier Sachen reinschrieben, die noch gemacht werden müssen!
 -sollte bei den neuen türmen der tower nicht innerhalb der if-abfrage erstellt werden?
 -musik stoppt nach einem durchlauf
 
+-Projektmappen Einstellungen verallgemeinern: Wenn wir das so abgeben, muss er die einstellungen erst richtig setzten.
+
 -spiel läuft im gameover screen weiter!!!!!!!!!!!!!!!
 WICHTIG IM GAMEOVER SCREEN DREHT CPU DURCH
 
@@ -583,14 +585,6 @@ void Game::Run()
 			}
 
 
-			//Beendet die Bauphase sobald der Spieler kein Gold mehr hat.	
-			//buggt, möglicherweise einfahc streichen?
-			/*if (gold == 0)
-			{
-				buildingphaseCountdown = 0;
-				buildingphase = false;
-			}*/
-
 			if (enemyVector->empty()) {
 				*enemyVector = enemyWaves(runde);
 				runde++;
@@ -605,7 +599,7 @@ void Game::Run()
 		*/
 		else if (phaseCounter == 2)
 		{
-			// ??????????????????????????????????????????????????????????????
+			// Der Text für die Turm bezeichnung wird während der Gamephase geleert, damit dieser nicht Fest angezeigt wird
 			descriptionText.setString("");
 
 			//Enemyclock, schickt jede Sekunde einen Gegner auf die Reise
@@ -616,9 +610,6 @@ void Game::Run()
 				enemyVector->erase(enemyVector->begin() + 0);
 				enemyClock.restart();
 			}
-
-			// ?????????????????????????????????????????????????????????????
-			TimerText.setFillColor(color.Black);
 			
 			if (enemyActiveVector->empty() && enemyVector->empty()) {
 				phaseCounter = 1;
