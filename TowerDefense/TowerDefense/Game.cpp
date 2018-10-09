@@ -138,6 +138,8 @@ void Game::Run()
 	sf::Color hoverColer = sf::Color(255, 255, 255, 140);
 	LoadGameFont(font);
 
+
+	
 	BasicButton basicTowerButton = BasicButton(78, 779, "", "ArtAssets/Tower/tank_dark.png", color.White, 0, 0, 0);
 	BasicButton cannonTowerButton = BasicButton(151, 779, "", "ArtAssets/Tower/tank_green.png", color.White, 0, 0, 0);
 	BasicButton frostTowerButton = BasicButton(224, 779, "", "ArtAssets/Tower/tank_blue.png", color.White, 0, 0, 0);
@@ -626,10 +628,9 @@ void Game::Run()
 
 
 			if (enemyVector->empty()) {
-				*enemyVector = enemyWaves(runde);
-				runde++;
+				runde = runde++;
+				*enemyVector = enemyWaves(runde);				
 			}
-
 		}
 
 		/*
