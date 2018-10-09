@@ -19,10 +19,10 @@ Hier Sachen reinschrieben, die noch gemacht werden müssen!
 -Projektmappen Einstellungen verallgemeinern: Wenn wir das so abgeben, muss er die einstellungen erst richtig setzten.
 
 -spiel läuft im gameover screen weiter!!!!!!!!!!!!!!!
-WICHTIG IM GAMEOVER SCREEN DREHT CPU DURCH
+WICHTIG IM GAMEOVER SCREEN DREHT CPU DURCH  Erledigt X
 
--tower desriptions funktionieren nicht richtig!
--gewinnscreen?!? game läuft momentan einfach weiter
+-tower desriptions funktionieren nicht richtig!  Erledigt X
+-gewinnscreen?!? game läuft momentan einfach weiter  Erledigt X
 
 Beim bauen von Türmen wird der Turm nicht durchsicht angezeigt
 */
