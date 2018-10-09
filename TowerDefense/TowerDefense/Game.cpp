@@ -3,7 +3,9 @@ Hier Sachen reinschrieben, die noch gemacht werden müssen!
 -eine der distanzen in gamearea ist unnütz, beizeiten aufräumen :D und die namen sind komisch
 -sollte bei den neuen türmen der tower nicht innerhalb der if-abfrage erstellt werden?
 -musik stoppt nach einem durchlauf
--spiel läuft im gameover screen weiter
+-spiel läuft im gameover screen weiter!!!!!!!!!!!!!!!
+WICHTIG IM GAMEOVER SCREEN DREHT CPU DURCH
+
 -tower desriptions funktionieren nicht richtig!
 */
 
@@ -34,8 +36,8 @@ Game::Game()
 
 }
 
-//Bool für Gegnerphase oder Bauphase
-bool buildingphase = true;
+//Counter für die Phase in der sich der Spieler befindet
+int phaseCounter = 1;
 
 Game::~Game()
 {
@@ -55,6 +57,7 @@ void Game::Run()
 	int punkteZahl = 0;
 	int gameTimeEnemyCounter = 1;
 	int waveEnemyAddedCounter = 0;
+	int buildingPhaseTowerCount = 0;
 
 
 	//Mechanik für Tower-Auswahl
@@ -272,7 +275,7 @@ void Game::Run()
 		}
 
 
-		if (buildingphase) {
+		if (phaseCounter == 1) {
 			SelectetTower selectetTower;
 
 			/*
@@ -298,13 +301,11 @@ void Game::Run()
 			FrostTower * FrostTowerRef;
 			LightningTower * LightningTowerRef;
 
-			/*
-			Beende die Buildingphase. Falls kein Weg gefunden wird, lösche den letzten Tower im Tower-Vector
-			bis ein Weg gefunden wurde.
-			*/
+			
+			//Beende die Buildingphase. Falls kein Weg gefunden wird, lösche die Tower der letzten Phase aus dem Towervector.		
 			if (buildingphaseCountdown == 0)
 			{
-				buildingphase = false;
+				phaseCounter = 2;
 				TimerText.setFillColor(hoverColer);
 				buildphaseElapsedTimeBuffer = 0;
 
@@ -315,11 +316,14 @@ void Game::Run()
 				}
 				catch (CustomException e)
 				{
-					// Tower löschen
-					int location = TowerVector->at(TowerVector->size() - 1)->getLocation();
-					GameAreaVector.at(location)->setAreaEmpty(true);
-					TowerVector->erase(TowerVector->begin() + TowerVector->size() - 1);
+					//Löscht alle Tower, die in der letzten Buildingphase gebaut wurden.
+					for (int i = 0; i < buildingPhaseTowerCount; i++)
+					{					
+						int location = TowerVector->at(TowerVector->size() - 1)->getLocation();
 
+						GameAreaVector.at(location)->setAreaEmpty(true);
+						TowerVector->erase(TowerVector->begin() + TowerVector->size() - 1);
+					}
 					path = pathFindingRef.aStar(GameAreaVector);
 				}
 
@@ -363,7 +367,8 @@ void Game::Run()
 				pathDirection.push_back(2);
 
 
-				//Fülle den Gegnervektor mit den Gegnern der nächsten Wave				
+				//Fülle den Gegnervektor mit den Gegnern der nächsten Wave	
+				buildingPhaseTowerCount = 0;
 				*enemyVector = enemyWaves(runde);
 				enemyClock.restart();
 			}
@@ -406,6 +411,7 @@ void Game::Run()
 									TowerVector->push_back(AttackTowerRef);
 									GameAreaVector.at(i)->setAreaEmpty(false);
 									gold = gold - AttackTowerRef->getCost();
+									buildingPhaseTowerCount++;
 								}
 							}
 							break;
@@ -420,6 +426,7 @@ void Game::Run()
 									TowerVector->push_back(CannonTowerRef);
 									GameAreaVector.at(i)->setAreaEmpty(false);
 									gold = gold - CannonTowerRef->getCost();
+									buildingPhaseTowerCount++;
 								}
 							}
 							break;
@@ -432,6 +439,7 @@ void Game::Run()
 									TowerVector->push_back(FlameTowerRef);
 									GameAreaVector.at(i)->setAreaEmpty(false);
 									gold = gold - FlameTowerRef->getCost();
+									buildingPhaseTowerCount++;
 								}
 							}
 							break;
@@ -444,6 +452,7 @@ void Game::Run()
 									TowerVector->push_back(FrostTowerRef);
 									GameAreaVector.at(i)->setAreaEmpty(false);
 									gold = gold - FrostTowerRef->getCost();
+									buildingPhaseTowerCount++;
 								}
 							}
 							break;
@@ -456,9 +465,10 @@ void Game::Run()
 									TowerVector->push_back(LightningTowerRef);
 									GameAreaVector.at(i)->setAreaEmpty(false);
 									gold = gold - LightningTowerRef->getCost();
+									buildingPhaseTowerCount++;
 								}
 							}
-							break;					
+							break;
 						}
 					}
 				}
@@ -582,7 +592,7 @@ void Game::Run()
 		}
 
 		//Gegnerphase
-		else
+		else if (phaseCounter == 2)
 		{
 			descriptionText.setString("");
 
@@ -598,8 +608,8 @@ void Game::Run()
 			TimerText.setFillColor(color.Black);
 			//buildingphase = true;
 			if (enemyActiveVector->empty() && enemyVector->empty()) {
-				buildingphase = true;
-				buildingphaseCountdown = 30;
+				phaseCounter = 1;
+				buildingphaseCountdown = 20;
 				//runde++;
 			}
 
@@ -631,7 +641,7 @@ void Game::Run()
 				for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
 				{
 					//Überprüft, ob ein Gegner noch von einem Frosttower verlangsamt ist
-					int timer = enemyActiveVector->at(i)->eGetFrozenTimer();					
+					int timer = enemyActiveVector->at(i)->eGetFrozenTimer();
 					if (timer > 0 && timer < 25)
 					{
 						enemyActiveVector->at(i)->eSetFrozenTimer(timer + 1);
@@ -851,8 +861,8 @@ void Game::Run()
 					switch (v.x)
 					{
 					case 1:
-						explosionSprite.setPosition(v.y, v.z);					
-						App.draw(explosionSprite);						
+						explosionSprite.setPosition(v.y, v.z);
+						App.draw(explosionSprite);
 						break;
 					case 2:
 						explosionSprite.setPosition(v.y, v.z);
@@ -904,26 +914,35 @@ void Game::Run()
 				TimerText.setFillColor(color.Black);
 				if (enemyActiveVector->empty() && enemyVector->empty())
 				{
-					buildingphase = true;
-					buildingphaseCountdown = 30;
-					//runde++;
+					phaseCounter = 1;
+					buildingphaseCountdown = 20;					
 				}
 			}
-
 
 			//Beende das Spiel falls der Spieler keine Lebenspunkte mehr hat			
 			if (playerLife <= 0)
 			{
 				TowerVector->clear();
-				ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite, playerInput, playerText);
+				phaseCounter = 3;
 			}
 
 		}
 
+		if(phaseCounter == 3)
+		{
+			ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite, playerInput, playerText);
+		}
+
+		/*
+		SIEGERSCREEN?
+		if (phaseCounter == 4) 
+		{
+
+		}
+		*/
 
 		//Zeichne alles, was immer dargestellt werden soll, oberer Layer.	
 		DrawTower(TowerVector);
-
 
 
 		//Beendet und zeichnet den aktuellen Frame		
@@ -971,7 +990,7 @@ vector<sf::Vector3i> Game::TowerAnimation(std::vector<BasicTower *> * BasicTower
 	if (!enemyActiveVector->empty())
 	{
 		for (int i = 0; i < BasicTowerVector->size(); i++)
-		{			
+		{
 			targets = BasicTowerVector->at(i)->checkForEnemies(enemyActiveVector);
 			if (!targets.empty())
 			{
@@ -984,7 +1003,7 @@ vector<sf::Vector3i> Game::TowerAnimation(std::vector<BasicTower *> * BasicTower
 
 						//Falls ein Frosttower angreift, verlangsame den Gegner
 						int type = BasicTowerVector->at(i)->getType();
-						if (type == 3) 
+						if (type == 3)
 						{
 							enemyActiveVector->at(k)->eSetMovementSpeed(enemyActiveVector->at(k)->eGetMovementSpeed() - 1);
 							enemyActiveVector->at(k)->eSetFrozenTimer(1);
@@ -995,7 +1014,7 @@ vector<sf::Vector3i> Game::TowerAnimation(std::vector<BasicTower *> * BasicTower
 						v1.x = type;
 						v1.y = enemyActiveVector->at(k)->eGetXCoord();
 						v1.z = enemyActiveVector->at(k)->eGetYCoord();
-						animations.push_back(v1);											
+						animations.push_back(v1);
 					}
 				}
 			}
@@ -1230,7 +1249,6 @@ void Game::ShowGameOverScreen(sf::Font &font, sf::Color &color, sf::Texture &bac
 	}
 
 }
-
 
 bool Game::isRunning()
 {
