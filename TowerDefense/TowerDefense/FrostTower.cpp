@@ -1,8 +1,8 @@
 #include "BasicTower.h"
 
 FrostTower::FrostTower(float XCoord, float YCoord, int areaID)
-	: BasicTower(XCoord, YCoord, areaID, "ArtAssets/Tower/tank_red.png", "Flametower",
-		"Flamenturm mit Area-Schaden", 30, 0, 10, 3)
+	: BasicTower(XCoord, YCoord, areaID, "ArtAssets/Tower/tank_blue.png", "Flametower",
+		"Flamenturm mit Area-Schaden", 30, 10, 15, 3)
 {
 }
 
@@ -28,7 +28,7 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			if (tXCoord != 447 && tYCoord != 703 && enemyLocation == tGlobalLocation + 8)
 			{
 				tBasicTurmSprite.setRotation(315);
-				tAttackCooldown = 10;
+				tAttackCooldown = 15;
 				enemies.push_back(i);
 				return enemies;
 			}
@@ -37,7 +37,7 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tXCoord != 447 && enemyLocation == tGlobalLocation + 1)
 			{
 				tBasicTurmSprite.setRotation(270);
-				tAttackCooldown = 10;
+				tAttackCooldown = 15;
 				enemies.push_back(i);
 				return enemies;
 			}
@@ -46,7 +46,7 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tYCoord != 703 && enemyLocation == tGlobalLocation + 7)
 			{
 				tBasicTurmSprite.setRotation(0);
-				tAttackCooldown = 10;
+				tAttackCooldown = 15;
 				enemies.push_back(i);
 				return enemies;
 			}
@@ -55,7 +55,7 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tXCoord != 63 && tYCoord != 703 && enemyLocation == tGlobalLocation + 6)
 			{
 				tBasicTurmSprite.setRotation(45);
-				tAttackCooldown = 10;
+				tAttackCooldown = 15;
 				enemies.push_back(i);
 				return enemies;
 			}
@@ -64,7 +64,7 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tXCoord != 448 && tYCoord != 191 && enemyLocation == tGlobalLocation - 6)
 			{
 				tBasicTurmSprite.setRotation(225);
-				tAttackCooldown = 10;
+				tAttackCooldown = 15;
 				enemies.push_back(i);
 				return enemies;
 			}
@@ -73,7 +73,7 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tXCoord != 63 && enemyLocation == tGlobalLocation - 1)
 			{
 				tBasicTurmSprite.setRotation(90);
-				tAttackCooldown = 10;
+				tAttackCooldown = 15;
 				enemies.push_back(i);
 				return enemies;
 			}
@@ -82,7 +82,7 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tYCoord != 191 && enemyLocation == tGlobalLocation - 7)
 			{
 				tBasicTurmSprite.setRotation(180);
-				tAttackCooldown = 10;
+				tAttackCooldown = 15;
 				enemies.push_back(i);
 				return enemies;
 			}
@@ -91,16 +91,12 @@ vector<int> FrostTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tXCoord != 63 && tYCoord != 191 && enemyLocation == tGlobalLocation - 8)
 			{
 				tBasicTurmSprite.setRotation(135);
-				tAttackCooldown = 10;
+				tAttackCooldown = 15;
 				enemies.push_back(i);
 				return enemies;
 			}
-
-			else
-			{
-				return enemies;
-			}
 		}
+		return enemies;
 	}
 	else
 	{

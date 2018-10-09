@@ -5,19 +5,15 @@
 
 LightningTower::LightningTower(float XCoord, float YCoord, int areaID)
 	: BasicTower(XCoord, YCoord, areaID, "ArtAssets/Tower/tank_sand.png", "Lightning Tower",
-		"Greift einen zufälligen Gegner auf dem Feld an", 30, 0, 30, 5)
+		"Greift einen zufälligen Gegner auf dem Feld an", 30, 30, 10, 5)
 {
 }
 
 vector<int> LightningTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 {
+	vector<int> enemies;
 	if (tAttackCooldown == 0)
-	{
-
-		vector<int> enemies;
-		enemies.clear();
-		enemies.push_back(999);
-
+	{		
 		//Greift einen zufälligen Gegner auf der Map an
 		random_device randomDevice;
 		mt19937 generator(randomDevice());
@@ -28,9 +24,9 @@ vector<int> LightningTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVect
 
 		return enemies;
 	}
-	else
-	{
-		tAttackCooldown -= 1;
-	}
+
+	tAttackCooldown -= 1;
+	return enemies;
+
 
 }

@@ -17,7 +17,8 @@ BasicTower::BasicTower(float XCoord, float YCoord, int areaID) {
 	tBasicTurmSprite.setPosition(tXCoord, tYCoord);
 }
 
-BasicTower::BasicTower(float xCoord, float yCoord, int areaID, string textureLocation, string name, string description, int cost, int attackCooldown, int damage, int type)
+BasicTower::BasicTower(float xCoord, float yCoord, int areaID, string textureLocation, string name, string description, 
+	int cost, int damage, int attackSpeed, int type)
 {
 	tName = textureLocation;
 	tDescription = description;
@@ -25,8 +26,9 @@ BasicTower::BasicTower(float xCoord, float yCoord, int areaID, string textureLoc
 	tXCoord = xCoord;
 	tYCoord = yCoord;
 	tGlobalLocation = areaID;
-	tAttackCooldown = attackCooldown;
+	tAttackCooldown = 0;
 	tDamage = damage;
+	tAttackSpeed = attackSpeed;
 	tTowerType = type;
 	tBasicTurmTexture.loadFromFile(textureLocation);
 	tBasicTurmSprite.setTexture(tBasicTurmTexture);
