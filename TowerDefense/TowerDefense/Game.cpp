@@ -2,11 +2,11 @@
 -----SPACE DEFENDER-----
 
 Stefan Reso
-Johannes Schmidt 
+Johannes Schmidt
 Andre Jelonek       259031
 
 Artassets von Kenney.nl und Itch.io
-Musik von 
+Musik von
 */
 
 
@@ -19,11 +19,12 @@ Hier Sachen reinschrieben, die noch gemacht werden müssen!
 -Projektmappen Einstellungen verallgemeinern: Wenn wir das so abgeben, muss er die einstellungen erst richtig setzten.
 
 -spiel läuft im gameover screen weiter!!!!!!!!!!!!!!!
-WICHTIG IM GAMEOVER SCREEN DREHT CPU DURCH
+WICHTIG IM GAMEOVER SCREEN DREHT CPU DURCH  Erledigt X
 
 -tower desriptions funktionieren nicht richtig!
 -gewinnscreen?!? game läuft momentan einfach weiter
 -Wenn WeakEnemy ins Ziel fährt, stürzt das Spiel ab
+Beim bauen von Türmen wird der Turm nicht durchsicht angezeigt
 */
 
 
@@ -38,6 +39,7 @@ WICHTIG IM GAMEOVER SCREEN DREHT CPU DURCH
 #include "BasicButton.h"
 #include "PathFinding.h"
 #include "CustomException.h"
+#include "EndScreen.h"
 #include <iostream>
 #include <map>
 
@@ -53,8 +55,16 @@ Game::Game()
 
 }
 
-//Counter für die Phase in der sich der Spieler befindet
-int phaseCounter = 1;
+enum GameState
+{
+	BuildingPhase,
+	GamePhase,
+	GameOver,
+	Winning
+};
+
+//Gamestate für die Phase in der sich der Spieler befindet
+GameState gameState = BuildingPhase;
 
 Game::~Game()
 {
@@ -75,6 +85,8 @@ void Game::Run()
 	int gameTimeEnemyCounter = 1;
 	int waveEnemyAddedCounter = 0;
 	int buildingPhaseTowerCount = 0;
+
+
 
 
 	//Mechanik für Tower-Auswahl
@@ -279,13 +291,12 @@ void Game::Run()
 		{
 			soundOffButton.setColor(color.White);
 		}
-
 		/*
-		
+
 				BUILDINGPHASE
-		
+
 		*/
-		if (phaseCounter == 1) {
+		if (gameState == BuildingPhase) {
 			SelectetTower selectetTower;
 
 			/*
@@ -311,11 +322,11 @@ void Game::Run()
 			FlameTower * FlameTowerRef;
 			FrostTower * FrostTowerRef;
 			LightningTower * LightningTowerRef;
-			
+
 			//Beende die Buildingphase. Falls kein Weg gefunden wird, lösche die Tower der letzten Phase aus dem Towervector.		
 			if (buildingphaseCountdown == 0)
 			{
-				phaseCounter = 2;
+				gameState = GamePhase;
 				TimerText.setFillColor(hoverColer);
 				buildphaseElapsedTimeBuffer = 0;
 
@@ -328,7 +339,7 @@ void Game::Run()
 				{
 					//Löscht alle Tower, die in der letzten Buildingphase gebaut wurden.
 					for (int i = 0; i < buildingPhaseTowerCount; i++)
-					{					
+					{
 						int location = TowerVector->at(TowerVector->size() - 1)->getLocation();
 
 						GameAreaVector.at(location)->setAreaEmpty(true);
@@ -492,8 +503,8 @@ void Game::Run()
 
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
-					AttackTower test = AttackTower();
-					descriptionText.setString(test.getDescription());
+					AttackTower AttackTowerNew = AttackTower();
+					descriptionText.setString(AttackTowerNew.getDescription());
 					selectetTower = basicTower;
 					buildTowerSprite.setTexture(basicTowerButton.getButtonTexture());
 					basicTowerButton.setColor(hoverColer);
@@ -512,7 +523,8 @@ void Game::Run()
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
 					selectetTower = cannonTower;
-					//descriptionText.setString(CannonTowerRef->getDescription());
+					CannonTower cannonTowerNew = CannonTower();
+					descriptionText.setString(cannonTowerNew.getDescription());
 					buildTowerSprite.setTexture(cannonTowerButton.getButtonTexture());
 					cannonTowerButton.setColor(hoverColer);
 				}
@@ -529,6 +541,8 @@ void Game::Run()
 				frostTowerButton.setColor(hoverColer);
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
+					FrostTower frostTowerNew = FrostTower();
+					descriptionText.setString(frostTowerNew.getDescription());
 					selectetTower = frostTower;
 
 					buildTowerSprite.setTexture(frostTowerButton.getButtonTexture());
@@ -549,6 +563,8 @@ void Game::Run()
 				fireTowerButton.setColor(hoverColer);
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
+					FlameTower flameTowerNew = FlameTower();
+					descriptionText.setString(flameTowerNew.getDescription());
 					selectetTower = flameTower;
 
 					buildTowerSprite.setTexture(fireTowerButton.getButtonTexture());
@@ -569,6 +585,8 @@ void Game::Run()
 				lightningTowerButton.setColor(hoverColer);
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
+					LightningTower lightningTowerNew = LightningTower();
+					descriptionText.setString(lightningTowerNew.getDescription());
 					lightningTowerButton.setColor(hoverColer);
 					selectetTower = lightningTower;
 
@@ -598,7 +616,7 @@ void Game::Run()
 				GEGNERPHASE
 
 		*/
-		else if (phaseCounter == 2)
+		else if (gameState == GamePhase)
 		{
 			// Der Text für die Turm bezeichnung wird während der Gamephase geleert, damit dieser nicht Fest angezeigt wird
 			descriptionText.setString("");
@@ -611,10 +629,10 @@ void Game::Run()
 				enemyVector->erase(enemyVector->begin() + 0);
 				enemyClock.restart();
 			}
-			
+
 			if (enemyActiveVector->empty() && enemyVector->empty()) {
-				phaseCounter = 1;
-				buildingphaseCountdown = 20;				
+				gameState = BuildingPhase;
+				buildingphaseCountdown = 20;
 			}
 
 
@@ -699,8 +717,8 @@ void Game::Run()
 							}
 
 							/*
-										Navigation von Feld 0 auf Feld 62, dem Pathfinding folgend (iNavigationhelper zwischen 0 und 61)				
-							*/									
+										Navigation von Feld 0 auf Feld 62, dem Pathfinding folgend (iNavigationhelper zwischen 0 und 61)
+							*/
 							if (iNavigationhelper >= 0 && iNavigationhelper < (path.size() - 1))
 							{
 								int iSwitch = pathDirection.at(iNavigationhelper);
@@ -713,9 +731,9 @@ void Game::Run()
 								//das Gegner-Sprite gedreht.
 								switch (iSwitch)
 								{
-								//Movement nach rechts
+									//Movement nach rechts
 								case 1:
-									enemyActiveVector->at(i)->eSetXCoord(enemyX + 1);	
+									enemyActiveVector->at(i)->eSetXCoord(enemyX + 1);
 									//Enemy globallocation updaten, wenn in neuem Feld
 									if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
 										&& (enemyActiveVector->at(i)->eGetXCoord() >= (pathXCoord.at(iNavigationhelper + 1) - 32)))
@@ -762,7 +780,7 @@ void Game::Run()
 									break;
 
 									//Movement nach links
-								case 3:						
+								case 3:
 									enemyActiveVector->at(i)->eSetXCoord(enemyX - 1);
 									//Enemy globallocation updaten, wenn in neuem Feld
 									if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
@@ -807,7 +825,7 @@ void Game::Run()
 										case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
 										}
 									};
-									break;							
+									break;
 								}
 							}
 
@@ -836,7 +854,7 @@ void Game::Run()
 
 			//Zeichne die Gegner an den aktualisierten Positionen	
 			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
-			{									
+			{
 				if (!enemyActiveVector->empty())
 				{
 					enemyActiveVector->at(i)->eSetPosition();
@@ -932,8 +950,8 @@ void Game::Run()
 				TimerText.setFillColor(color.Black);
 				if (enemyActiveVector->empty() && enemyVector->empty())
 				{
-					phaseCounter = 1;
-					buildingphaseCountdown = 20;					
+					gameState = BuildingPhase;
+					buildingphaseCountdown = 20;
 				}
 			}
 
@@ -941,7 +959,7 @@ void Game::Run()
 			if (playerLife <= 0)
 			{
 				TowerVector->clear();
-				phaseCounter = 3;
+				gameState = GameOver;
 			}
 		}
 
@@ -950,18 +968,32 @@ void Game::Run()
 					GAMEOVER
 
 		*/
-		if(phaseCounter == 3)
+		if (gameState == GameOver)
 		{
-			ShowGameOverScreen(font, color, backgroundTexture, backgroundSprite, playerInput, playerText);
+			App.close();
+
+			EndScreen screen;
+
+			while (screen.isRunning())
+			{
+				screen.Run(true);
+			}
 		}
 
-		/*
-		SIEGERSCREEN?
-		if (phaseCounter == 4) 
-		{
 
+
+		if (gameState == Winning)
+		{
+			App.close();
+
+			EndScreen screen;
+
+			while (screen.isRunning())
+			{
+				screen.Run(false);
+			}
 		}
-		*/
+
 
 		//Zeichne alles, was immer dargestellt werden soll, oberer Layer.	
 		DrawTower(TowerVector);
@@ -1048,7 +1080,7 @@ void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int r
 	TimerText.setString(to_string(timerText));
 	lebenText.setString(to_string(playerLife));
 }
-	
+
 
 void Game::LoadExplosionTextures(sf::Texture &explosionTexture, sf::Sprite &explosionSprite, sf::Texture &frostAttackTexture, sf::Sprite &frostAttackSprite,
 	sf::Texture &fireAttackTexture, sf::Sprite &fireAttackSprite, sf::Texture &lightningAttackTexture, sf::Sprite &lightningAttackSprite)
@@ -1214,67 +1246,6 @@ void Game::UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector,
 		lifeEnemySprite.setTexture(tenLifeTexture);
 		punktZahlText.setString(to_string(punkteZahl));
 	}
-}
-
-void Game::ShowGameOverScreen(sf::Font &font, sf::Color &color, sf::Texture &backgroundTexture, sf::Sprite &backgroundSprite, sf::String &playerInput, sf::Text &playerText)
-{
-	running = false;
-
-	App.clear();
-	sf::Text GameOverText;
-	GameOverText.setFont(font);
-	GameOverText.setFillColor(color.Red);
-	GameOverText.setCharacterSize(50);
-	GameOverText.setPosition(145, 400);
-	GameOverText.setString("Game Over!");
-	backgroundTexture.loadFromFile("ArtAssets/Nebula Red.png");
-	backgroundSprite.setTexture(backgroundTexture);
-
-
-	sf::Texture BackToMenuButton;
-	BackToMenuButton.loadFromFile("ArtAssets/Menu/MenuButton.png");
-	sf::Sprite BackToMenuButtonSprite;
-	BackToMenuButtonSprite.setPosition(105, 500);
-	BackToMenuButtonSprite.setTexture(BackToMenuButton);
-	float BackToMenuButtonWidth = BackToMenuButtonSprite.getLocalBounds().width;
-	float BackToMenuButtonHeight = BackToMenuButtonSprite.getLocalBounds().height;
-
-	sf::Text BackToMenuButtonText;
-	BackToMenuButtonText.setFont(font);
-	BackToMenuButtonText.setString("Zurück zum Menü");
-	BackToMenuButtonText.setFillColor(color.White);
-	BackToMenuButtonText.setCharacterSize(38);
-	BackToMenuButtonText.setPosition(120, (BackToMenuButtonHeight / 2) + 475);
-
-	App.draw(backgroundSprite);
-	App.draw(GameOverText);
-	App.draw(BackToMenuButtonSprite);
-	App.draw(BackToMenuButtonText);
-	sf::Event event;
-	while (App.pollEvent(event))
-	{
-		if (event.type == sf::Event::TextEntered)
-		{
-			playerInput += event.text.unicode;
-			playerText.setString(playerInput);
-		}
-	}
-	App.draw(playerText);
-
-
-	sf::Vector2i localPosition = sf::Mouse::getPosition(App);
-	sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-	{
-		if (BackToMenuButtonSprite.getGlobalBounds().contains(mousePosF))
-		{
-
-			Menu menu;
-			App.close();
-			menu.Run();
-		}
-	}
-
 }
 
 bool Game::isRunning()
