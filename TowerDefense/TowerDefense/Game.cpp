@@ -853,7 +853,8 @@ void Game::Run()
 			}
 
 
-			//Ruft alle 100ms für alle Türme die TowerAnimation-Funktion auf.
+			//Ruft alle 100ms für alle Türme die TowerAttack-Funktion auf. Fügt für die durchgeführten Angriff
+			//Animationen zum Animations-Vector hinzu
 			sf::Time attackCDTime = attackClock.getElapsedTime();
 			if ((attackCDTime.asMilliseconds() + attackClockElapsedTimeBuffer) >= 100)
 			{
@@ -869,7 +870,7 @@ void Game::Run()
 				towerAnimations.insert(towerAnimations.end(), addTowerAnimations.begin(), addTowerAnimations.end());
 			}
 
-			//Zeichne die Attack-Animationen für 7 Frames
+			//Zeichne die Attack-Animationen für jeweils 7 Frames
 			for (int i = 0; i < animationFrameTime.size(); i++)
 			{
 				if (animationFrameTime.at(i) < 7)
@@ -904,8 +905,16 @@ void Game::Run()
 						break;
 					}
 				}
+				//Lösche die "abgelaufenen Animationen"
+				if (animationFrameTime.at(i) >= 7)
+				{
+					animationFrameTime.erase(animationFrameTime.begin() + i);
+					towerAnimations.erase(towerAnimations.begin() + i);
+				}
 			}
-			//Lösche die "abgelaufenen Animationen"
+
+			/*/Lösche die "abgelaufenen Animationen"
+			//kA, ob oben ein xout geworfen wird, dann das hier wieder einfügen
 			for (int i = 0; i < animationFrameTime.size(); i++)
 			{
 				if (animationFrameTime.at(i) >= 7)
@@ -913,7 +922,7 @@ void Game::Run()
 					animationFrameTime.erase(animationFrameTime.begin() + i);
 					towerAnimations.erase(towerAnimations.begin() + i);
 				}
-			}
+			}*/
 
 			//Lösche alle Gegner mit Null oder weniger Lebenspunkten
 			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
