@@ -77,7 +77,7 @@ void Game::Run()
 	App.setFramerateLimit(24);
 
 	float gameTime = 0;
-	int gold = 100;
+	int gold = 100000;
 	int runde = 0;
 	int timerText = 0;
 	int playerLife = 20;
@@ -975,6 +975,10 @@ void Game::Run()
 					gameState = BuildingPhase;
 					buildingphaseCountdown = 20;
 				}
+			}
+			if (runde == 11 && enemyActiveVector->empty() && enemyVector->empty())
+			{
+				gameState = Winning;
 			}
 
 			//Beende das Spiel mit GameOver-Screen falls der Spieler keine Lebenspunkte mehr hat			
