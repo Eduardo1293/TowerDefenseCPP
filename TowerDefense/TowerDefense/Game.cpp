@@ -1027,7 +1027,7 @@ vector<sf::Vector3i> Game::TowerAttack(std::vector<BasicTower *> * BasicTowerVec
 
 						//Falls ein Frosttower angreift, verlangsame den Gegner
 						int type = BasicTowerVector->at(i)->getType();
-						if (type == 3 && enemyActiveVector->at(k)->eGetFrozenTimer == 0)
+						if (type == 3 && enemyActiveVector->at(k)->eGetFrozenTimer() == 0)
 						{
 							enemyActiveVector->at(k)->eSetMovementSpeed(enemyActiveVector->at(k)->eGetMovementSpeed() - 1);
 							enemyActiveVector->at(k)->eSetFrozenTimer(1);
