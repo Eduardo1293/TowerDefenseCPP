@@ -2,7 +2,7 @@
 
 FlameTower::FlameTower(float XCoord, float YCoord, int areaID)
 	: BasicTower(XCoord, YCoord, areaID, "ArtAssets/Tower/tank_red.png", "Flametower", 
-		"Flamenturm mit Area-Schaden", 30, 10, 15, 4)
+		"Flamenturm mit Area-Schaden", 80, 45, 15, 4)
 {
 }
 

@@ -7,7 +7,7 @@ AttackTower::AttackTower()
 //Coordinaten, ID, Texturelocation, Name, Beschreibung, Kosten, 
 AttackTower::AttackTower(float XCoord, float YCoord, int areaID)
 	: BasicTower(XCoord, YCoord, areaID, "ArtAssets/Tower/tank_dark.png", "Attacktower",
-		"Einfacher Standard-Turm", 5, 25, 12, 1)
+		"Einfacher Standard-Turm", 20, 25, 12, 1)
 {
 }
 

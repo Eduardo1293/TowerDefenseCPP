@@ -23,6 +23,7 @@ WICHTIG IM GAMEOVER SCREEN DREHT CPU DURCH
 
 -tower desriptions funktionieren nicht richtig!
 -gewinnscreen?!? game läuft momentan einfach weiter
+-Wenn WeakEnemy ins Ziel fährt, stürzt das Spiel ab
 */
 
 
@@ -921,7 +922,7 @@ void Game::Run()
 				if (enemyActiveVector->at(i)->eGetCurrentLife() <= 0) {
 					enemyActiveVector->erase((enemyActiveVector->begin() + i));
 					punkteZahl += 100;
-					gold += 100;
+					gold += 20;
 				}
 			}
 
