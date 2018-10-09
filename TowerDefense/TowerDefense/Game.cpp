@@ -493,6 +493,27 @@ void Game::Run()
 						}
 					}
 				}
+
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+				{
+					for (int i = 0; i < TowerVector->size(); i++)
+					{
+						for (int j = 0; j < GameAreaVector.size(); j++) {
+
+							if ((localPosition.x <= (GameAreaVector.at(j)->getAreaXCoord() + 32) && (localPosition.x >= (GameAreaVector.at(j)->getAreaXCoord() - 31))
+								&& (localPosition.y <= (GameAreaVector.at(j)->getAreaYCoord() + 32)) && (localPosition.y >= (GameAreaVector.at(j)->getAreaYCoord() - 31))))
+							{
+								if (GameAreaVector.at(j)->getID() == TowerVector->at(i)->getLocation())
+								{
+									gold = gold + (TowerVector->at(i)->getCost() / 2);
+									TowerVector->erase(TowerVector->begin() + i);
+									GameAreaVector.at(j)->setAreaEmpty(true);
+								}
+							}
+
+						}
+					}
+				}
 			}
 
 
