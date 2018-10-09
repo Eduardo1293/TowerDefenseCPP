@@ -23,6 +23,8 @@ WICHTIG IM GAMEOVER SCREEN DREHT CPU DURCH
 
 -tower desriptions funktionieren nicht richtig!
 -gewinnscreen?!? game läuft momentan einfach weiter
+
+Beim bauen von Türmen wird der Turm nicht durchsicht angezeigt
 */
 
 
