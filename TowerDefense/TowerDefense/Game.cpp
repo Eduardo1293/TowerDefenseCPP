@@ -1,9 +1,11 @@
 /*
 -----SPACE DEFENDER-----
 
-Stefan Reso         286788
-Johannes Schmidt    293868
-Andre Jelonek       259031
+Einteilung sehr grob - im Grunde sind fast alle Einzelteile in Zusammenarbeit entstanden.
+
+Stefan Reso         286788	   Spiellogik, Menü, Interface, Steuerung
+Johannes Schmidt    293868     Gegner, Pathfinding, Gegnermovement, Balancing
+Andre Jelonek       259031     Spiellogik, Türme, Turmlogik, Gegnermovement
 
 Art by Kenney Vleugels (Kenney.nl)
 used under Creative Commons Zero, CC0
