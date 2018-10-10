@@ -12,9 +12,13 @@ http://creativecommons.org/publicdomain/zero/1.0/
 and DinVStudio (https://dinvstudio.itch.io/)
 used under free license
 
-Music by musicfox.com
+Music and Sound by musicfox.com
 https://www.musicfox.com/info/kostenlose-gemafreie-musik.php
 
+Mrthenoronha (https://mrthenoronha.bandcamp.com/track/amigos-sim-resembles-friendship)
+and timgormly (https://freesound.org/people/timgormly/)
+used under Attribution 3.0 Unported (CC BY 3.0) 
+https://creativecommons.org/licenses/by/3.0/
 
 */
 
@@ -112,6 +116,7 @@ void Game::Run()
 	int gameTimeEnemyCounter = 1;
 	int waveEnemyAddedCounter = 0;
 	int buildingPhaseTowerCount = 0;
+	int gamevolume = 50;
 
 
 
@@ -128,9 +133,9 @@ void Game::Run()
 	soundBuffer.loadFromFile("ArtAssets/Audio/hintergrundmusik.ogg");
 
 	explosionSound.setBuffer(explosionSoundBuffer);
-	explosionSound.setVolume(100);
+	explosionSound.setVolume(gamevolume);
 	sound.setBuffer(soundBuffer);
-	sound.setVolume(100);
+	sound.setVolume(gamevolume);
 
 	sound.setLoop(true);
 	sound.play();
@@ -286,7 +291,7 @@ void Game::Run()
 			soundOnButton.setColor(hoverColer);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
-				sound.setVolume(100);
+				sound.setVolume(gamevolume);
 			}
 		}
 		else
