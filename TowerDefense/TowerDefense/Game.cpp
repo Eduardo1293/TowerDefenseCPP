@@ -22,21 +22,21 @@ https://www.musicfox.com/info/kostenlose-gemafreie-musik.php
 /*
 Hier Sachen reinschrieben, die noch gemacht werden müssen!
 -sollte bei den neuen türmen der tower nicht innerhalb der if-abfrage erstellt werden?
--musik stoppt nach einem durchlauf
+-musik stoppt nach einem durchlauf  ERLEDIGT
 
 -Projektmappen Einstellungen verallgemeinern: Wenn wir das so abgeben, muss er die einstellungen erst richtig setzten.
 
 
 -tower desriptions ändern sobald balancing feststeht!
--gewinnscreen?!? game läuft momentan einfach weiter
+-gewinnscreen?!? game läuft momentan einfach weiter  ERLEDIGT
 Beim bauen von Türmen wird der Turm nicht durchsicht angezeigt
-- Wenn man nach einem Sieg, aus dem Endscreen ein neues Spiel starten möchte, kommt man direkt wieder in den Endscreen
--uhr läuft komisch
+- Wenn man nach einem Sieg, aus dem Endscreen ein neues Spiel starten möchte, kommt man direkt wieder in den Endscreen ERLEDIGT
+-uhr läuft komisch ERLEDIGT
 
 -runde 6 oder 7 mit den vielen fast-enemies scheint relativ einfach
 2.runde etwas stark?
 
--Bestenliste durch Anleitung austauschen
+-Bestenliste durch Anleitung austauschen 
 
 -DRAUF ACHTEN OB ENEMYMOVEMENT BEI ZWEI GLEICHZEITIGEN GEGNERN IM ZIEL EIN XOUT WIRFT
 
@@ -82,7 +82,7 @@ enum GameState
 	Winning
 };
 
-GameState gameState = BuildingPhase;
+GameState gameState;
 
 Game::~Game()
 {
@@ -115,6 +115,7 @@ void Game::Run()
 		lightningTower
 	};
 
+	gameState = BuildingPhase;
 	//Hintergrundmusik
 	sf::SoundBuffer soundBuffer;
 	sf::Sound sound;
@@ -800,6 +801,7 @@ void Game::Run()
 		// Zeigt dem GameOver Endscreen an
 		if (gameState == GameOver)
 		{
+			sound.stop();
 			App.close();
 			running = false;
 			EndScreen screen;
@@ -813,6 +815,7 @@ void Game::Run()
 		// Zeigt den Winning Endscreen an
 		if (gameState == Winning)
 		{
+			sound.stop();
 			App.close();
 			running = false;
 			EndScreen screen;
