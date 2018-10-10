@@ -12,9 +12,13 @@ http://creativecommons.org/publicdomain/zero/1.0/
 and DinVStudio (https://dinvstudio.itch.io/)
 used under free license
 
-Music by musicfox.com
+Music and Sound by musicfox.com
 https://www.musicfox.com/info/kostenlose-gemafreie-musik.php
 
+Mrthenoronha (https://mrthenoronha.bandcamp.com/track/amigos-sim-resembles-friendship)
+and timgormly (https://freesound.org/people/timgormly/)
+used under Attribution 3.0 Unported (CC BY 3.0) 
+https://creativecommons.org/licenses/by/3.0/
 
 */
 
