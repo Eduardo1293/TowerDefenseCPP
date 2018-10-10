@@ -52,7 +52,7 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 		
 	if (waveNumber == 3)
 	{
-		BasicEnemy *numberOne = new FastEnemy();
+		BasicEnemy *numberOne = new WeakEnemy();
 		BasicEnemy *numberTwo = new FastEnemy();
 		BasicEnemy *numberThree = new FastEnemy();
 		BasicEnemy *numberFour = new FastEnemy();
@@ -121,8 +121,8 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 	if (waveNumber == 6)
 	{
 
-		BasicEnemy *numberOne = new FastEnemy();
-		BasicEnemy *numberTwo = new FastEnemy();
+		BasicEnemy *numberOne = new StrongEnemy();
+		BasicEnemy *numberTwo = new StrongEnemy();
 		BasicEnemy *numberThree = new FastEnemy();
 		BasicEnemy *numberFour = new FastEnemy();
 		BasicEnemy *numberFive = new FastEnemy();
@@ -206,7 +206,7 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 	{
 
 		BasicEnemy *numberOne = new StrongestEnemy();
-		BasicEnemy *numberTwo = new StrongerEnemy();
+		BasicEnemy *numberTwo = new StrongestEnemy();
 		BasicEnemy *numberThree = new StrongestEnemy();
 		BasicEnemy *numberFour = new StrongerEnemy();
 		BasicEnemy *numberFive = new StrongerEnemy();
