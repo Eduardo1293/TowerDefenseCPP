@@ -791,6 +791,7 @@ void Game::Run()
 				TimerText.setFillColor(color.Black);
 				if (enemyActiveVector->empty() && enemyVector->empty())
 				{
+					gold += (100 - (10 * runde));
 					gameState = BuildingPhase;
 					buildingphaseCountdown = 20;
 				}
