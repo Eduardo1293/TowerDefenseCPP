@@ -1,4 +1,11 @@
 /*
+ACHTUNG
+Damit das Spiel im Visual Studio richtig kompiliert müssen in den Projekteinstellungen möglicherweise
+die SFML Verzeichnisse angepasst werden.
+*/
+
+/*
+
 -----SPACE DEFENDER-----
 
 Einteilung sehr grob - im Grunde sind fast alle Einzelteile in Zusammenarbeit entstanden.
@@ -28,11 +35,6 @@ https://creativecommons.org/licenses/by/3.0/
 
 /*
 Hier Sachen reinschrieben, die noch gemacht werden müssen!
--sollte bei den neuen türmen der tower nicht innerhalb der if-abfrage erstellt werden?
-
--DRAUF ACHTEN OB ENEMYMOVEMENT BEI ZWEI GLEICHZEITIGEN GEGNERN IM ZIEL EIN XOUT WIRFT
-
--animationen vector.clearen wenn gegnerphase endet?
 
 -brauchen wir alle getter/setter? getter/setter auf eine einheitliche form
 */
