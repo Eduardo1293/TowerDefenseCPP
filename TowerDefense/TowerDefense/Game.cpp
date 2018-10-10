@@ -901,8 +901,16 @@ vector<sf::Vector3i> Game::TowerAttack(std::vector<BasicTower *> * BasicTowerVec
 						sf::Vector3i v1;
 						v1.x = type;
 						v1.y = enemyActiveVector->at(k)->eGetXCoord();
-						v1.z = enemyActiveVector->at(k)->eGetYCoord();
+						v1.z = enemyActiveVector->at(k)->eGetYCoord();						
 						animations.push_back(v1);
+						if (type == 5)
+						{
+							sf::Vector3i v2;
+							v2.x = type;
+							v2.y = BasicTowerVector->at(i)->getXCoord();
+							v2.z = BasicTowerVector->at(i)->getYCoord();
+							animations.push_back(v2);
+						}
 					}
 				}
 			}
