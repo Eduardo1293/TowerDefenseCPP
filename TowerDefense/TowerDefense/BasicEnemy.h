@@ -1,8 +1,7 @@
 #pragma once
-#ifndef _DUMMYENEMY_H_
-#define _DUMMYENEMY_H_
+#ifndef _BASICENEMY_H_
+#define _BASICENEMY_H_
 
-#include <string>
 #include <SFML/Graphics.hpp>
 
 using namespace std;
@@ -18,7 +17,7 @@ private:
 	int eXCoord;
 	int eYCoord;
 	int eGlobalLocation;
-	int eNavigationHelper;
+	int eNavigationHelper;    //Hilft bei der Navigation
 	int eMovementSpeed;
 	int eFrozenTimer;
 

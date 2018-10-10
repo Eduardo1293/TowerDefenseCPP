@@ -27,11 +27,6 @@ https://creativecommons.org/licenses/by/3.0/
 Hier Sachen reinschrieben, die noch gemacht werden müssen!
 -sollte bei den neuen türmen der tower nicht innerhalb der if-abfrage erstellt werden?
 
--runde 6 oder 7 mit den vielen fast-enemies scheint relativ einfach
-2.runde etwas stark?
-
--Bestenliste durch Anleitung austauschen
-
 -DRAUF ACHTEN OB ENEMYMOVEMENT BEI ZWEI GLEICHZEITIGEN GEGNERN IM ZIEL EIN XOUT WIRFT
 
 -animationen vector.clearen wenn gegnerphase endet?
