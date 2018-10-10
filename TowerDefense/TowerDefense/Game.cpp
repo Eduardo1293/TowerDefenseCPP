@@ -116,6 +116,7 @@ void Game::Run()
 	int gameTimeEnemyCounter = 1;
 	int waveEnemyAddedCounter = 0;
 	int buildingPhaseTowerCount = 0;
+	int gamevolume = 50;
 
 
 
@@ -132,9 +133,9 @@ void Game::Run()
 	soundBuffer.loadFromFile("ArtAssets/Audio/hintergrundmusik.ogg");
 
 	explosionSound.setBuffer(explosionSoundBuffer);
-	explosionSound.setVolume(100);
+	explosionSound.setVolume(gamevolume);
 	sound.setBuffer(soundBuffer);
-	sound.setVolume(100);
+	sound.setVolume(gamevolume);
 
 	sound.setLoop(true);
 	sound.play();
@@ -290,7 +291,7 @@ void Game::Run()
 			soundOnButton.setColor(hoverColer);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
-				sound.setVolume(100);
+				sound.setVolume(gamevolume);
 			}
 		}
 		else
