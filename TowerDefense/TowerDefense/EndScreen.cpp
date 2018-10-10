@@ -1,11 +1,3 @@
-/*
------SPACE DEFENDER-----
-
-Stefan Reso
-Johannes Schmidt
-Andre Jelonek       259031
-*/
-
 #include "EndScreen.h"
 #include "BasicButton.h"
 #include "Menu.h"

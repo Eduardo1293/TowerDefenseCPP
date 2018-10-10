@@ -112,7 +112,7 @@
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
     <ClCompile Include="EndScreen.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
