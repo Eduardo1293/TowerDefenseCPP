@@ -4,9 +4,6 @@
 Stefan Reso
 Johannes Schmidt
 Andre Jelonek       259031
-
-Artassets von Kenney.nl und Itch.io
-Musik von
 */
 
 #include "EndScreen.h"
@@ -28,6 +25,7 @@ EndScreen::~EndScreen()
 {
 }
 
+//Läd die Lebensanzeige Texturen
 void EndScreen::LoadGameFont(sf::Font &font)
 {
 	if (!font.loadFromFile("ArtAssets/impact.ttf"))
@@ -36,6 +34,7 @@ void EndScreen::LoadGameFont(sf::Font &font)
 	}
 }
 
+//Zeigt den Endscreen an, durch den bool gameOver, wird unterschieden ob der GAMEOVER Screen oder der WINNING Screen angezeigt wird
 void EndScreen::Run(bool gameOver, int punkteZahl)
 {
 	sf::Font font;
@@ -84,6 +83,8 @@ void EndScreen::Run(bool gameOver, int punkteZahl)
 	points.setString(to_string(punkteZahl));
 	BackgroundSprite.setTexture(BackgroundTexture);
 	BackgroundSprite.setPosition(0, 0);
+
+	Window.setFramerateLimit(24);
 
 	while (Window.isOpen())
 	{

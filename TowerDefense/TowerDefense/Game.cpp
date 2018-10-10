@@ -42,8 +42,6 @@ Beim bauen von Türmen wird der Turm nicht durchsicht angezeigt
 
 -animationen vector.clearen wenn gegnerphase endet?
 
--hier einmal nach "???" suchen, stellen markiert
-
 -brauchen wir alle getter/setter? getter/setter auf eine einheitliche form
 */
 
@@ -94,7 +92,7 @@ void Game::Run()
 {
 
 	//Grundlegende Einstellungen zu Spielbeginn
-	App.setFramerateLimit(24);
+	App.setFramerateLimit(60);
 
 	float gameTime = 0;
 	int gold = 100;
@@ -789,17 +787,17 @@ void Game::Run()
 				gameState = Winning;
 			}
 
-			//Beende das Spiel mit GameOver-Screen falls der Spieler keine Lebenspunkte mehr hat			
+			//Falls der Spieler kein Leben mehr hat, wird der GameState auf Game Over gesetzt			
 			if (playerLife <= 0)
 			{
 				TowerVector->clear();
 				gameState = GameOver;
 			}
+
+			buildingphaseClock.restart();
 		}
 
-		/*
-					GAMEOVER
-		*/
+		// Zeigt dem GameOver Endscreen an
 		if (gameState == GameOver)
 		{
 			App.close();
@@ -812,9 +810,7 @@ void Game::Run()
 			}
 		}
 
-		/*
-					GEWONNEN
-		*/
+		// Zeigt den Winning Endscreen an
 		if (gameState == Winning)
 		{
 			App.close();
@@ -967,7 +963,7 @@ void Game::LoadGameFieldTextures(sf::Texture &statusTexture, sf::Texture &hudTex
 	blockedSpaceSprite.setOrigin(32, 32);
 }
 
-//Setzt den Tower(?)-Beschreibungstext
+//Setzt die Eigenschaften für den Text der Towerbeschreibung
 void Game::SetDescriptionTextProperties(sf::Text &descriptionText, sf::Font &font, sf::Color &color)
 {
 	descriptionText.setFont(font);
@@ -976,6 +972,7 @@ void Game::SetDescriptionTextProperties(sf::Text &descriptionText, sf::Font &fon
 	descriptionText.setPosition(80, 850);
 }
 
+//Setzt die Eigenschaften für die Punkteanzeige
 void Game::SetPointNumberProperties(sf::Text &punktZahlText, sf::Font &font, sf::Color &color, int punkteZahl)
 {
 	punktZahlText.setFont(font);
@@ -985,6 +982,7 @@ void Game::SetPointNumberProperties(sf::Text &punktZahlText, sf::Font &font, sf:
 	punktZahlText.setPosition(370, 32);
 }
 
+//Setzt die Eigenschaften für die Punkteanzeige
 void Game::SetPointTextProperties(sf::Text &punktText, sf::Font &font, sf::Color &color)
 {
 	punktText.setFont(font);
@@ -994,6 +992,7 @@ void Game::SetPointTextProperties(sf::Text &punktText, sf::Font &font, sf::Color
 	punktText.setPosition(308, 32);
 }
 
+//Setzt die Eigenschaften für die Lebensanzeige im HUD
 void Game::SetLifeTextProperties(sf::Text &lebenText, sf::Font &font, int playerLife, sf::Color &color)
 {
 	lebenText.setFont(font);
@@ -1003,6 +1002,7 @@ void Game::SetLifeTextProperties(sf::Text &lebenText, sf::Font &font, int player
 	lebenText.setPosition(360, 16);
 }
 
+//Setzt die Eigenschaften für den Timer
 void Game::SetTimerTextProperties(sf::Text &TimerText, sf::Font &font, sf::Color &color)
 {
 	TimerText.setFont(font);
@@ -1011,6 +1011,7 @@ void Game::SetTimerTextProperties(sf::Text &TimerText, sf::Font &font, sf::Color
 	TimerText.setFillColor(color.Black);
 }
 
+//Setzt die Eigenschaften für die Goldanzeige
 void Game::SetGoldTextProperties(sf::Text &goldText, sf::Font &font, sf::Color &color)
 {
 	goldText.setFont(font);
@@ -1019,6 +1020,7 @@ void Game::SetGoldTextProperties(sf::Text &goldText, sf::Font &font, sf::Color &
 	goldText.setPosition(65, 35);
 }
 
+//Setzt die Eigenschaften für die Rundenanzeige
 void Game::SetRoundTextProperties(sf::Text &rundenText, sf::Font &font, sf::Color &color)
 {
 	rundenText.setFont(font);
@@ -1027,6 +1029,7 @@ void Game::SetRoundTextProperties(sf::Text &rundenText, sf::Font &font, sf::Colo
 	rundenText.setPosition(65, 15);
 }
 
+//Methode zum laden des Textfonts
 void Game::LoadGameFont(sf::Font &font)
 {
 	if (!font.loadFromFile("ArtAssets/impact.ttf"))
@@ -1035,6 +1038,7 @@ void Game::LoadGameFont(sf::Font &font)
 	}
 }
 
+//Läd die Lebensanzeige Texturen
 void Game::LoadLifeBarTextures(sf::Texture &hundredLifeTexture,
 	sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture,
 	sf::Texture &fortyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Sprite &lifeEnemySprite)
@@ -1048,6 +1052,7 @@ void Game::LoadLifeBarTextures(sf::Texture &hundredLifeTexture,
 	lifeEnemySprite.setOrigin(20, 2);
 }
 
+//Methde zum malen des Towers
 void Game::DrawTower(std::vector<BasicTower *> * BasicTowerVector)
 {
 	for (unsigned int i = 0; i < BasicTowerVector->size(); i++)
@@ -1056,6 +1061,7 @@ void Game::DrawTower(std::vector<BasicTower *> * BasicTowerVector)
 	}
 }
 
+//Updatet die Gegnerlebensanzeigen
 void Game::UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector,
 	int i, int &punkteZahl, int &x, int &y, sf::Sprite &lifeEnemySprite,
 	sf::Texture &hundredLifeTexture, sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture,
@@ -1081,10 +1087,10 @@ void Game::UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector,
 	}
 	else if (lifePercent < 10) {
 		lifeEnemySprite.setTexture(tenLifeTexture);
-		//??????????????????????????
 	}
 }
 
+//Methode die überprüft, ob das Spiel noch läuft
 bool Game::isRunning()
 {
 	return running;

@@ -28,7 +28,7 @@ void Menu::Run()
 	sf::Color hoverColer = sf::Color(255, 255, 255, 140);
 
 	BasicButton StartButton = BasicButton(50, 25, "START", TexturePath, color.White, 38, 0, 0);
-	BasicButton BestenlisteButton = BasicButton(50, 120, "ANLEITUNG", TexturePath, color.White, 38, 45, 95);
+	BasicButton AnleitungsButton = BasicButton(50, 120, "ANLEITUNG", TexturePath, color.White, 38, 45, 95);
 	BasicButton CreditsButton = BasicButton(50, 215, "CREDITS", TexturePath, color.White, 38, 10, 190);
 	BasicButton ExitButton = BasicButton(50, 310, "EXIT", TexturePath, color.White, 38, -20, 285);
 	BasicButton ZurückButton = BasicButton(50, 320, "BACK", TexturePath, color.White, 38, -10, 295);
@@ -98,14 +98,16 @@ void Menu::Run()
 					StartButton.setColor(color.White);
 				}
 
-				if (BestenlisteButton.getSprite().getGlobalBounds().contains(mousePosF))
+				if (AnleitungsButton.getSprite().getGlobalBounds().contains(mousePosF))
 				{
-					BestenlisteButton.setColor(hoverColer);
-					//Öffnet die Bestenliste
+					AnleitungsButton.setColor(hoverColer);
+					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+					{
+					}
 				}
 				else
 				{
-					BestenlisteButton.setColor(color.White);
+					AnleitungsButton.setColor(color.White);
 				}
 				if (CreditsButton.getSprite().getGlobalBounds().contains(mousePosF))
 				{
@@ -138,12 +140,12 @@ void Menu::Run()
 				}
 
 				MenuWindow.draw(StartButton.getSprite());
-				MenuWindow.draw(BestenlisteButton.getSprite());
+				MenuWindow.draw(AnleitungsButton.getSprite());
 				MenuWindow.draw(CreditsButton.getSprite());
 				MenuWindow.draw(ExitButton.getSprite());
 
 				MenuWindow.draw(StartButton.getButtonText());
-				MenuWindow.draw(BestenlisteButton.getButtonText());
+				MenuWindow.draw(AnleitungsButton.getButtonText());
 				MenuWindow.draw(CreditsButton.getButtonText());
 				MenuWindow.draw(ExitButton.getButtonText());
 			}
