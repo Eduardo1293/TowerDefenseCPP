@@ -20,7 +20,7 @@ Menu::~Menu()
 
 void Menu::Run()
 {
-
+	int gameVolume = 50;
 	string TexturePath = "ArtAssets/Menu/MenuButton.png";
 	sf::Texture menuBackgroundTexture;
 	sf::Sprite menuBackgroundSprite;
@@ -40,7 +40,7 @@ void Menu::Run()
 	soundBuffer.loadFromFile("ArtAssets/Audio/menuMusik.ogg");
 
 	sound.setBuffer(soundBuffer);
-	sound.setVolume(100);
+	sound.setVolume(gameVolume);
 
 	sound.setLoop(true);
 	sound.play();
