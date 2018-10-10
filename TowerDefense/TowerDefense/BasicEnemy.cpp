@@ -41,11 +41,6 @@ void BasicEnemy::eSetGlobalLocation(int location)
 	eGlobalLocation = location;
 }
 
-void BasicEnemy::eSetNavigationHelper(int navi)
-{
-	eNavigationHelper = navi;
-}
-
 void BasicEnemy::eSetMovementSpeed(int speed)
 {
 	eMovementSpeed = speed;
@@ -85,11 +80,6 @@ int BasicEnemy::eGetGlobalLocation()
 int BasicEnemy::eGetFrozenTimer()
 {
 	return eFrozenTimer;
-}
-
-int BasicEnemy::eGetNavigationHelper()
-{
-	return eNavigationHelper;
 }
 
 int BasicEnemy::eGetMovementSpeed()
@@ -157,7 +147,7 @@ void BasicEnemy::eMovement(vector<int> path, vector<int> pathXCoord, vector<int>
 			int iSwitchPlusOne = pathDirection.at(eNavigationHelper + 1);
 
 			//Switchcase der anhand der im Vector Pathdirection gespeicherten Richtung, der Gegner in die richtige
-			//Richtung bewegt. Sobald der Gegner von einer Area (+/- 1pixel) in eine andere tritt wird auﬂerdem die 
+			//Richtung bewegt. Sobald der Gegner von einer Area  in eine andere tritt wird auﬂerdem die 
 			//GlobalLocation des Gegner f¸r das Tower-Targetting geupdated.
 			//Ist der Gegner in der Mitte der n‰chsten Area angekommen wird auﬂerdem mithilfe eines zweiten Switch-Cases
 			//das Gegner-Sprite gedreht.
@@ -272,10 +262,7 @@ void BasicEnemy::eMovement(vector<int> path, vector<int> pathXCoord, vector<int>
 
 	}
 }
-
 //Ende Gegnermovement
-
-
 
 BasicEnemy::BasicEnemy()
 {

@@ -40,7 +40,7 @@ public:
 		sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Sprite &lifeEnemySprite);
 	void DrawTower(std::vector<BasicTower *> * BasicTowerVector);
 	void UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector, int i, int &punkteZahl,
-		int &gold, int &x, int &y, sf::Sprite &lifeEnemySprite, sf::Texture &hundredLifeTexture,
+		 int &x, int &y, sf::Sprite &lifeEnemySprite, sf::Texture &hundredLifeTexture,
 		sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture, sf::Texture &fortyLifeTexture,
 		sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Text &punktZahlText);
 

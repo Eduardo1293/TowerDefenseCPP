@@ -1,12 +1,21 @@
 /*
 -----SPACE DEFENDER-----
 
-Stefan Reso
-Johannes Schmidt
+Stefan Reso         286788
+Johannes Schmidt    293868 
 Andre Jelonek       259031
 
-Artassets von Kenney.nl und Itch.io
-Musik von musicfox.com
+Art by Kenney Vleugels (Kenney.nl)
+used under Creative Commons Zero, CC0
+http://creativecommons.org/publicdomain/zero/1.0/
+
+and Viktor (https://itch.io/profile/v-ktor) 
+used under Creative Commons Attribution_ShareAlike v4.0 International
+
+Music by musicfox.com 
+https://www.musicfox.com/info/kostenlose-gemafreie-musik.php
+
+Distributed under Creative Commons Attribution_ShareAlike v4.0 International
 */
 
 
@@ -17,15 +26,25 @@ Hier Sachen reinschrieben, die noch gemacht werden müssen!
 
 -Projektmappen Einstellungen verallgemeinern: Wenn wir das so abgeben, muss er die einstellungen erst richtig setzten.
 
--spiel läuft im gameover screen weiter!!!!!!!!!!!!!!!
-WICHTIG IM GAMEOVER SCREEN DREHT CPU DURCH  Erledigt X
 
--tower desriptions funktionieren nicht richtig!
+-tower desriptions ändern sobald balancing feststeht!
 -gewinnscreen?!? game läuft momentan einfach weiter
--Wenn WeakEnemy ins Ziel fährt, stürzt das Spiel ab
 Beim bauen von Türmen wird der Turm nicht durchsicht angezeigt
 - Wenn man nach einem Sieg, aus dem Endscreen ein neues Spiel starten möchte, kommt man direkt wieder in den Endscreen
 -uhr läuft komisch
+
+-runde 6 oder 7 mit den vielen fast-enemies scheint relativ einfach
+2.runde etwas stark?
+
+-Bestenliste durch Anleitung austauschen
+
+-DRAUF ACHTEN OB ENEMYMOVEMENT BEI ZWEI GLEICHZEITIGEN GEGNERN IM ZIEL EIN XOUT WIRFT
+
+-animationen vector.clearen wenn gegnerphase endet?
+
+-hier einmal nach "???" suchen, stellen markiert
+
+-brauchen wir alle getter/setter? getter/setter auf eine einheitliche form
 */
 
 
@@ -56,6 +75,7 @@ Game::Game()
 
 }
 
+//Gamestate für die Phase in der sich der Spieler befindet
 enum GameState
 {
 	BuildingPhase,
@@ -64,7 +84,6 @@ enum GameState
 	Winning
 };
 
-//Gamestate für die Phase in der sich der Spieler befindet
 GameState gameState = BuildingPhase;
 
 Game::~Game()
@@ -86,9 +105,6 @@ void Game::Run()
 	int gameTimeEnemyCounter = 1;
 	int waveEnemyAddedCounter = 0;
 	int buildingPhaseTowerCount = 0;
-
-
-
 
 	//Mechanik für Tower-Auswahl
 	enum SelectetTower
@@ -641,10 +657,10 @@ void Game::Run()
 		*/
 		else if (gameState == GamePhase)
 		{
-			// Der Text für die Turm bezeichnung wird während der Gamephase geleert, damit dieser nicht Fest angezeigt wird
+			//Der Text für die Turm Bezeichnung wird während der Gamephase geleert, damit dieser nicht dauernd angezeigt wird
 			descriptionText.setString("");
 
-			//Enemyclock, schickt jede Sekunde einen Gegner auf die Reise
+			// Die Enemyclock, schickt jede Sekunde einen Gegner auf die Reise
 			sf::Time enemyTime = enemyClock.getElapsedTime();
 			if (!enemyVector->empty() && enemyTime.asSeconds() > 1)
 			{
@@ -658,240 +674,46 @@ void Game::Run()
 				buildingphaseCountdown = 20;
 			}
 
-
-			//Movementclock			
-			/*enemyMovementClock.getElapsedTime();
-			sf::Time enemyMovementElapsed = enemyMovementClock.getElapsedTime();
-			int movementElapsed = enemyMovementElapsed.asMilliseconds();*/
-
-
-			//Gegner-Lifebar aktualisieren
+			//Gegner-Lifebar aktualisieren und zeichnen
 			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
 			{
 				int enemyLifebarX = enemyActiveVector->at(i)->eGetXCoord();
 				int enemyLifebarY = enemyActiveVector->at(i)->eGetYCoord();
 
-				UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, gold, enemyLifebarX, enemyLifebarY,
+				UpdateEnemyLifeBar(enemyActiveVector, i, punkteZahl, enemyLifebarX, enemyLifebarY,
 					lifeEnemySprite, hundredLifeTexture, eightyLifeTexture,
 					sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
 					tenLifeTexture, punktZahlText);
 
-				lifeEnemySprite.setPosition(enemyLifebarX, (enemyLifebarY - 33));
-				//Gegner-Lifebar zeichnen
+				lifeEnemySprite.setPosition(enemyLifebarX, (enemyLifebarY - 33));				
 				App.draw(lifeEnemySprite);
 			}
-
-			/*
-						Gegnermovement
 			
-			*/
+			//Gegnermovement		
+			//Löscht außerdem die Gegner im Ziel und zählt das Player-Leben entsprechend herunter
 			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
 			{
 				enemyActiveVector->at(i)->eMovement(path, pathXCoord, pathYCoord, pathDirection);					
 				if (enemyActiveVector->at(i)->eGetYCoord() >= 750)
 				{
 					enemyActiveVector->erase((enemyActiveVector->begin() + i));
-					playerLife--;
-				}
-			}
-
-			/*
-			if (!enemyActiveVector->empty())
-			{
-				for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
-				{
-					//Überprüft, ob ein Gegner noch von einem Frosttower verlangsamt ist, nachdem der Gegner für
-					//24 Frames verlangsamt war "taut" er auf
-					int timer = enemyActiveVector->at(i)->eGetFrozenTimer();
-					if (timer > 0 && timer < 25)
+					if (runde < 10) 
 					{
-						enemyActiveVector->at(i)->eSetFrozenTimer(timer + 1);
+						playerLife--;						
 					}
-					if (timer == 25)
+					else
 					{
-						enemyActiveVector->at(i)->eSetMovementSpeed(enemyActiveVector->at(i)->eGetMovementSpeed() + 1);
-						enemyActiveVector->at(i)->eSetFrozenTimer(0);
-					}
-
-					//Abhängig vom Movementspeed wird der Gegner um mehrere Pixel pro Frame bewegt
-					int mSpeed = enemyActiveVector->at(i)->eGetMovementSpeed();
-					for (unsigned int j = 0; j < mSpeed; j++)
-					{
-						if (!enemyActiveVector->empty())
-						{
-							int enemyX = enemyActiveVector->at(i)->eGetXCoord();
-							int enemyY = enemyActiveVector->at(i)->eGetYCoord();
-							int iNavigationhelper = enemyActiveVector->at(i)->eGetNavigationHelper();
-
-							/*
-										Navigation vom Start auf das erste Spielfeld (iNavigationhelper = -1)
-							
-							if (iNavigationhelper == -1)
-							{
-								(enemyActiveVector->at(i)->eSetYCoord(enemyY + 1));
-								if (enemyY > 159 && enemyActiveVector->at(i)->eGetGlobalLocation() != 0)
-								{
-									enemyActiveVector->at(i)->eSetGlobalLocation(0);
-								}
-								if (enemyY >= 191)
-								{
-									enemyActiveVector->at(i)->eSetYCoord(191);
-									enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
-									if (pathDirection.at(1) = 1)
-									{
-										enemyActiveVector->at(i)->eSetRotation(270);
-									}
-									else
-									{
-										enemyActiveVector->at(i)->eSetRotation(0);
-									}
-								}
-							}
-
-							/*
-										Navigation von Feld 0 auf Feld 62, dem Pathfinding folgend (iNavigationhelper zwischen 0 und 61)				
-															
-							if (iNavigationhelper >= 0 && iNavigationhelper < (path.size() - 1))
-							{
-								int iSwitch = pathDirection.at(iNavigationhelper);
-								int iSwitchPlusOne = pathDirection.at(iNavigationhelper + 1);
-
-								//Switchcase der anhand der im Vector Pathdirection gespeicherten Richtung, der Gegner in die richtige
-								//Richtung bewegt. Sobald der Gegner von einer Area (+/- 1pixel) in eine andere tritt wird außerdem die 
-								//GlobalLocation des Gegner für das Tower-Targetting geupdated.
-								//Ist der Gegner in der Mitte der nächsten Area angekommen wird außerdem mithilfe eines zweiten Switch-Cases
-								//das Gegner-Sprite gedreht.
-								switch (iSwitch)
-								{
-									//Movement nach rechts
-								case 1:
-									enemyActiveVector->at(i)->eSetXCoord(enemyX + 1);
-									//Enemy globallocation updaten, wenn in neuem Feld
-									if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
-										&& (enemyActiveVector->at(i)->eGetXCoord() >= (pathXCoord.at(iNavigationhelper + 1) - 32)))
-									{
-										enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
-									}
-									//Richtung ändern
-									if (enemyActiveVector->at(i)->eGetXCoord() >= pathXCoord.at(iNavigationhelper + 1))
-									{
-										enemyActiveVector->at(i)->eSetXCoord(pathXCoord.at(iNavigationhelper + 1));
-										enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
-										switch (iSwitchPlusOne)
-										{
-										case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
-										case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
-										case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
-										case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
-										}
-									};
-									break; 				
-
-									//Movement nach unten
-								case 2:
-									enemyActiveVector->at(i)->eSetYCoord(enemyY + 1);
-									//Enemy globallocation updaten, wenn in neuem Feld
-									if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
-										&& (enemyActiveVector->at(i)->eGetYCoord() > (pathYCoord.at(iNavigationhelper + 1) - 32)))
-									{
-										enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
-									}
-									//Richtung ändern
-									if (enemyActiveVector->at(i)->eGetYCoord() >= pathYCoord.at(iNavigationhelper + 1))
-									{
-										enemyActiveVector->at(i)->eSetYCoord(pathYCoord.at(iNavigationhelper + 1));
-										enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
-										switch (iSwitchPlusOne)
-										{
-										case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
-										case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
-										case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
-										case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
-										}
-									};
-									break;
-
-									//Movement nach links
-								case 3:
-									enemyActiveVector->at(i)->eSetXCoord(enemyX - 1);
-									//Enemy globallocation updaten, wenn in neuem Feld
-									if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
-										&& (enemyActiveVector->at(i)->eGetXCoord() <= (pathXCoord.at(iNavigationhelper + 1) + 32)))
-									{
-										enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
-									}
-									//Richtung ändern
-									if (enemyActiveVector->at(i)->eGetXCoord() <= pathXCoord.at(iNavigationhelper + 1))
-									{
-										enemyActiveVector->at(i)->eSetXCoord(pathXCoord.at(iNavigationhelper + 1));
-										enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
-										switch (iSwitchPlusOne)
-										{
-										case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
-										case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
-										case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
-										case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
-										}
-									};
-									break;
-
-									//Movement nach oben
-								case 4:
-									enemyActiveVector->at(i)->eSetYCoord(enemyY - 1);
-									//Enemy globallocation updaten, wenn in neuem Feld
-									if (enemyActiveVector->at(i)->eGetGlobalLocation() != path.at(iNavigationhelper + 1)
-										&& (enemyActiveVector->at(i)->eGetYCoord() <= (pathYCoord.at(iNavigationhelper + 1) + 32)))
-									{
-										enemyActiveVector->at(i)->eSetGlobalLocation(path.at(iNavigationhelper + 1));
-									}
-									//Richtung ändern
-									if (enemyActiveVector->at(i)->eGetYCoord() <= pathYCoord.at(iNavigationhelper + 1))
-									{
-										enemyActiveVector->at(i)->eSetYCoord(pathYCoord.at(iNavigationhelper + 1));
-										enemyActiveVector->at(i)->eSetNavigationHelper(iNavigationhelper + 1);
-										switch (iSwitchPlusOne)
-										{
-										case 1: enemyActiveVector->at(i)->eSetRotation(270); break;
-										case 2: enemyActiveVector->at(i)->eSetRotation(0); break;
-										case 3: enemyActiveVector->at(i)->eSetRotation(90); break;
-										case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
-										}
-									};
-									break;
-								}
-							}
-
-							/*
-										Navigation vom letzten Spielfeld zum Ausgang (iNavigationhelper = 62)
-							
-							if (iNavigationhelper == (path.size() - 1))
-							{
-								(enemyActiveVector->at(i)->eSetYCoord(enemyY + 1));
-								if (enemyY > 734 && enemyActiveVector->at(i)->eGetGlobalLocation() == 62)
-								{
-									enemyActiveVector->at(i)->eSetGlobalLocation(999);
-								}
-								if (enemyY >= 750)
-								{
-									enemyActiveVector->erase((enemyActiveVector->begin() + i));
-									playerLife--;
-								}
-							}
-						}
+						playerLife = playerLife - 5;
 					}
 				}
 			}
-			//Ende Gegnermovement
-			*/
 
 			//Zeichne die Gegner an den aktualisierten Positionen	
 			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
 			{
-				if (!enemyActiveVector->empty())
-				{
+				//hier hab ich eine empty()abfrage gelöscht
 					enemyActiveVector->at(i)->eSetPosition();
 					App.draw(enemyActiveVector->at(i)->eGetSprite());
-				}
 			}
 
 
@@ -944,7 +766,6 @@ void Game::Run()
 						lightningAttackSprite.setPosition(v.y, v.z);
 						App.draw(lightningAttackSprite);
 						break;
-						break;
 					}
 				}
 				//Lösche die "abgelaufenen" Animationen
@@ -955,18 +776,8 @@ void Game::Run()
 				}
 			}
 
-			/*/Lösche die "abgelaufenen Animationen"
-			//kA, ob oben ein xout geworfen wird, dann das hier wieder einfügen
-			for (int i = 0; i < animationFrameTime.size(); i++)
-			{
-				if (animationFrameTime.at(i) >= 7)
-				{
-					animationFrameTime.erase(animationFrameTime.begin() + i);
-					towerAnimations.erase(towerAnimations.begin() + i);
-				}
-			}*/
 
-			//Lösche alle Gegner mit Null oder weniger Lebenspunkten
+			//Lösche alle Gegner mit Null oder weniger Lebenspunkten und zähle entsprechend Gold und Punkte hoch
 			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
 			{
 				if (enemyActiveVector->at(i)->eGetCurrentLife() <= 0) {
@@ -986,6 +797,7 @@ void Game::Run()
 					buildingphaseCountdown = 20;
 				}
 			}
+
 			if (runde == 10 && enemyActiveVector->empty() && enemyVector->empty())
 			{
 				gameState = Winning;
@@ -1000,9 +812,7 @@ void Game::Run()
 		}
 
 		/*
-
 					GAMEOVER
-
 		*/
 		if (gameState == GameOver)
 		{
@@ -1016,8 +826,9 @@ void Game::Run()
 			}
 		}
 
-
-
+		/*
+					GEWONNEN
+		*/
 		if (gameState == Winning)
 		{
 			App.close();
@@ -1039,6 +850,7 @@ void Game::Run()
 	}
 }
 
+//Zeichnet verschiedenste HUD- und Spielelemente in den Frame
 void Game::DrawGameTextures(sf::Sprite &hudSprite, sf::Sprite &statusSprite,
 	sf::Text &rundenText, sf::Text &goldText, sf::Text &lebenText,
 	sf::Sprite &basicTurmImage, sf::Sprite &cannonTurmImage, sf::Sprite &frostTurmImage,
@@ -1109,6 +921,7 @@ vector<sf::Vector3i> Game::TowerAttack(std::vector<BasicTower *> * BasicTowerVec
 	return animations;
 }
 
+//Setzt die Informationen im obenren HUD-Bereich
 void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int runde, sf::Text &TimerText, int timerText, sf::Text &lebenText, int playerLife)
 {
 	goldText.setString(to_string(gold));
@@ -1117,7 +930,7 @@ void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int r
 	lebenText.setString(to_string(playerLife));
 }
 
-
+//Läd die Explosionssprites
 void Game::LoadExplosionTextures(sf::Texture &explosionTexture, sf::Sprite &explosionSprite, sf::Texture &frostAttackTexture, sf::Sprite &frostAttackSprite,
 	sf::Texture &fireAttackTexture, sf::Sprite &fireAttackSprite, sf::Texture &lightningAttackTexture, sf::Sprite &lightningAttackSprite)
 {
@@ -1141,6 +954,7 @@ void Game::LoadExplosionTextures(sf::Texture &explosionTexture, sf::Sprite &expl
 	frostAttackSprite.setOrigin(35, 35);
 }
 
+//Läd HUD- und Spieltexturen
 void Game::LoadGameFieldTextures(sf::Texture &statusTexture, sf::Texture &hudTexture,
 	sf::Sprite &hudSprite, sf::Sprite &statusSprite,
 	sf::Texture &backgroundTexture, sf::Sprite &backgroundSprite,
@@ -1166,6 +980,7 @@ void Game::LoadGameFieldTextures(sf::Texture &statusTexture, sf::Texture &hudTex
 	blockedSpaceSprite.setOrigin(32, 32);
 }
 
+//Setzt den Tower(?)-Beschreibungstext
 void Game::SetDescriptionTextProperties(sf::Text &descriptionText, sf::Font &font, sf::Color &color)
 {
 	descriptionText.setFont(font);
@@ -1256,7 +1071,7 @@ void Game::DrawTower(std::vector<BasicTower *> * BasicTowerVector)
 }
 
 void Game::UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector,
-	int i, int &punkteZahl, int &gold, int &x, int &y, sf::Sprite &lifeEnemySprite,
+	int i, int &punkteZahl, int &x, int &y, sf::Sprite &lifeEnemySprite,
 	sf::Texture &hundredLifeTexture, sf::Texture &eightyLifeTexture, sf::Texture &sixtyLifeTexture,
 	sf::Texture &fortyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Text &punktZahlText)
 {
@@ -1280,6 +1095,7 @@ void Game::UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector,
 	}
 	else if (lifePercent < 10) {
 		lifeEnemySprite.setTexture(tenLifeTexture);
+		//??????????????????????????
 		punktZahlText.setString(to_string(punkteZahl));
 	}
 }
