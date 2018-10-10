@@ -29,7 +29,7 @@ void Menu::Run()
 	sf::Color hoverColer = sf::Color(255, 255, 255, 140);
 
 	BasicButton StartButton = BasicButton(50, 25, "START", TexturePath, color.White, 38, 0, 0);
-	BasicButton AnleitungsButton = BasicButton(50, 120, "ANLEITUNG", TexturePath, color.White, 38, 45, 95);
+	BasicButton AnleitungsButton = BasicButton(50, 120, "ANLEITUNG", TexturePath, color.White, 38, 38, 95);
 	BasicButton CreditsButton = BasicButton(50, 215, "CREDITS", TexturePath, color.White, 38, 10, 190);
 	BasicButton ExitButton = BasicButton(50, 310, "EXIT", TexturePath, color.White, 38, -20, 285);
 	BasicButton ZurückButton = BasicButton(50, 320, "BACK", TexturePath, color.White, 38, -10, 295);
