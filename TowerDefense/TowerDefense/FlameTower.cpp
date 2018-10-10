@@ -31,7 +31,7 @@ vector<int> FlameTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			if (tXCoord != 447 && tYCoord != 703 && enemyLocation == tGlobalLocation + 8)
 			{
 				tBasicTurmSprite.setRotation(315);
-				tAttackCooldown = 10;
+				tAttackCooldown = tAttackSpeed;
 				for (unsigned int j = 0; j < enemyActiveVector->size(); j++)
 				{
 					int addEnemyLocation = enemyActiveVector->at(j)->eGetGlobalLocation();				
@@ -49,12 +49,12 @@ vector<int> FlameTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tXCoord != 447 && enemyLocation == tGlobalLocation + 1)
 			{
 				tBasicTurmSprite.setRotation(270);
-				tAttackCooldown = 10;
+				tAttackCooldown = tAttackSpeed;
 				for (unsigned int j = 0; j < enemyActiveVector->size(); j++)
 				{
 					int addEnemyLocation = enemyActiveVector->at(j)->eGetGlobalLocation();
 					if ((tXCoord != 447 && addEnemyLocation == tGlobalLocation + 1)
-						|| (tXCoord != 448 && tYCoord != 191 && addEnemyLocation == tGlobalLocation - 6)
+						|| (tXCoord != 447 && tYCoord != 191 && addEnemyLocation == tGlobalLocation - 6)
 						|| (tXCoord != 447 && tYCoord != 703 && addEnemyLocation == tGlobalLocation + 8))
 					{
 						enemies.push_back(j);
@@ -67,7 +67,7 @@ vector<int> FlameTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tYCoord != 703 && enemyLocation == tGlobalLocation + 7)
 			{
 				tBasicTurmSprite.setRotation(0);
-				tAttackCooldown = 10;
+				tAttackCooldown = tAttackSpeed;
 				for (unsigned int j = 0; j < enemyActiveVector->size(); j++)
 				{
 					int addEnemyLocation = enemyActiveVector->at(j)->eGetGlobalLocation();
@@ -85,7 +85,7 @@ vector<int> FlameTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tXCoord != 63 && tYCoord != 703 && enemyLocation == tGlobalLocation + 6)
 			{
 				tBasicTurmSprite.setRotation(45);
-				tAttackCooldown = 10;
+				tAttackCooldown = tAttackSpeed;
 				for (unsigned int j = 0; j < enemyActiveVector->size(); j++)
 				{
 					int addEnemyLocation = enemyActiveVector->at(j)->eGetGlobalLocation();
@@ -100,10 +100,10 @@ vector<int> FlameTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			}
 
 			//rechts oben
-			else if (tXCoord != 448 && tYCoord != 191 && enemyLocation == tGlobalLocation - 6)
+			else if (tXCoord != 447 && tYCoord != 191 && enemyLocation == tGlobalLocation - 6)
 			{
 				tBasicTurmSprite.setRotation(225);
-				tAttackCooldown = 10;
+				tAttackCooldown = tAttackSpeed;
 				for (unsigned int j = 0; j < enemyActiveVector->size(); j++)
 				{
 					int addEnemyLocation = enemyActiveVector->at(j)->eGetGlobalLocation();
@@ -121,7 +121,7 @@ vector<int> FlameTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tXCoord != 63 && enemyLocation == tGlobalLocation - 1)
 			{
 				tBasicTurmSprite.setRotation(90);
-				tAttackCooldown = 10;
+				tAttackCooldown = tAttackSpeed;
 				for (unsigned int j = 0; j < enemyActiveVector->size(); j++)
 				{
 					int addEnemyLocation = enemyActiveVector->at(j)->eGetGlobalLocation();
@@ -139,12 +139,12 @@ vector<int> FlameTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tYCoord != 191 && enemyLocation == tGlobalLocation - 7)
 			{
 				tBasicTurmSprite.setRotation(180);
-				tAttackCooldown = 10;
+				tAttackCooldown = tAttackSpeed;
 				for (unsigned int j = 0; j < enemyActiveVector->size(); j++)
 				{
 					int addEnemyLocation = enemyActiveVector->at(j)->eGetGlobalLocation();
 					if ((addEnemyLocation == tGlobalLocation - 7)
-						|| (tXCoord != 448 && tYCoord != 191 && addEnemyLocation == tGlobalLocation - 6)
+						|| (tXCoord != 447 && tYCoord != 191 && addEnemyLocation == tGlobalLocation - 6)
 						|| (tXCoord != 63 && tYCoord != 191 && addEnemyLocation == tGlobalLocation - 8))
 					{
 						enemies.push_back(j);
@@ -157,7 +157,7 @@ vector<int> FlameTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			else if (tXCoord != 63 && tYCoord != 191 && enemyLocation == tGlobalLocation - 8)
 			{
 				tBasicTurmSprite.setRotation(135);
-				tAttackCooldown = 10;
+				tAttackCooldown = tAttackSpeed;
 				for (unsigned int j = 0; j < enemyActiveVector->size(); j++)
 				{
 					int addEnemyLocation = enemyActiveVector->at(j)->eGetGlobalLocation();

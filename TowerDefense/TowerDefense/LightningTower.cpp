@@ -20,7 +20,7 @@ vector<int> LightningTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVect
 		uniform_int_distribution<> verteilung(0, (enemyActiveVector->size() - 1));
 
 		enemies.push_back(verteilung(generator));
-		tAttackCooldown = 20;
+		tAttackCooldown = tAttackSpeed;
 
 		return enemies;
 	}

@@ -57,7 +57,7 @@ vector<int> AttackTower::checkForEnemies(vector<BasicEnemy*>* enemyActiveVector)
 			}
 
 			//rechts oben
-			else if (tXCoord != 448 && tYCoord != 191 && enemyLocation == tGlobalLocation - 6)
+			else if (tXCoord != 447 && tYCoord != 191 && enemyLocation == tGlobalLocation - 6)
 			{
 				tBasicTurmSprite.setRotation(225);
 				tAttackCooldown = tAttackSpeed;

@@ -15,8 +15,8 @@ private:
 	sf::Sprite lifeBarSprite;
 	double eMaxLife;
 	double eCurrentLife;
-	float eXCoord;
-	float eYCoord;
+	int eXCoord;
+	int eYCoord;
 	int eGlobalLocation;
 	int eNavigationHelper;
 	int eMovementSpeed;
@@ -29,8 +29,8 @@ public:
 	//Setter
 	void eSetRotation(float rotation);
 	void eSetPosition();
-	void eSetXCoord(float XCoord);
-	void eSetYCoord(float YCoord);
+	void eSetXCoord(int XCoord);
+	void eSetYCoord(int YCoord);
 	void eSetGlobalLocation(int location);
 	void eSetNavigationHelper(int navi);
 	void eSetMovementSpeed(int speed);
@@ -39,14 +39,15 @@ public:
 	//getter
 	double eGetMaxLife(); 
 	double eGetCurrentLife(); 
-	float eGetXCoord();
-	float eGetYCoord();						
+	int eGetXCoord();
+	int eGetYCoord();						
 	int eGetGlobalLocation();
 	int eGetNavigationHelper();
 	int eGetMovementSpeed();
 	int eGetFrozenTimer();
 	sf::Sprite eGetSprite();
 
+	void eMovement(vector<int> path, vector<int> pathXCoord, vector<int> pathYCoord, vector<int> pathDirection);
 	void takeDamage(int damage);
 
 	~BasicEnemy();

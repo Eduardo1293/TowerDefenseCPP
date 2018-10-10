@@ -6,13 +6,12 @@ Johannes Schmidt
 Andre Jelonek       259031
 
 Artassets von Kenney.nl und Itch.io
-Musik von 
+Musik von musicfox.com
 */
 
 
 /*
 Hier Sachen reinschrieben, die noch gemacht werden müssen!
--eine der distanzen in gamearea ist unnütz, beizeiten aufräumen :D und die namen sind komisch
 -sollte bei den neuen türmen der tower nicht innerhalb der if-abfrage erstellt werden?
 -musik stoppt nach einem durchlauf
 
@@ -23,6 +22,11 @@ WICHTIG IM GAMEOVER SCREEN DREHT CPU DURCH
 
 -tower desriptions funktionieren nicht richtig!
 -gewinnscreen?!? game läuft momentan einfach weiter
+
+-uhr läuft komisch
+
+
+-phasencounter enum
 */
 
 
@@ -589,7 +593,6 @@ void Game::Run()
 				*enemyVector = enemyWaves(runde);
 				runde++;
 			}
-
 		}
 
 		/*
@@ -641,10 +644,19 @@ void Game::Run()
 
 			/*
 						Gegnermovement
-
-				Abhängig vom int iNavigationhelper, der Informationen über die aktuelle Postion des
-				Gegner im Pfad gibt, wird der Gegner anhand des Pfades weiterbewegt
+			
 			*/
+			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
+			{
+				enemyActiveVector->at(i)->eMovement(path, pathXCoord, pathYCoord, pathDirection);					
+				if (enemyActiveVector->at(i)->eGetYCoord() >= 750)
+				{
+					enemyActiveVector->erase((enemyActiveVector->begin() + i));
+					playerLife--;
+				}
+			}
+
+			/*
 			if (!enemyActiveVector->empty())
 			{
 				for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
@@ -674,7 +686,7 @@ void Game::Run()
 
 							/*
 										Navigation vom Start auf das erste Spielfeld (iNavigationhelper = -1)
-							*/
+							
 							if (iNavigationhelper == -1)
 							{
 								(enemyActiveVector->at(i)->eSetYCoord(enemyY + 1));
@@ -699,7 +711,7 @@ void Game::Run()
 
 							/*
 										Navigation von Feld 0 auf Feld 62, dem Pathfinding folgend (iNavigationhelper zwischen 0 und 61)				
-							*/									
+															
 							if (iNavigationhelper >= 0 && iNavigationhelper < (path.size() - 1))
 							{
 								int iSwitch = pathDirection.at(iNavigationhelper);
@@ -734,7 +746,7 @@ void Game::Run()
 										case 4: enemyActiveVector->at(i)->eSetRotation(180); break;
 										}
 									};
-									break;;
+									break; 				
 
 									//Movement nach unten
 								case 2:
@@ -812,7 +824,7 @@ void Game::Run()
 
 							/*
 										Navigation vom letzten Spielfeld zum Ausgang (iNavigationhelper = 62)
-							*/
+							
 							if (iNavigationhelper == (path.size() - 1))
 							{
 								(enemyActiveVector->at(i)->eSetYCoord(enemyY + 1));
@@ -831,7 +843,7 @@ void Game::Run()
 				}
 			}
 			//Ende Gegnermovement
-
+			*/
 
 			//Zeichne die Gegner an den aktualisierten Positionen	
 			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
@@ -844,8 +856,8 @@ void Game::Run()
 			}
 
 
-			//Ruft alle 100ms für alle Türme die TowerAttack-Funktion auf. Fügt für die durchgeführten Angriff
-			//Animationen zum Animations-Vector hinzu
+			//Ruft alle 100ms für alle Türme die TowerAttack-Funktion auf. Fügt die Animationen der durchgeführten Angriffe
+			//zum Animations-Vector hinzu
 			sf::Time attackCDTime = attackClock.getElapsedTime();
 			if ((attackCDTime.asMilliseconds() + attackClockElapsedTimeBuffer) >= 100)
 			{
@@ -896,7 +908,7 @@ void Game::Run()
 						break;
 					}
 				}
-				//Lösche die "abgelaufenen Animationen"
+				//Lösche die "abgelaufenen" Animationen
 				if (animationFrameTime.at(i) >= 7)
 				{
 					animationFrameTime.erase(animationFrameTime.begin() + i);
