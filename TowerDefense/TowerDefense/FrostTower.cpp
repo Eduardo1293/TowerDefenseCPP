@@ -1,8 +1,13 @@
 #include "BasicTower.h"
 
+FrostTower::FrostTower()
+{
+	tDescription = "Frost Turm : Gold XX";
+}
+
 FrostTower::FrostTower(float XCoord, float YCoord, int areaID)
 	: BasicTower(XCoord, YCoord, areaID, "ArtAssets/Tower/tank_blue.png", "Flametower",
-		"Flamenturm mit Area-Schaden", 30, 10, 15, 3)
+		"Flamenturm mit Area-Schaden", 60, 20, 10, 3)
 {
 }
 

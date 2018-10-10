@@ -127,8 +127,9 @@ void Menu::Run()
 					ExitButton.setColor(hoverColer);
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !showCredits)
 					{
-						MenuWindow.close();
 						running = false;
+						MenuWindow.close();
+						
 					}
 				}
 				else

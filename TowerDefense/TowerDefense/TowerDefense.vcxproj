@@ -31,6 +31,7 @@
     <ClCompile Include="BasicEnemy.cpp" />
     <ClCompile Include="BossEnemy.cpp" />
     <ClCompile Include="CustomException.cpp" />
+    <ClCompile Include="EndScreen.cpp" />
     <ClCompile Include="FastEnemy.cpp" />
     <ClCompile Include="GameArea.cpp" />
     <ClCompile Include="BasicTower.cpp" />
@@ -56,6 +57,7 @@
     <ClInclude Include="BasicButton.h" />
     <ClInclude Include="BasicEnemy.h" />
     <ClInclude Include="CustomException.h" />
+    <ClInclude Include="EndScreen.h" />
     <ClInclude Include="EnemyWaves.h" />
     <ClInclude Include="GameArea.h" />
     <ClInclude Include="BasicTower.h" />
