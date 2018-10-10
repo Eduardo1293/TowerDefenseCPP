@@ -92,7 +92,7 @@ void Game::Run()
 {
 
 	//Grundlegende Einstellungen zu Spielbeginn
-	App.setFramerateLimit(60);
+	App.setFramerateLimit(24);
 
 	float gameTime = 0;
 	int gold = 100;
@@ -122,10 +122,10 @@ void Game::Run()
 	soundBuffer.loadFromFile("ArtAssets/Audio/hintergrundmusik.ogg");
 
 	sound.setBuffer(soundBuffer);
-	sound.setVolume(0);
+	sound.setVolume(100);
 
+	sound.setLoop(true);
 	sound.play();
-
 	//Texturen für halbdurchsichtiger Tower zum Bauen
 	sf::Sprite buildTowerSprite;
 	sf::Texture basicTowerTexture;
