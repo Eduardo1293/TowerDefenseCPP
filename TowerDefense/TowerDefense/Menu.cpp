@@ -54,6 +54,7 @@ void Menu::Run()
 
 	bool showButtons = true;
 	bool showCredits = false;
+	bool showAnleitung = false;
 
 	MenuWindow.setFramerateLimit(24);
 	
@@ -115,6 +116,10 @@ void Menu::Run()
 					AnleitungsButton.setColor(hoverColer);
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 					{
+						showAnleitung = true;
+						showButtons = false;
+						showCredits = true;
+						MenuWindow.clear(sf::Color::Black);
 					}
 				}
 				else
@@ -165,7 +170,15 @@ void Menu::Run()
 		else
 		{
 			menuBackgroundSprite.setScale(1, 1);
-			menuBackgroundTexture.loadFromFile("ArtAssets/Menu/Credits.png");
+			if (showAnleitung)
+			{
+				menuBackgroundTexture.loadFromFile("ArtAssets/Menu/Anleitung.png");
+			}
+			else
+			{
+				menuBackgroundTexture.loadFromFile("ArtAssets/Menu/Credits.png");
+			}
+
 			menuBackgroundSprite.setTexture(menuBackgroundTexture);
 			MenuWindow.draw(ZurückButton.getSprite());
 			MenuWindow.draw(ZurückButton.getButtonText());
@@ -175,6 +188,7 @@ void Menu::Run()
 				{
 					LoadMenuTextures(menuBackgroundTexture, menuBackgroundSprite);
 					showCredits = false;
+					showAnleitung = false;
 				}
 			}
 		}

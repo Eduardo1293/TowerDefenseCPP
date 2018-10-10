@@ -5,7 +5,7 @@
 
 LightningTower::LightningTower()
 {
-	tDescription = "Lightning Turm : Gold XX";
+	tDescription = "Laser Turm : Gold 160";
 }
 
 LightningTower::LightningTower(float XCoord, float YCoord, int areaID)

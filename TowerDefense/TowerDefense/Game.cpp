@@ -26,14 +26,6 @@ https://creativecommons.org/licenses/by/3.0/
 /*
 Hier Sachen reinschrieben, die noch gemacht werden müssen!
 -sollte bei den neuen türmen der tower nicht innerhalb der if-abfrage erstellt werden?
--musik stoppt nach einem durchlauf  ERLEDIGT
-
--Projektmappen Einstellungen verallgemeinern: Wenn wir das so abgeben, muss er die einstellungen erst richtig setzten.
-
-
--tower desriptions ändern sobald balancing feststeht!
-Beim bauen von Türmen wird der Turm nicht durchsicht angezeigt
-- Wenn man nach einem Sieg, aus dem Endscreen ein neues Spiel starten möchte, kommt man direkt wieder in den Endscreen ERLEDIGT
 
 -runde 6 oder 7 mit den vielen fast-enemies scheint relativ einfach
 2.runde etwas stark?
@@ -780,7 +772,7 @@ void Game::Run()
 				if (enemyActiveVector->at(i)->eGetCurrentLife() <= 0) {
 					enemyActiveVector->erase((enemyActiveVector->begin() + i));
 					punkteZahl += 100;
-					gold += 20;
+					gold += 10;
 					explosionSound.play();
 				}
 			}
@@ -791,8 +783,9 @@ void Game::Run()
 				TimerText.setFillColor(color.Black);
 				if (enemyActiveVector->empty() && enemyVector->empty())
 				{
+					gold += (100 - (10 * runde));
 					gameState = BuildingPhase;
-					buildingphaseCountdown = 20;
+					buildingphaseCountdown = 20;					
 				}
 			}
 
