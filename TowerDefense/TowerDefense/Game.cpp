@@ -120,8 +120,15 @@ void Game::Run()
 	sf::SoundBuffer soundBuffer;
 	sf::Sound sound;
 
+	sf::SoundBuffer explosionSoundBuffer;
+	sf::Sound explosionSound;
+
+	explosionSoundBuffer.loadFromFile("ArtAssets/Audio/explosion.wav");
+
 	soundBuffer.loadFromFile("ArtAssets/Audio/hintergrundmusik.ogg");
 
+	explosionSound.setBuffer(explosionSoundBuffer);
+	explosionSound.setVolume(100);
 	sound.setBuffer(soundBuffer);
 	sound.setVolume(100);
 
@@ -769,6 +776,7 @@ void Game::Run()
 					enemyActiveVector->erase((enemyActiveVector->begin() + i));
 					punkteZahl += 100;
 					gold += 20;
+					explosionSound.play();
 				}
 			}
 
