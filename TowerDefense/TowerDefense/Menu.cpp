@@ -20,7 +20,7 @@ Menu::~Menu()
 
 void Menu::Run()
 {
-	int gameVolume = 50;
+	int gameVolume = 3;
 	string TexturePath = "ArtAssets/Menu/MenuButton.png";
 	sf::Texture menuBackgroundTexture;
 	sf::Sprite menuBackgroundSprite;

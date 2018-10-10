@@ -108,7 +108,7 @@ void Game::Run()
 	int gameTimeEnemyCounter = 1;
 	int waveEnemyAddedCounter = 0;
 	int buildingPhaseTowerCount = 0;
-	int gamevolume = 50;
+	int gamevolume = 3;
 
 
 
