@@ -2,7 +2,7 @@
 
 AttackTower::AttackTower()
 {
-	tDescription = "Standard Turm : Gold 20";
+	tDescription = "Standardturm: 20 Gold";
 }
 
 //Coordinaten, ID, Texturelocation, Name, Beschreibung, Kosten, 

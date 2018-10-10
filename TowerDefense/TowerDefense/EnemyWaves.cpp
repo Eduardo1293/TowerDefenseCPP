@@ -123,7 +123,7 @@ vector<BasicEnemy*> enemyWaves(int waveNumber) {
 
 		BasicEnemy *numberOne = new StrongEnemy();
 		BasicEnemy *numberTwo = new StrongEnemy();
-		BasicEnemy *numberThree = new FastEnemy();
+		BasicEnemy *numberThree = new StrongerEnemy();
 		BasicEnemy *numberFour = new FastEnemy();
 		BasicEnemy *numberFive = new FastEnemy();
 		BasicEnemy *numberSix = new FastEnemy();

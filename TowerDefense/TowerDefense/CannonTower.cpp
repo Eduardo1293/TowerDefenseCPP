@@ -2,7 +2,7 @@
 
 CannonTower::CannonTower() 
 {
-	tDescription = "Kanonen Turm : Gold 40";
+	tDescription = "Kanonenturm: 40 Gold";
 }
 
 CannonTower::CannonTower(float XCoord, float YCoord, int areaID)

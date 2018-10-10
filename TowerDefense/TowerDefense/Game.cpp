@@ -17,7 +17,7 @@ https://www.musicfox.com/info/kostenlose-gemafreie-musik.php
 
 Mrthenoronha (https://mrthenoronha.bandcamp.com/track/amigos-sim-resembles-friendship)
 and timgormly (https://freesound.org/people/timgormly/)
-used under Attribution 3.0 Unported (CC BY 3.0) 
+used under Attribution 3.0 Unported (CC BY 3.0)
 https://creativecommons.org/licenses/by/3.0/
 
 */
@@ -349,8 +349,9 @@ void Game::Run()
 					{
 						int location = TowerVector->at(TowerVector->size() - 1)->getLocation();
 
-						GameAreaVector.at(location)->setAreaEmpty(true);
-						TowerVector->erase(TowerVector->begin() + TowerVector->size() - 1);
+						GameAreaVector.at(location)->setAreaEmpty(true);						
+						TowerVector->erase(TowerVector->begin() + TowerVector->size() - 1);		
+						explosionSound.play();
 					}
 					path = pathFindingRef.aStar(GameAreaVector);
 				}
@@ -718,10 +719,10 @@ void Game::Run()
 				towerAnimations.insert(towerAnimations.end(), addTowerAnimations.begin(), addTowerAnimations.end());
 			}
 
-			//Zeichne die Attack-Animationen für jeweils 7 Frames
+			//Zeichne die Attack-Animationen für jeweils 12 Frames
 			for (int i = 0; i < animationFrameTime.size(); i++)
 			{
-				if (animationFrameTime.at(i) < 7)
+				if (animationFrameTime.at(i) < 12)
 				{
 					animationFrameTime.at(i) = (animationFrameTime.at(i) + 1);
 					sf::Vector3i v = towerAnimations.at(i);
@@ -753,7 +754,7 @@ void Game::Run()
 					}
 				}
 				//Lösche die "abgelaufenen" Animationen
-				if (animationFrameTime.at(i) >= 7)
+				if (animationFrameTime.at(i) >= 12)
 				{
 					animationFrameTime.erase(animationFrameTime.begin() + i);
 					towerAnimations.erase(towerAnimations.begin() + i);
@@ -776,12 +777,13 @@ void Game::Run()
 			if (enemyActiveVector->empty() && enemyVector->empty())
 			{
 				TimerText.setFillColor(color.Black);
-				if (enemyActiveVector->empty() && enemyVector->empty())
-				{
-					gold += (100 - (10 * runde));
-					gameState = BuildingPhase;
-					buildingphaseCountdown = 20;					
-				}
+
+				gold += (100 - (10 * runde));
+				gameState = BuildingPhase;
+				buildingphaseCountdown = 20;
+				animationFrameTime.clear();
+				towerAnimations.clear();
+
 			}
 
 			if (runde == 10 && enemyActiveVector->empty() && enemyVector->empty())
@@ -831,8 +833,6 @@ void Game::Run()
 		//Zeichne alles, was immer dargestellt werden soll, oberer Layer.	
 		DrawTower(TowerVector);
 		
-		animationFrameTime.clear();
-		towerAnimations.clear();
 		//Beendet und zeichnet den aktuellen Frame		
 		App.display();
 	}
@@ -898,7 +898,7 @@ vector<sf::Vector3i> Game::TowerAttack(std::vector<BasicTower *> * BasicTowerVec
 						sf::Vector3i v1;
 						v1.x = type;
 						v1.y = enemyActiveVector->at(k)->eGetXCoord();
-						v1.z = enemyActiveVector->at(k)->eGetYCoord();						
+						v1.z = enemyActiveVector->at(k)->eGetYCoord();
 						animations.push_back(v1);
 						if (type == 5)
 						{

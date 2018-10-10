@@ -2,7 +2,7 @@
 
 FlameTower::FlameTower()
 {
-	tDescription = "Feuer Turm : Gold 60";
+	tDescription = "Feuerturm: 60 Gold";
 }
 
 FlameTower::FlameTower(float XCoord, float YCoord, int areaID)

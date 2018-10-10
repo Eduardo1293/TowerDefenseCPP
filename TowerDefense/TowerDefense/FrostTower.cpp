@@ -2,7 +2,7 @@
 
 FrostTower::FrostTower()
 {
-	tDescription = "Frost Turm : Gold 60";
+	tDescription = "Frostturm: 60 Gold";
 }
 
 FrostTower::FrostTower(float XCoord, float YCoord, int areaID)
