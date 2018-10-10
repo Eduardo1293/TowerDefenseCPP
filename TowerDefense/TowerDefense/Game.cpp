@@ -772,7 +772,7 @@ void Game::Run()
 				if (enemyActiveVector->at(i)->eGetCurrentLife() <= 0) {
 					enemyActiveVector->erase((enemyActiveVector->begin() + i));
 					punkteZahl += 100;
-					gold += 20;
+					gold += 10;
 					explosionSound.play();
 				}
 			}
@@ -784,7 +784,7 @@ void Game::Run()
 				if (enemyActiveVector->empty() && enemyVector->empty())
 				{
 					gameState = BuildingPhase;
-					buildingphaseCountdown = 20;
+					buildingphaseCountdown = 20;					
 				}
 			}
 
