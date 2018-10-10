@@ -9,13 +9,13 @@ Art by Kenney Vleugels (Kenney.nl)
 used under Creative Commons Zero, CC0
 http://creativecommons.org/publicdomain/zero/1.0/
 
-and Viktor (https://itch.io/profile/v-ktor) 
-used under Creative Commons Attribution_ShareAlike v4.0 International
+and DinVStudio (https://dinvstudio.itch.io/) 
+used under free license
 
 Music by musicfox.com 
 https://www.musicfox.com/info/kostenlose-gemafreie-musik.php
 
-Distributed under Creative Commons Attribution_ShareAlike v4.0 International
+
 */
 
 
@@ -154,8 +154,6 @@ void Game::Run()
 	//Lade diverse GUI-Texturen und Einstellungen
 	sf::Color hoverColer = sf::Color(255, 255, 255, 140);
 	LoadGameFont(font);
-
-
 	
 	BasicButton basicTowerButton = BasicButton(78, 779, "", "ArtAssets/Tower/tank_dark.png", color.White, 0, 0, 0);
 	BasicButton cannonTowerButton = BasicButton(151, 779, "", "ArtAssets/Tower/tank_green.png", color.White, 0, 0, 0);
@@ -194,7 +192,6 @@ void Game::Run()
 	LoadGameFieldTextures(statusTexture, hudTexture, hudSprite, statusSprite,
 		backgroundTexture, backgroundSprite, emptySpaceTexture, blockedSpaceTexture,
 		emptySpaceSprite, blockedSpaceSprite);
-
 
 	//Explosions- und Attacken-Effekte	
 	sf::Texture explosionTexture;
@@ -273,16 +270,9 @@ void Game::Run()
 			}
 		}
 
-		// clear the window with black color
-
-
-		// draw everything here...
-		// window.draw(...);
-
 		//Mechaniken für das Auslesen der Maus
 		sf::Vector2i localPosition = sf::Mouse::getPosition(App);
 		sf::Vector2f mousePosF(static_cast<float>(localPosition.x), static_cast<float>(localPosition.y));
-
 
 		//Button für Sound On/Off		
 		if (soundOnButton.getSprite().getGlobalBounds().contains(mousePosF))
@@ -342,14 +332,14 @@ void Game::Run()
 			FrostTower * FrostTowerRef;
 			LightningTower * LightningTowerRef;
 
-			//Beende die Buildingphase. Falls kein Weg gefunden wird, lösche die Tower der letzten Phase aus dem Towervector.		
+			//Beende die Buildingphase		
 			if (buildingphaseCountdown == 0)
 			{
 				gameState = GamePhase;
 				TimerText.setFillColor(hoverColer);
 				buildphaseElapsedTimeBuffer = 0;
 
-
+				//Berechne den Weg. Falls kein Weg gefunden wird, lösche die Tower der letzten Phase aus dem Towervector.
 				try
 				{
 					path = pathFindingRef.aStar(GameAreaVector);
@@ -367,7 +357,6 @@ void Game::Run()
 					path = pathFindingRef.aStar(GameAreaVector);
 				}
 
-
 				//Hilfsvektoren für die Gegnernavigation				
 				pathXCoord.clear(), pathYCoord.clear(), pathDirection.clear();
 
@@ -382,8 +371,7 @@ void Game::Run()
 					}
 				}
 
-
-				//Hilfsvektoren für die Gegnernavigation, beinhaltet Richtungsinformationen:
+				//Hilfsvektor für die Gegnernavigation, beinhaltet Richtungsinformationen:
 				//1=rechts, 2=unten, 3=links, 4=oben				
 				for (int i = 0; i < (path.size() - 1); i++)
 				{
@@ -406,15 +394,14 @@ void Game::Run()
 				}
 				pathDirection.push_back(2);
 
-
 				//Fülle den Gegnervektor mit den Gegnern der nächsten Wave	
 				buildingPhaseTowerCount = 0;
 				*enemyVector = enemyWaves(runde);
 				enemyClock.restart();
 			}
 
-
-			//Markiert freie und belegte Felder mit grün bzw. rot.			
+			//Freie und belegte Felder markieren.
+			//Tower bauen und löschen	
 			for (int i = 0; i < GameAreaVector.size(); i++) {
 				if (GameAreaVector.at(i)->getEmpty()) {
 					emptySpaceSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
@@ -425,14 +412,12 @@ void Game::Run()
 					App.draw(blockedSpaceSprite);
 				}
 
-
 				//Funktion um Mausbewegungen auszulesen und eine "Tower-Vorschau" anzuzeigen.				
 				if (localPosition.x <= (GameAreaVector.at(i)->getAreaXCoord() + 32) && (localPosition.x >= (GameAreaVector.at(i)->getAreaXCoord() - 31))
 					&& (localPosition.y <= (GameAreaVector.at(i)->getAreaYCoord() + 32)) && (localPosition.y >= (GameAreaVector.at(i)->getAreaYCoord() - 31))) {
 					buildTowerSprite.setPosition(GameAreaVector.at(i)->getAreaXCoord(), GameAreaVector.at(i)->getAreaYCoord());
 					App.draw(buildTowerSprite);
 				}
-
 
 				//Baut beim Mausklick den ausgewählten Tower an der markierten Stelle.				
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -513,6 +498,7 @@ void Game::Run()
 					}
 				}
 
+				//Zerstört bei Mausclick den Tower an der markierten Stelle
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
 				{
 					for (int i = 0; i < TowerVector->size(); i++)
@@ -535,8 +521,7 @@ void Game::Run()
 				}
 			}
 
-
-
+			//Aktiviert und deaktiviert die Tower-Buttons bei Mausclick
 			if (basicTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
 			{
 				basicTowerButton.setColor(hoverColer);
@@ -557,6 +542,7 @@ void Game::Run()
 					basicTowerButton.setColor(color.White);
 				}
 			}
+
 			if (cannonTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
 			{
 				cannonTowerButton.setColor(hoverColer);
@@ -576,6 +562,7 @@ void Game::Run()
 					cannonTowerButton.setColor(color.White);
 				}
 			}
+
 			if (frostTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
 			{
 				frostTowerButton.setColor(hoverColer);
@@ -597,7 +584,6 @@ void Game::Run()
 				}
 			}
 
-
 			if (fireTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
 			{
 				fireTowerButton.setColor(hoverColer);
@@ -618,7 +604,6 @@ void Game::Run()
 					fireTowerButton.setColor(color.White);
 				}
 			}
-
 
 			if (lightningTowerButton.getSprite().getGlobalBounds().contains(mousePosF))
 			{
@@ -643,8 +628,9 @@ void Game::Run()
 				}
 			}
 
-
-			if (enemyVector->empty()) {
+			//Schreibt die Gegner der nächsten Gegnerphase in den Gegnervektor
+			if (enemyVector->empty()) 
+			{
 				runde = runde++;
 				*enemyVector = enemyWaves(runde);				
 			}
@@ -1053,7 +1039,6 @@ void Game::LoadLifeBarTextures(sf::Texture &hundredLifeTexture,
 	sf::Texture &fortyLifeTexture, sf::Texture &twentyLifeTexture, sf::Texture &tenLifeTexture, sf::Sprite &lifeEnemySprite)
 {
 	hundredLifeTexture.loadFromFile("ArtAssets/Lifebar/100percent.png");
-
 	eightyLifeTexture.loadFromFile("ArtAssets/Lifebar/80percent.png");
 	sixtyLifeTexture.loadFromFile("ArtAssets/Lifebar/60percent.png");
 	fortyLifeTexture.loadFromFile("ArtAssets/Lifebar/40percent.png");
