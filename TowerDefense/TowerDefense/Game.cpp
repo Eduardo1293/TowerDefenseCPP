@@ -16,8 +16,9 @@ used under free license
 
 Music and Sound by musicfox.com
 https://www.musicfox.com/info/kostenlose-gemafreie-musik.php
+used under free license
 
-Mrthenoronha (https://mrthenoronha.bandcamp.com/track/amigos-sim-resembles-friendship)
+Daniel Noronha (https://mrthenoronha.bandcamp.com)
 and timgormly (https://freesound.org/people/timgormly/)
 used under Attribution 3.0 Unported (CC BY 3.0)
 https://creativecommons.org/licenses/by/3.0/
