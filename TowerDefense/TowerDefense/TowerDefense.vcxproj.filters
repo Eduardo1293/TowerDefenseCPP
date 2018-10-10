@@ -72,9 +72,6 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
-    <ClCompile Include="TowerDefense.cpp">
-      <Filter>Quelldateien\Core</Filter>
-    </ClCompile>
     <ClCompile Include="BasicEnemy.cpp">
       <Filter>Quelldateien\Enemies</Filter>
     </ClCompile>

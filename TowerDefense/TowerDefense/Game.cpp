@@ -32,15 +32,6 @@ https://creativecommons.org/licenses/by/3.0/
 
 */
 
-
-/*
-Hier Sachen reinschrieben, die noch gemacht werden müssen!
-
--brauchen wir alle getter/setter? getter/setter auf eine einheitliche form
-*/
-
-
-
 #include "Game.h"
 #include <list>
 #include <vector>

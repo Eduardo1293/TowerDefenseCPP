@@ -57,7 +57,7 @@ void Menu::Run()
 	bool showAnleitung = false;
 
 	MenuWindow.setFramerateLimit(24);
-	
+
 	while (MenuWindow.isOpen())
 	{
 
@@ -148,7 +148,7 @@ void Menu::Run()
 					{
 						running = false;
 						MenuWindow.close();
-						
+
 					}
 				}
 				else
@@ -196,20 +196,20 @@ void Menu::Run()
 
 
 
-		}
 	}
+}
+
+//Läd die Texturen für das Menü
+void Menu::LoadMenuTextures(sf::Texture &menuBackgroundTexture, sf::Sprite &menuBackgroundSprite)
+{
+	menuBackgroundTexture.loadFromFile("ArtAssets/Menu/Nebula Blue.png");
+	menuBackgroundSprite.setTexture(menuBackgroundTexture);
+	menuBackgroundSprite.setPosition(0, 0);
+	menuBackgroundSprite.setScale(0.1, 0.1);
+}
 
 
-	void Menu::LoadMenuTextures(sf::Texture &menuBackgroundTexture, sf::Sprite &menuBackgroundSprite)
-	{
-		menuBackgroundTexture.loadFromFile("ArtAssets/Menu/Nebula Blue.png");
-		menuBackgroundSprite.setTexture(menuBackgroundTexture);
-		menuBackgroundSprite.setPosition(0, 0);
-		menuBackgroundSprite.setScale(0.1, 0.1);
-	}
-
-
-	bool Menu::isRunning()
-	{
-		return running;
-	}
+bool Menu::isRunning()
+{
+	return running;
+}
