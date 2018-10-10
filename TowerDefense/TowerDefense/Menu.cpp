@@ -20,6 +20,7 @@ Menu::~Menu()
 
 void Menu::Run()
 {
+
 	string TexturePath = "ArtAssets/Menu/MenuButton.png";
 	sf::Texture menuBackgroundTexture;
 	sf::Sprite menuBackgroundSprite;
@@ -33,7 +34,16 @@ void Menu::Run()
 	BasicButton ExitButton = BasicButton(50, 310, "EXIT", TexturePath, color.White, 38, -20, 285);
 	BasicButton ZurückButton = BasicButton(50, 320, "BACK", TexturePath, color.White, 38, -10, 295);
 
+	sf::SoundBuffer soundBuffer;
+	sf::Sound sound;
 
+	soundBuffer.loadFromFile("ArtAssets/Audio/menuMusik.ogg");
+
+	sound.setBuffer(soundBuffer);
+	sound.setVolume(100);
+
+	sound.setLoop(true);
+	sound.play();
 
 	LoadMenuTextures(menuBackgroundTexture, menuBackgroundSprite);
 
@@ -59,6 +69,7 @@ void Menu::Run()
 			{
 
 			case sf::Event::Closed:
+				sound.stop();
 				MenuWindow.close();
 				running = false;
 				break;
@@ -83,6 +94,7 @@ void Menu::Run()
 
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 					{
+						sound.stop();
 						MenuWindow.close();
 						Game game;
 						while (game.isRunning())
