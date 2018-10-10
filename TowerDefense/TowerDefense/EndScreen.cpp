@@ -36,7 +36,7 @@ void EndScreen::LoadGameFont(sf::Font &font)
 	}
 }
 
-void EndScreen::Run(bool gameOver)
+void EndScreen::Run(bool gameOver, int punkteZahl)
 {
 	sf::Font font;
 	string TexturePath = "ArtAssets/Menu/MenuButton.png";
@@ -46,8 +46,15 @@ void EndScreen::Run(bool gameOver)
 	sf::Color hoverColer = sf::Color(255, 255, 255, 140);
 	BasicButton ExitButton = BasicButton(150, 500, "EXIT", TexturePath, color.White, 38, -120, 475);
 	sf::Text EndScreenText;
+	sf::Text points;
+	sf::Text PointsText;
 	LoadGameFont(font);
 
+
+	PointsText.setFont(font);
+	PointsText.setCharacterSize(80);
+	points.setFont(font);
+	points.setCharacterSize(80);
 	EndScreenText.setFont(font);
 	EndScreenText.setCharacterSize(130);
 	
@@ -57,6 +64,8 @@ void EndScreen::Run(bool gameOver)
 		EndScreenText.setFillColor(color.Red);
 		EndScreenText.setString("GAME OVER");
 		EndScreenText.setPosition(15, 150);
+		points.setFillColor(color.Red);
+		PointsText.setFillColor(color.Red);
 	}
 	else
 	{
@@ -64,8 +73,15 @@ void EndScreen::Run(bool gameOver)
 		EndScreenText.setFillColor(color.White);
 		EndScreenText.setString("YOU WIN");
 		EndScreenText.setPosition(80, 150);
+		points.setFillColor(color.White);
+		PointsText.setFillColor(color.White);
 	}
 
+	PointsText.setPosition(50,350);
+	PointsText.setString("Punkte :");
+	points.setPosition(360, 350);
+
+	points.setString(to_string(punkteZahl));
 	BackgroundSprite.setTexture(BackgroundTexture);
 	BackgroundSprite.setPosition(0, 0);
 
@@ -117,6 +133,8 @@ void EndScreen::Run(bool gameOver)
 		Window.draw(ExitButton.getSprite());
 		Window.draw(ExitButton.getButtonText());
 		Window.draw(EndScreenText);
+		Window.draw(PointsText);
+		Window.draw(points);
 		Window.display();
 	}
 }

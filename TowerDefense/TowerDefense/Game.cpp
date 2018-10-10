@@ -2,17 +2,17 @@
 -----SPACE DEFENDER-----
 
 Stefan Reso         286788
-Johannes Schmidt    293868 
+Johannes Schmidt    293868
 Andre Jelonek       259031
 
 Art by Kenney Vleugels (Kenney.nl)
 used under Creative Commons Zero, CC0
 http://creativecommons.org/publicdomain/zero/1.0/
 
-and DinVStudio (https://dinvstudio.itch.io/) 
+and DinVStudio (https://dinvstudio.itch.io/)
 used under free license
 
-Music by musicfox.com 
+Music by musicfox.com
 https://www.musicfox.com/info/kostenlose-gemafreie-musik.php
 
 
@@ -154,7 +154,7 @@ void Game::Run()
 	//Lade diverse GUI-Texturen und Einstellungen
 	sf::Color hoverColer = sf::Color(255, 255, 255, 140);
 	LoadGameFont(font);
-	
+
 	BasicButton basicTowerButton = BasicButton(78, 779, "", "ArtAssets/Tower/tank_dark.png", color.White, 0, 0, 0);
 	BasicButton cannonTowerButton = BasicButton(151, 779, "", "ArtAssets/Tower/tank_green.png", color.White, 0, 0, 0);
 	BasicButton frostTowerButton = BasicButton(224, 779, "", "ArtAssets/Tower/tank_blue.png", color.White, 0, 0, 0);
@@ -249,7 +249,7 @@ void Game::Run()
 	{
 		App.clear(sf::Color::Black);
 		App.draw(backgroundSprite);
-		SetInfoText(goldText, gold, rundenText, runde, TimerText, timerText, lebenText, playerLife);
+		SetInfoText(goldText, gold, rundenText, runde, TimerText, timerText, lebenText, playerLife,punktZahlText, punkteZahl);
 		DrawGameTextures(hudSprite, statusSprite, rundenText,
 			goldText, lebenText, basicTowerButton.getSprite(), cannonTowerButton.getSprite(),
 			frostTowerButton.getSprite(), fireTowerButton.getSprite(), lightningTowerButton.getSprite(), soundOnButton.getSprite(), soundOffButton.getSprite(),
@@ -629,10 +629,10 @@ void Game::Run()
 			}
 
 			//Schreibt die Gegner der nächsten Gegnerphase in den Gegnervektor
-			if (enemyVector->empty()) 
+			if (enemyVector->empty())
 			{
 				runde = runde++;
-				*enemyVector = enemyWaves(runde);				
+				*enemyVector = enemyWaves(runde);
 			}
 		}
 
@@ -671,21 +671,21 @@ void Game::Run()
 					sixtyLifeTexture, fortyLifeTexture, twentyLifeTexture,
 					tenLifeTexture, punktZahlText);
 
-				lifeEnemySprite.setPosition(enemyLifebarX, (enemyLifebarY - 33));				
+				lifeEnemySprite.setPosition(enemyLifebarX, (enemyLifebarY - 33));
 				App.draw(lifeEnemySprite);
 			}
-			
+
 			//Gegnermovement		
 			//Löscht außerdem die Gegner im Ziel und zählt das Player-Leben entsprechend herunter
 			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
 			{
-				enemyActiveVector->at(i)->eMovement(path, pathXCoord, pathYCoord, pathDirection);					
+				enemyActiveVector->at(i)->eMovement(path, pathXCoord, pathYCoord, pathDirection);
 				if (enemyActiveVector->at(i)->eGetYCoord() >= 750)
 				{
 					enemyActiveVector->erase((enemyActiveVector->begin() + i));
-					if (runde < 10) 
+					if (runde < 10)
 					{
-						playerLife--;						
+						playerLife--;
 					}
 					else
 					{
@@ -698,8 +698,8 @@ void Game::Run()
 			for (unsigned int i = 0; i < enemyActiveVector->size(); i++)
 			{
 				//hier hab ich eine empty()abfrage gelöscht
-					enemyActiveVector->at(i)->eSetPosition();
-					App.draw(enemyActiveVector->at(i)->eGetSprite());
+				enemyActiveVector->at(i)->eSetPosition();
+				App.draw(enemyActiveVector->at(i)->eGetSprite());
 			}
 
 
@@ -807,8 +807,8 @@ void Game::Run()
 			EndScreen screen;
 
 			while (screen.isRunning())
-			{				
-				screen.Run(true);
+			{
+				screen.Run(true, punkteZahl);
 			}
 		}
 
@@ -822,8 +822,8 @@ void Game::Run()
 			EndScreen screen;
 
 			while (screen.isRunning())
-			{				
-				screen.Run(false);
+			{
+				screen.Run(false, punkteZahl);
 			}
 		}
 
@@ -908,12 +908,13 @@ vector<sf::Vector3i> Game::TowerAttack(std::vector<BasicTower *> * BasicTowerVec
 }
 
 //Setzt die Informationen im obenren HUD-Bereich
-void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int runde, sf::Text &TimerText, int timerText, sf::Text &lebenText, int playerLife)
+void Game::SetInfoText(sf::Text &goldText, int gold, sf::Text &rundenText, int runde, sf::Text &TimerText, int timerText, sf::Text &lebenText, int playerLife, sf::Text &punkteText, int punkteZahl)
 {
 	goldText.setString(to_string(gold));
 	rundenText.setString(to_string(runde));
 	TimerText.setString(to_string(timerText));
 	lebenText.setString(to_string(playerLife));
+	punkteText.setString(to_string(punkteZahl));
 }
 
 //Läd die Explosionssprites
@@ -987,7 +988,7 @@ void Game::SetPointNumberProperties(sf::Text &punktZahlText, sf::Font &font, sf:
 void Game::SetPointTextProperties(sf::Text &punktText, sf::Font &font, sf::Color &color)
 {
 	punktText.setFont(font);
-	punktText.setString("PUNKTE:");
+	punktText.setString("Punkte:");
 	punktText.setFillColor(color.Black);
 	punktText.setCharacterSize(13);
 	punktText.setPosition(308, 32);
@@ -1081,7 +1082,6 @@ void Game::UpdateEnemyLifeBar(std::vector<BasicEnemy *> * enemyActiveVector,
 	else if (lifePercent < 10) {
 		lifeEnemySprite.setTexture(tenLifeTexture);
 		//??????????????????????????
-		punktZahlText.setString(to_string(punkteZahl));
 	}
 }
 

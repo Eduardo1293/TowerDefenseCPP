@@ -9,7 +9,7 @@ public:
 	EndScreen();
 	~EndScreen();
 
-	void Run(bool gameOver);
+	void Run(bool gameOver, int punkteZahl);
 	void LoadGameFont(sf::Font &font);
 	bool isRunning();
 
