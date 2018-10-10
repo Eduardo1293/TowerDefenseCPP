@@ -36,7 +36,7 @@ Beim bauen von Türmen wird der Turm nicht durchsicht angezeigt
 -runde 6 oder 7 mit den vielen fast-enemies scheint relativ einfach
 2.runde etwas stark?
 
--Bestenliste durch Anleitung austauschen 
+-Bestenliste durch Anleitung austauschen
 
 -DRAUF ACHTEN OB ENEMYMOVEMENT BEI ZWEI GLEICHZEITIGEN GEGNERN IM ZIEL EIN XOUT WIRFT
 
@@ -82,6 +82,17 @@ enum GameState
 	Winning
 };
 
+//Mechanik für Tower-Auswahl
+enum SelectetTower
+{
+	noTower,
+	basicTower,
+	cannonTower,
+	flameTower,
+	frostTower,
+	lightningTower
+};
+
 GameState gameState;
 
 Game::~Game()
@@ -104,16 +115,7 @@ void Game::Run()
 	int waveEnemyAddedCounter = 0;
 	int buildingPhaseTowerCount = 0;
 
-	//Mechanik für Tower-Auswahl
-	enum SelectetTower
-	{
-		noTower,
-		basicTower,
-		cannonTower,
-		flameTower,
-		frostTower,
-		lightningTower
-	};
+
 
 	gameState = BuildingPhase;
 	//Hintergrundmusik
@@ -255,7 +257,7 @@ void Game::Run()
 	{
 		App.clear(sf::Color::Black);
 		App.draw(backgroundSprite);
-		SetInfoText(goldText, gold, rundenText, runde, TimerText, timerText, lebenText, playerLife,punktZahlText, punkteZahl);
+		SetInfoText(goldText, gold, rundenText, runde, TimerText, timerText, lebenText, playerLife, punktZahlText, punkteZahl);
 		DrawGameTextures(hudSprite, statusSprite, rundenText,
 			goldText, lebenText, basicTowerButton.getSprite(), cannonTowerButton.getSprite(),
 			frostTowerButton.getSprite(), fireTowerButton.getSprite(), lightningTowerButton.getSprite(), soundOnButton.getSprite(), soundOffButton.getSprite(),
