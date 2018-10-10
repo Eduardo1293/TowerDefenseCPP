@@ -28,10 +28,8 @@ Hier Sachen reinschrieben, die noch gemacht werden müssen!
 
 
 -tower desriptions ändern sobald balancing feststeht!
--gewinnscreen?!? game läuft momentan einfach weiter  ERLEDIGT
 Beim bauen von Türmen wird der Turm nicht durchsicht angezeigt
 - Wenn man nach einem Sieg, aus dem Endscreen ein neues Spiel starten möchte, kommt man direkt wieder in den Endscreen ERLEDIGT
--uhr läuft komisch ERLEDIGT
 
 -runde 6 oder 7 mit den vielen fast-enemies scheint relativ einfach
 2.runde etwas stark?

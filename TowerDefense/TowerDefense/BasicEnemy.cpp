@@ -20,11 +20,13 @@ BasicEnemy::~BasicEnemy()
 {
 }
 
-void BasicEnemy::eSetRotation(float rotation) {
+void BasicEnemy::eSetRotation(float rotation) 
+{
 	BasicEnemySprite.setRotation(rotation);
 }
 
-void BasicEnemy::eSetPosition() {
+void BasicEnemy::eSetPosition() 
+{
 	BasicEnemySprite.setPosition(eXCoord, eYCoord);
 }
 

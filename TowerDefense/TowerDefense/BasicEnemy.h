@@ -32,7 +32,6 @@ public:
 	void eSetXCoord(int XCoord);
 	void eSetYCoord(int YCoord);
 	void eSetGlobalLocation(int location);
-	void eSetNavigationHelper(int navi);
 	void eSetMovementSpeed(int speed);
 	void eSetFrozenTimer(int timer);
 
@@ -42,7 +41,6 @@ public:
 	int eGetXCoord();
 	int eGetYCoord();						
 	int eGetGlobalLocation();
-	int eGetNavigationHelper();
 	int eGetMovementSpeed();
 	int eGetFrozenTimer();
 	sf::Sprite eGetSprite();
