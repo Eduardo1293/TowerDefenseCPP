@@ -835,7 +835,9 @@ void Game::Run()
 
 		//Zeichne alles, was immer dargestellt werden soll, oberer Layer.	
 		DrawTower(TowerVector);
-
+		
+		animationFrameTime.clear();
+		towerAnimations.clear();
 		//Beendet und zeichnet den aktuellen Frame		
 		App.display();
 	}
