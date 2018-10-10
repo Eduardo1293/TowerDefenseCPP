@@ -2,12 +2,12 @@
 
 CannonTower::CannonTower() 
 {
-	tDescription = "Cannonen Turm : Gold XX";
+	tDescription = "Kanonen Turm : Gold 40";
 }
 
 CannonTower::CannonTower(float XCoord, float YCoord, int areaID)
 	: BasicTower(XCoord, YCoord, areaID, "ArtAssets/Tower/tank_green.png", "Cannontower",
-		"Kanonenturm mit größerer Reichweite", 40, 80, 16, 2)
+		"Kanonenturm mit größerer Reichweite", 40, 80, 17, 2)
 {
 }
 

@@ -2,12 +2,12 @@
 
 FlameTower::FlameTower()
 {
-	tDescription = "Feuer Turm : Gold XX";
+	tDescription = "Feuer Turm : Gold 60";
 }
 
 FlameTower::FlameTower(float XCoord, float YCoord, int areaID)
 	: BasicTower(XCoord, YCoord, areaID, "ArtAssets/Tower/tank_red.png", "Flametower", 
-		"Flamenturm mit Area-Schaden", 80, 60, 15, 4)
+		"Flamenturm mit Area-Schaden", 60, 60, 15, 4)
 {
 }
 
